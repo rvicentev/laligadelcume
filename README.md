@@ -1,4 +1,4 @@
-# LALIGA DEL CUme
+# LALIGA DEL CUMe
 
 Este es un proyecto personal creado para gestionar y visualizar los datos de una liga de fútbol sala. Está dividido en dos partes principales: una **vista pública** (para que los jugadores y el público en general consulte resultados, calendarios y estadísticas) y una **intranet para árbitros** (donde se gestionan los partidos en directo y se generan las actas).
 
