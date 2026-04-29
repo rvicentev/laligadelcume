@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equipos - LALIGA DEL CUMe</title>
+    <link rel="stylesheet" href="styles/equipos.css">
+    <link rel="stylesheet" href="styles/estadisticas.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Righteous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@200..700&display=swap"
+        rel="stylesheet">
+    <style>
+        /* --- ESTILOS GENERALES --- */
+        body {
+            background: #ffffff;
+            color: #f6f6f6;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: 20px auto;
+            margin-top: 80px;
+        }
+
+        /* --- NAVBAR BASE --- */
+        .navbar {
+            position: fixed;
+            display: flex;
+            top: 0;
+            left: 0;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f6f6f6;
+            padding: 10px 20px;
+            z-index: 1000;
+        }
+
+        .logoLiga {
+            display: flex;
+            align-items: center;
+            color: #e63946;
+        }
+
+        .logoLiga img {
+            max-height: 60px;
+            width: auto;
+            margin-right: 10px;
+        }
+
+        .logoLiga h1 a {
+            color: #e63946;
+            font-size: 20px;
+            text-decoration: none;
+            font-family: "Oswald", sans-serif;
+            letter-spacing: 1px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .logoLiga h1 a:hover {
+            color: #f0f0f0;
+        }
+
+        /* Menu Links - ESCRITORIO */
+        .nav-links {
+            list-style: none;
+            display: flex;
+            flex-direction: row;
+            background-color: transparent;
+        }
+
+        .nav-links li {
+            margin: 0 10px;
+        }
+
+        .nav-links li a {
+            color: #2c2c2c;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 10px;
+            transition: color 0.3s, background-color 0.3s;
+            border-radius: 1px;
+            font-family: 'Righteous', sans-serif;
+        }
+
+        .nav-links li a:hover {
+            color: #ffffff;
+            background-color: #ef3340;
+        }
+
+        /* --- Menú hamburguesa (inicialmente oculto en escritorio) --- */
+        .menu-toggle {
+            display: none;
+        }
+
+        /* Contenedor principal */
+        .equipos-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            padding: 40px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        /* Tarjeta del equipo */
+        .equipo-card {
+            background: #f5f5f5;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .equipo-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .equipo-logo img {
+            max-width: 100px;
+            height: auto;
+            margin-bottom: 12px;
+        }
+
+        .equipo-nombre {
+            font-family: 'Righteous', sans-serif;
+            font-size: 18px;
+            color: #2c2c2c;
+            margin-bottom: 10px;
+        }
+
+        /* Contenido expandido */
+        .equipo-detalle {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        .equipo-card.expanded .equipo-detalle {
+            max-height: 500px;
+            /* suficiente para mostrar detalles */
+            margin-top: 15px;
+        }
+
+        .equipos-header-pequeno {
+            height: 200px;
+        }
+
+        .equipos-header-pequeno h2 {
+            font-size: 40px;
+        }
+
+        /* Icono de Instagram */
+        .equipo-instagram {
+            position: absolute;
+            top: 60px;
+            right: 42px;
+            width: 38px;
+            height: 38px;
+            transition: transform 0.3s ease;
+        }
+
+        .equipo-instagram img {
+            width: 100%;
+            height: auto;
+            filter: grayscale(30%);
+            transition: filter 0.3s ease;
+        }
+
+        .equipo-instagram:hover img {
+            filter: grayscale(0%);
+            transform: scale(1.1);
+        }
+
+        .equipo-card {
+            position: relative;
+            /* Necesario para posicionar el icono */
+        }
+
+        /* --- TABLAS --- */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #2c2c2c;
+            box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+            overflow-x: auto;
+        }
+
+        thead {
+            background-color: #e63946;
+            color: white;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #444;
+            color: black;
+            /* Color de texto*/
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #333;
+        }
+
+        tbody tr:hover {
+            background-color: #444;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: #2c2c2c;
+            text-align: center;
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+
+        .footer-logo img {
+            max-width: 550px;
+            height: auto;
+            display: block;
+            margin: 0 auto 20px auto;
+        }
+
+        .footer-separator {
+            border: none;
+            border-top: 2px solid #ccc;
+            margin: 0 auto;
+            width: 80%;
+        }
+
+        .footer-title {
+            color: white;
+            font-family: 'Righteous', sans-serif;
+            font-weight: bold;
+            font-size: 30px;
+            text-align: left;
+            margin: 40px 10% 0 10%;
+        }
+
+        .footer-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            padding: 0px;
+            background-color: #2c2c2c;
+        }
+
+        .logo-container {
+            margin: 0 35px;
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .logo-cecume {
+            max-width: 200px;
+        }
+
+        .logo-merida {
+            max-width: 150px;
+        }
+
+        .logo-safyde {
+            max-width: 120px;
+        }
+
+        .disabled-link {
+            color: gray;
+            pointer-events: none;
+            cursor: default;
+            text-decoration: none;
+        }
+
+        /* --- RESPONSIVE PARA MÓVILES (max-width: 900px) --- */
+        @media (max-width: 900px) {
+            .banner-jornada {
+                flex-direction: column;
+                align-items: center;
+                min-height: auto;
+                padding: 15px 20px;
+            }
+
+            .banner-left h1 {
+                font-size: 52px;
+                text-align: center;
+            }
+
+            .fecha-jornada {
+                font-size: 18px;
+                text-align: center;
+                margin-bottom: 8px;
+            }
+
+            .banner-right {
+                width: 100%;
+            }
+
+            .partido-card {
+                width: 94%;
+                justify-content: space-between;
+            }
+
+            .resultado-partido {
+                flex-direction: column;
+                gap: 15px;
+                width: 100%;
+                align-items: center;
+            }
+
+            .partido-card-resultado {
+                width: 90%;
+                min-width: auto;
+            }
+
+            .resultado-superior {
+                gap: 15px;
+            }
+
+            .partido-card-resultado img.escudo-equipo {
+                width: 40px;
+                height: 40px;
+            }
+
+            .partido-card-resultado .resultado {
+                font-size: 22px;
+            }
+
+            /* --- Navbar responsive --- */
+            .menu-toggle {
+                display: block;
+                font-size: 30px;
+                color: #2c2c2c;
+                cursor: pointer;
+                margin-right: 2px;
+                z-index: 9999;
+                position: fixed;
+                top: 12px;
+                right: 16px;
+                background: transparent;
+                padding: 6px;
+                line-height: 1;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 30px;
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: 100%;
+                height: 100vh;
+                background: rgba(255, 255, 255, 0.98);
+                z-index: 2000;
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .nav-links li a {
+                font-size: 24px !important;
+                color: #2c2c2c !important;
+            }
+
+            body,
+            html {
+                overflow-x: hidden;
+                max-width: 100%;
+            }
+
+            /* Logo del navbar (30% más pequeño) */
+            .logoLiga img {
+                max-height: 42px;
+                padding-top: 2px;
+            }
+
+            /* Logo del footer (50% más pequeño) */
+            .footer-logo img {
+                max-width: 275px;
+            }
+
+            /* Texto "Colaboradores" (30% más pequeño) */
+            .footer-title {
+                font-size: 21px;
+            }
+
+            .footer-logos {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .logo-container {
+                margin: 10px 0;
+            }
+
+            .equipos-container {
+                padding: 20px;
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+
+            .equipo-card {
+            background: #f5f5f5;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width:92%
+        }
+        }
+
+        /* --- ESCRITORIO (min-width: 901px) --- */
+        @media (min-width: 901px) {
+            .menu-toggle {
+                display: none !important;
+            }
+
+            .nav-links {
+                display: flex !important;
+                position: static !important;
+                height: auto !important;
+                width: auto !important;
+                background: transparent !important;
+                flex-direction: row !important;
+            }
+
+            .nav-links.show {
+                display: flex !important;
+            }
+        }
+
+        /* --- RANGO ESPECÍFICO 769px - 900px --- */
+        @media (min-width: 769px) and (max-width: 900px) {
+            .menu-toggle {
+                display: block !important;
+            }
+
+            .nav-links:not(.show) {
+                display: none !important;
+            }
+
+            .nav-links.show {
+                display: flex !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logoLiga">
+            <a href="index.html">
+                <img src="images/logoLigaRojo.png" alt="CECUME logo" class="img">
+            </a>
+        </div>
+        <div class="menu-toggle" id="menu-toggle" role="button" aria-label="Abrir menú" aria-expanded="false">&#9776;
+        </div>
+        <ul class="nav-links" id="nav-links" style="border-right: 40px solid;">
+            <li><a href="calendario.html" style="color: #2c2c2c; font-family: Righteous;">CALENDARIO</a>
+            </li>
+            <li><a href="equipos.html" style="color: #2c2c2c; font-family: Righteous;">EQUIPOS</a></li>
+            <li>
+                <a href="estadisticas.html"
+                    style="color: gray; font-family: Righteous; pointer-events: none; cursor: default; text-decoration: none;">
+                    ESTADÍSTICAS
+                </a>
+            </li>
+            <li><a href="LALIGA Normas 2526 v1.0.pdf" target="_blank"
+                    style="color: #2c2c2c; font-family: Righteous;">BASES</a></li>
+            <li><a href="actas.html" style="color: #2c2c2c; font-family: Righteous;">ÁRBITROS</a></li>
+        </ul>
+    </nav>
+
+    <!-- BARRA DE TÍTULO -->
+    <div class="equipos-header equipos-header-pequeno">
+        <h2>EQUIPOS</h2>
+    </div>
+
+    <!-- CONTENIDO EQUIPOS -->
+    <main>
+        <!-- Secciones de equipos (se mantienen igual) -->
+        <section class="equipos-container">
+            <!-- Ejemplo de equipo -->
+            <div class="equipo-card">
+                <!-- Icono de Instagram -->
+                <a href="https://www.instagram.com/cumunited" target="_blank" class="equipo-instagram">
+                    <img src="images/insta.png" alt="Instagram del equipo">
+                </a>
+                <!-- Cabecera: logo + nombre -->
+                <div class="equipo-header">
+                    <div class="equipo-logo">
+                        <img src="images/Escudos/CUM UNITED.png" alt="Escudo equipo">
+                    </div>
+                    <div class="equipo-nombre">CUM UNITED</div>
+                </div>
+                <!-- Detalle expandible -->
+                <div class="equipo-detalle">
+                    <!-- Línea de color del equipo -->
+                    <div class="equipo-separador-cum"></div>
+                    <!-- Bloque de stats -->
+                    <div class="equipo-stats">
+                        <div class="stat">
+                            <span class="stat-title">POSICIÓN</span>
+                            <span class="stat-value">-</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-title">PUNTOS</span>
+                            <span class="stat-value">-</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-title">RESULTADO LIGA 24/25</span>
+                            <span class="stat-value">3º</span>
+                        </div>
+                    </div>
+                    <!-- Jugadores -->
+                    <div class="equipo-jugadores">
+                        <h3>JUGADORES</h3>
+                        <div class="jugadores-grid">
+                            <!-- Repite cada jugador como una tarjeta -->
+                            <div class="jugador-card">
+                                <img src="images/jugadores/cumUnited/miguel.png" alt="Jugador 4">
+                                <span class="jugador-capitan">Miguel Fernández</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/cumUnited/assaad.png" alt="Jugador 1">
+                                <span class="jugador-nombre">Assaad Abbadi</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/cumUnited/eduardo.png" alt="Jugador 2">
+                                <span class="jugador-nombre">Eduardo Casquete</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/cumUnited/nestor.png" alt="Jugador 3">
+                                <span class="jugador-nombre">Néstor Pérez</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/vini.jpg" alt="Jugador 4">
+                                <span class="jugador-nombre">Mario Blázquez</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/cumUnited/luis3.png" alt="Jugador 4">
+                                <span class="jugador-nombre">Luis Ramón Cabezas</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/cumUnited/juan.png" alt="Jugador 4">
+                                <span class="jugador-nombre">Juan Cabezas</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/cumUnited/daniel.png" alt="Jugador 4">
+                                <span class="jugador-nombre">Daniel Durán</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/cumUnited/rodri.png" alt="Jugador 4">
+                                <span class="jugador-nombre">Rodrigo Vicente</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/cumUnited/ernesto.png" alt="Jugador 4">
+                                <span class="jugador-nombre">Ernesto Ruiz</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/cumUnited/juanki.png" alt="Jugador 4">
+                                <span class="jugador-nombre">Juan Carlos Ruiz</span>
+                            </div>
+                            <!-- Añade más jugadores según sea necesario -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="equipos-container">
+            <!-- Ejemplo de equipo -->
+            <div class="equipo-card">
+                <!-- Cabecera: logo + nombre -->
+                <div class="equipo-header">
+                    <div class="equipo-logo">
+                        <img src="images/Escudos/RAYO MARIGUANO.png" alt="Escudo equipo">
+                    </div>
+                    <div class="equipo-nombre">RAYO MARIGUANO</div>
+                </div>
+                <!-- Detalle expandible -->
+                <div class="equipo-detalle">
+                    <!-- Línea de color del equipo -->
+                    <div class="equipo-separador-rayo"></div>
+                    <!-- Bloque de stats -->
+                    <div class="equipo-stats">
+                        <div class="stat">
+                            <span class="stat-title">POSICIÓN</span>
+                            <span class="stat-value">-</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-title">PUNTOS</span>
+                            <span class="stat-value">-</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-title">RESULTADO LIGA 24/25</span>
+                            <span class="stat-value">N/A</span>
+                        </div>
+                    </div>
+                    <!-- Jugadores -->
+                    <div class="equipo-jugadores">
+                        <h3>JUGADORES</h3>
+                        <div class="jugadores-grid">
+                            <!-- Repite cada jugador como una tarjeta -->
+                            <div class="jugador-card">
+                                <img src="images/jugadores/rayo/carlos.jpg" alt="Jugador 4">
+                                <span class="jugador-capitan">Carlos Frejido</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/rayo/alejandro.jpg" alt="Jugador 4">
+                                <span class="jugador-nombre">Alejandro Torrado</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/rayo/david.jpg" alt="Jugador 1">
+                                <span class="jugador-nombre">David Álvarez</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/rayo/francisco.jpg" alt="Jugador 2">
+                                <span class="jugador-nombre">Francisco López</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/rayo/fernando.jpg" alt="Jugador 3">
+                                <span class="jugador-nombre">Fernando Martínez</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/rayo/alvaro.jpg" alt="Jugador 4">
+                                <span class="jugador-nombre">Álvaro Luna</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/rayo/gonzalo.jpg" alt="Jugador 4">
+                                <span class="jugador-nombre">Gonzalo Bermejo</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/rayo/josemaria.jpg" alt="Jugador 4">
+                                <span class="jugador-nombre">José María Ibáñez</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/rayo/francisco2.jpg" alt="Jugador 4">
+                                <span class="jugador-nombre">Francisco González</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/rayo/juan.jpg" alt="Jugador 4">
+                                <span class="jugador-nombre">Juan Ibáñez</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/rayo/lucia.jpg" alt="Jugador 4">
+                                <span class="jugador-nombre">Lucía Cantonero</span>
+                            </div>
+                            <!-- Añade más jugadores según sea necesario -->
+                        </div>
+                    </div>
+                    <!-- Último resultado
+                    <div class="ultimo-resultado">
+                        <h3>ÚLTIMO RESULTADO</h3>
+                        <div class="resultado-partido">
+                            <div class="equipo-local">
+                                <img src="images/Escudos/I.E. SALA.png" alt="Equipo local">
+                                <span class="nombre-equipo">I.E. SALA</span>
+                            </div>
+                            <div class="resultado-central">
+                                <span class="marcador">3 - 1</span>
+                            </div>
+                            <div class="equipo-visitante">
+                                <img src="images/Escudos/I.E. SALA.png" alt="Equipo visitante">
+                                <span class="nombre-equipo">OTRO EQUIPO</span>
+                            </div>
+                        </div>
+                    </div> -->
+                    <!-- Foto del equipo 
+                    <div class="equipo-foto">
+                        <img src="images/equipos/bl.jpg" alt="Foto del equipo">
+                    </div>-->
+                </div>
+            </div>
+        </section>
+        <section class="equipos-container">
+            <!-- Ejemplo de equipo -->
+            <div class="equipo-card">
+                <!-- Icono de Instagram -->
+                <a href="https://www.instagram.com/atletico_morante" target="_blank" class="equipo-instagram">
+                    <img src="images/insta.png" alt="Instagram del equipo" style="margin-top: -16px;">
+                </a>
+                <!-- Cabecera: logo + nombre -->
+                <div class="equipo-header">
+                    <div class="equipo-logo">
+                        <img src="images/Escudos/ATLETICO MORANTE.png" alt="Escudo equipo">
+                    </div>
+                    <div class="equipo-nombre">ATLÉTICO MORANTE</div>
+                </div>
+                <!-- Detalle expandible -->
+                <div class="equipo-detalle">
+                    <!-- Línea de color del equipo -->
+                    <div class="equipo-separador-morante"></div>
+                    <!-- Bloque de stats -->
+                    <div class="equipo-stats">
+                        <div class="stat">
+                            <span class="stat-title">POSICIÓN</span>
+                            <span class="stat-value">-</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-title">PUNTOS</span>
+                            <span class="stat-value">-</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-title">RESULTADO LIGA 24/25</span>
+                            <span class="stat-value">N/A</span>
+                        </div>
+                    </div>
+                    <!-- Jugadores -->
+                    <div class="equipo-jugadores">
+                        <h3>JUGADORES</h3>
+                        <div class="jugadores-grid">
+                            <!-- Repite cada jugador como una tarjeta -->
+                            <div class="jugador-card">
+                                <img src="images/jugadores/vini.jpg" alt="Jugador 4">
+                                <span class="jugador-capitan">Manuel Mestre</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/vini.jpg" alt="Jugador 4">
+                                <span class="jugador-nombre">Carlos Fuentes</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/vini.jpg" alt="Jugador 1">
+                                <span class="jugador-nombre">Daniel Gallego</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/vini.jpg" alt="Jugador 2">
+                                <span class="jugador-nombre">Javier Fernández</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/vini.jpg" alt="Jugador 3">
+                                <span class="jugador-nombre">Álvaro Fuentes</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/vini.jpg" alt="Jugador 4">
+                                <span class="jugador-nombre">Gonzalo García</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/vini.jpg" alt="Jugador 4">
+                                <span class="jugador-nombre">Vicente Collado</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/vini.jpg" alt="Jugador 4">
+                                <span class="jugador-nombre">Luis Miguel Lavado</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/vini.jpg" alt="Jugador 4">
+                                <span class="jugador-nombre">Javier Herrero</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/vini.jpg" alt="Jugador 4">
+                                <span class="jugador-nombre">Pedro José Padilla</span>
+                            </div>
+                            <!-- Añade más jugadores según sea necesario -->
+                        </div>
+                    </div>
+                    <!-- Último resultado
+                    <div class="ultimo-resultado">
+                        <h3>ÚLTIMO RESULTADO</h3>
+                        <div class="resultado-partido">
+                            <div class="equipo-local">
+                                <img src="images/Escudos/I.E. SALA.png" alt="Equipo local">
+                                <span class="nombre-equipo">I.E. SALA</span>
+                            </div>
+                            <div class="resultado-central">
+                                <span class="marcador">3 - 1</span>
+                            </div>
+                            <div class="equipo-visitante">
+                                <img src="images/Escudos/I.E. SALA.png" alt="Equipo visitante">
+                                <span class="nombre-equipo">OTRO EQUIPO</span>
+                            </div>
+                        </div>
+                    </div> -->
+                    <!-- Foto del equipo
+                    <div class="equipo-foto">
+                        <img src="images/equipos/bl.jpg" alt="Foto del equipo">
+                    </div> -->
+                </div>
+            </div>
+        </section>
+        <section class="equipos-container">
+            <!-- Ejemplo de equipo -->
+            <div class="equipo-card">
+                <!-- Cabecera: logo + nombre -->
+                <div class="equipo-header">
+                    <div class="equipo-logo">
+                        <img src="images/Escudos/ASTON BIRRA.png" alt="Escudo equipo">
+                    </div>
+                    <div class="equipo-nombre">ASTON BIRRA</div>
+                </div>
+                <!-- Detalle expandible -->
+                <div class="equipo-detalle">
+                    <!-- Línea de color del equipo -->
+                    <div class="equipo-separador-cerveza"></div>
+                    <!-- Bloque de stats -->
+                    <div class="equipo-stats">
+                        <div class="stat">
+                            <span class="stat-title">POSICIÓN</span>
+                            <span class="stat-value">-</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-title">PUNTOS</span>
+                            <span class="stat-value">-</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-title">RESULTADO LIGA 24/25</span>
+                            <span class="stat-value">N/A</span>
+                        </div>
+                    </div>
+                    <!-- Jugadores -->
+                    <div class="equipo-jugadores">
+                        <h3>JUGADORES</h3>
+                        <div class="jugadores-grid">
+                            <!-- Repite cada jugador como una tarjeta -->
+                            <div class="jugador-card">
+                                <img src="images/jugadores/aston/izan.jpg" alt="Jugador 4">
+                                <span class="jugador-capitan">Izan Campanón</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/aston/ivan.jpg" alt="Jugador 1">
+                                <span class="jugador-nombre">Iván Rodríguez</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/aston/isidro.jpg" alt="Jugador 2">
+                                <span class="jugador-nombre">Isidro Capitán</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/aston/david.jpg" alt="Jugador 3">
+                                <span class="jugador-nombre">David Gómez</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/aston/carlos.jpg" alt="Jugador 4">
+                                <span class="jugador-nombre">Carlos Borja</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/aston/antonio.jpg" alt="Jugador 4">
+                                <span class="jugador-nombre">Antonio Carrasco</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/aston/javi.jpg" alt="Jugador 4">
+                                <span class="jugador-nombre">Javier Conejero</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/aston/antonio2.jpg" alt="Jugador 4">
+                                <span class="jugador-nombre">Antonio González</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/aston/ruben.jpg" alt="Jugador 4">
+                                <span class="jugador-nombre">Rubén Garrido</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/aston/alvaro.jpg" alt="Jugador 4">
+                                <span class="jugador-nombre">Álvaro Clavero</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/aston/victor.jpg" alt="Jugador 4">
+                                <span class="jugador-nombre">Víctor Pérez</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/aston/pablo.jpg" alt="Jugador 4">
+                                <span class="jugador-nombre">Pablo Mimbrero</span>
+                            </div>
+                            <!-- Añade más jugadores según sea necesario -->
+                        </div>
+                    </div>
+                    <!-- Último resultado
+                    <div class="ultimo-resultado">
+                        <h3>ÚLTIMO RESULTADO</h3>
+                        <div class="resultado-partido">
+                            <div class="equipo-local">
+                                <img src="images/Escudos/I.E. SALA.png" alt="Equipo local">
+                                <span class="nombre-equipo">I.E. SALA</span>
+                            </div>
+                            <div class="resultado-central">
+                                <span class="marcador">3 - 1</span>
+                            </div>
+                            <div class="equipo-visitante">
+                                <img src="images/Escudos/I.E. SALA.png" alt="Equipo visitante">
+                                <span class="nombre-equipo">OTRO EQUIPO</span>
+                            </div>
+                        </div>
+                    </div> -->
+                    <!-- Foto del equipo
+                    <div class="equipo-foto">
+                        <img src="images/equipos/bl.jpg" alt="Foto del equipo">
+                    </div> -->
+                </div>
+            </div>
+        </section>
+        <section class="equipos-container">
+            <!-- Ejemplo de equipo -->
+            <div class="equipo-card">
+                <!-- Cabecera: logo + nombre -->
+                <div class="equipo-header">
+                    <div class="equipo-logo">
+                        <img src="images/Escudos/I.E. SALA.png" alt="Escudo equipo">
+                    </div>
+                    <div class="equipo-nombre">I.E. SALA</div>
+                </div>
+                <!-- Detalle expandible -->
+                <div class="equipo-detalle">
+                    <!-- Línea de color del equipo -->
+                    <div class="equipo-separador-sala"></div>
+                    <!-- Bloque de stats -->
+                    <div class="equipo-stats">
+                        <div class="stat">
+                            <span class="stat-title">POSICIÓN</span>
+                            <span class="stat-value">-</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-title">PUNTOS</span>
+                            <span class="stat-value">-</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-title">RESULTADO LIGA 24/25</span>
+                            <span class="stat-value">4º</span>
+                        </div>
+                    </div>
+                    <!-- Jugadores -->
+                    <div class="equipo-jugadores">
+                        <h3>JUGADORES</h3>
+                        <div class="jugadores-grid">
+                            <!-- Repite cada jugador como una tarjeta -->
+                            <div class="jugador-card">
+                                <img src="images/jugadores/iesala/fabio.png" alt="Jugador 4">
+                                <span class="jugador-capitan">Fabio Sánchez</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/iesala/angel.png" alt="Jugador 1">
+                                <span class="jugador-nombre">Ángel Carapeto</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/iesala/marcos.jpg" alt="Jugador 2">
+                                <span class="jugador-nombre">Marcos Ocaña</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/iesala/juanluis.png" alt="Jugador 3">
+                                <span class="jugador-nombre">Juan Luís Rodríguez</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/iesala/david.png" alt="Jugador 4">
+                                <span class="jugador-nombre">David Fernández</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/iesala/victor.jpg" alt="Jugador 4">
+                                <span class="jugador-nombre">Victor Álvarez</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Último resultado
+                    <div class="ultimo-resultado">
+                        <h3>ÚLTIMO RESULTADO</h3>
+                        <div class="resultado-partido">
+                            <div class="equipo-local">
+                                <img src="images/Escudos/I.E. SALA.png" alt="Equipo local">
+                                <span class="nombre-equipo">I.E. SALA</span>
+                            </div>
+                            <div class="resultado-central">
+                                <span class="marcador">3 - 1</span>
+                            </div>
+                            <div class="equipo-visitante">
+                                <img src="images/Escudos/I.E. SALA.png" alt="Equipo visitante">
+                                <span class="nombre-equipo">OTRO EQUIPO</span>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </section>
+        <section class="equipos-container">
+            <!-- Ejemplo de equipo -->
+            <div class="equipo-card">
+                <!-- Cabecera: logo + nombre -->
+                <div class="equipo-header">
+                    <div class="equipo-logo">
+                        <img src="images/Escudos/CUM CITY.png" alt="Escudo equipo">
+                    </div>
+                    <div class="equipo-nombre">CUM CITY</div>
+                </div>
+                <!-- Detalle expandible -->
+                <div class="equipo-detalle">
+                    <!-- Línea de color del equipo -->
+                    <div class="equipo-separador-city"></div>
+                    <!-- Bloque de stats -->
+                    <div class="equipo-stats">
+                        <div class="stat">
+                            <span class="stat-title">POSICIÓN</span>
+                            <span class="stat-value">-</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-title">PUNTOS</span>
+                            <span class="stat-value">-</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-title">RESULTADO LIGA 24/25</span>
+                            <span class="stat-value">N/A</span>
+                        </div>
+                    </div>
+                    <!-- Jugadores -->
+                    <div class="equipo-jugadores">
+                        <h3>JUGADORES</h3>
+                        <div class="jugadores-grid">
+                            <div class="jugador-card">
+                                <img src="images/jugadores/vini.jpg" alt="Jugador 4">
+                                <span class="jugador-capitan">Carlos Zambrano</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/cumCity/david.png" alt="Jugador 1">
+                                <span class="jugador-nombre">David Cáceres</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/cumCity/andres.png" alt="Jugador 2">
+                                <span class="jugador-nombre">Andrés Pajuelo</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/cumCity/justo.png" alt="Jugador 3">
+                                <span class="jugador-nombre">Justo Manuel Sánchez</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/cumCity/alberto.jpg" alt="Jugador 4">
+                                <span class="jugador-nombre">Alberto Durán</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/cumCity/pietro.jpg" alt="Jugador 4">
+                                <span class="jugador-nombre">Juan Pietro Da Silva</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/cumCity/juanlu.jpg" alt="Jugador 4">
+                                <span class="jugador-nombre">Juan Luís Fernández</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/vini.jpg" alt="Jugador 4">
+                                <span class="jugador-nombre">Luis Miguel Márquez</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/vini.jpg" alt="Jugador 4">
+                                <span class="jugador-nombre">Adrián Rojo</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/cumCity/ciro.jpg" alt="Jugador 4">
+                                <span class="jugador-nombre">Ciro Benjamín Castañeda</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Último resultado
+                    <div class="ultimo-resultado">
+                        <h3>ÚLTIMO RESULTADO</h3>
+                        <div class="resultado-partido">
+                            <div class="equipo-local">
+                                <img src="images/Escudos/I.E. SALA.png" alt="Equipo local">
+                                <span class="nombre-equipo">I.E. SALA</span>
+                            </div>
+                            <div class="resultado-central">
+                                <span class="marcador">3 - 1</span>
+                            </div>
+                            <div class="equipo-visitante">
+                                <img src="images/Escudos/I.E. SALA.png" alt="Equipo visitante">
+                                <span class="nombre-equipo">OTRO EQUIPO</span>
+                            </div>
+                        </div>
+                    </div> -->
+                    <!-- Foto del equipo
+                    <div class="equipo-foto">
+                        <img src="images/equipos/bl.jpg" alt="Foto del equipo">
+                    </div> -->
+                </div>
+            </div>
+        </section>
+        <section class="equipos-container">
+            <!-- Ejemplo de equipo -->
+            <div class="equipo-card">
+                <!-- Cabecera: logo + nombre -->
+                <div class="equipo-header">
+                    <div class="equipo-logo">
+                        <img src="images/Escudos/UNIÓN DEPORTIVA PORRETA.png" alt="Escudo equipo">
+                    </div>
+                    <div class="equipo-nombre">UNIÓN DEPORTIVA PORRETA</div>
+                </div>
+                <!-- Detalle expandible -->
+                <div class="equipo-detalle">
+                    <!-- Línea de color del equipo -->
+                    <div class="equipo-separador-udp"></div>
+                    <!-- Bloque de stats -->
+                    <div class="equipo-stats">
+                        <div class="stat">
+                            <span class="stat-title">POSICIÓN</span>
+                            <span class="stat-value">-</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-title">PUNTOS</span>
+                            <span class="stat-value">-</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-title">RESULTADO LIGA 24/25</span>
+                            <span class="stat-value">2º</span>
+                        </div>
+                    </div>
+                    <!-- Jugadores -->
+                    <div class="equipo-jugadores">
+                        <h3>JUGADORES</h3>
+                        <div class="jugadores-grid">
+                            <!-- Repite cada jugador como una tarjeta -->
+                            <div class="jugador-card">
+                                <img src="images/jugadores/vini.jpg" alt="Jugador 4">
+                                <span class="jugador-capitan">Álvaro Gobernado</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/vini.jpg" alt="Jugador 4">
+                                <span class="jugador-nombre">José María Cabezas</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/vini.jpg" alt="Jugador 1">
+                                <span class="jugador-nombre">Alberto Salazar</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/vini.jpg" alt="Jugador 2">
+                                <span class="jugador-nombre">Hugo Segovia</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/vini.jpg" alt="Jugador 3">
+                                <span class="jugador-nombre">Asier Mariño</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/vini.jpg" alt="Jugador 4">
+                                <span class="jugador-nombre">Victor Santamaría</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/vini.jpg" alt="Jugador 4">
+                                <span class="jugador-nombre">Álex Cancho</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/vini.jpg" alt="Jugador 4">
+                                <span class="jugador-nombre">Ángel Moreno</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/vini.jpg" alt="Jugador 4">
+                                <span class="jugador-nombre">Francisco José Castro</span>
+                            </div>
+                            <div class="jugador-card">
+                                <img src="images/jugadores/vini.jpg" alt="Jugador 4">
+                                <span class="jugador-nombre">Francisco Javier Carretero</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Último resultado 
+                    <div class="ultimo-resultado">
+                        <h3>ÚLTIMO RESULTADO</h3>
+                        <div class="resultado-partido">
+                            <div class="equipo-local">
+                                <img src="images/Escudos/I.E. SALA.png" alt="Equipo local">
+                                <span class="nombre-equipo">I.E. SALA</span>
+                            </div>
+                            <div class="resultado-central">
+                                <span class="marcador">3 - 1</span>
+                            </div>
+                            <div class="equipo-visitante">
+                                <img src="images/Escudos/I.E. SALA.png" alt="Equipo visitante">
+                                <span class="nombre-equipo">OTRO EQUIPO</span>
+                            </div>
+                        </div>
+                    </div>-->
+                    <!-- Foto del equipo
+                    <div class="equipo-foto">
+                        <img src="images/equipos/bl.jpg" alt="Foto del equipo">
+                    </div> -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-logo">
+            <img src="images/logoLigaNuevo.png" alt="Logo Liga">
+        </div>
+        <hr class="footer-separator">
+        <h2 class="footer-title">COLABORADORES</h2>
+        <div class="footer-logos">
+            <div class="logo-container logo-cecume">
+                <a href="https://www.cecume.org" target="_blank">
+                    <img src="images/cecume.png" alt="CECUME logo">
+                </a>
+            </div>
+            <div class="logo-container logo-merida">
+                <a href="https://merida.es" target="_blank">
+                    <img src="images/aytoMerida.png" alt="Ayto Mérida logo">
+                </a>
+            </div>
+            <div class="logo-container logo-safyde">
+                <a href="https://safyde.unex.es" target="_blank">
+                    <img src="images/safyde.png" alt="Safyde logo">
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Script para expandir/colapsar cada tarjeta
+        document.querySelectorAll('.equipo-card').forEach(card => {
+            card.addEventListener('click', () => {
+                card.classList.toggle('expanded');
+            });
+        });
+
+        // --- Navbar responsive toggle ---
+        document.addEventListener("DOMContentLoaded", function () {
+            const menuToggle = document.getElementById("menu-toggle");
+            const navLinks = document.getElementById("nav-links");
+
+            // Helper to toggle aria-expanded
+            function setExpanded(isOpen) {
+                menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            }
+
+            // Toggle function
+            function toggleMenu(e) {
+                if (e) e.preventDefault();
+                navLinks.classList.toggle("show");
+                const isOpen = navLinks.classList.contains("show");
+                setExpanded(isOpen);
+            }
+
+            // Add both events
+            menuToggle.addEventListener("click", toggleMenu);
+            menuToggle.addEventListener("touchstart", toggleMenu);
+
+            // Close menu when clicking outside
+            document.addEventListener("click", function (event) {
+                const isClickInside = navLinks.contains(event.target) || menuToggle.contains(event.target);
+                if (!isClickInside && navLinks.classList.contains("show")) {
+                    navLinks.classList.remove("show");
+                    setExpanded(false);
+                }
+            }, { passive: true });
+
+            // Cerrar menú cuando se redimensiona la ventana a pantalla grande
+            window.addEventListener('resize', function () {
+                if (window.innerWidth > 900 && navLinks.classList.contains("show")) {
+                    navLinks.classList.remove("show");
+                    setExpanded(false);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

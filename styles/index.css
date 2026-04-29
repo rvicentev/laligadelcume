@@ -1,0 +1,283 @@
+/* ==========================================
+   UTILIDADES
+   ========================================== */
+.sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+@media print {
+    nav, footer, .selector-jornada, .btn-acta, .btn-inci, .btn-aplazado {
+        display: none;
+    }
+}
+
+/* ==========================================
+   BANNER ÚLTIMOS FICHAJES (Ticker)
+   ========================================== */
+.ultimos-fichajes-banner {
+    position: fixed;
+    top: 125px; /* Ajustar según altura de navbar y otros banners */
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%);
+    z-index: 998;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    border-top: 2px solid #e63946;
+}
+
+.fichajes-titulo {
+    position: absolute;
+    left: 20px;
+    z-index: 2;
+    background: linear-gradient(135deg, #e63946 0%, #d62839 100%);
+    padding: 8px 20px;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(230, 57, 70, 0.4);
+}
+
+.fichajes-titulo span {
+    color: white;
+    font-family: 'Righteous', sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.fichajes-scroll {
+    display: flex;
+    white-space: nowrap;
+    animation: scrollFichajes 30s linear infinite;
+    padding-left: 250px;
+    gap: 40px;
+    position: relative;
+}
+
+.fichajes-scroll::before {
+    content: ''; position: absolute; left: 0; top: -10px; width: 80px; height: 60px;
+    background: linear-gradient(to right, #2c2c2c 0%, rgba(44, 44, 44, 0.8) 40%, rgba(44, 44, 44, 0.4) 70%, transparent 100%);
+    z-index: 1; pointer-events: none;
+}
+
+.fichajes-scroll::after {
+    content: ''; position: absolute; right: 0; top: -10px; width: 100px; height: 60px;
+    background: linear-gradient(to left, #1a1a1a 0%, rgba(26, 26, 26, 0.5) 50%, transparent 100%);
+    z-index: 1; pointer-events: none;
+}
+
+@keyframes scrollFichajes {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+.fichaje-item {
+    display: inline-flex; align-items: center; gap: 12px; padding: 0 20px;
+    background: rgba(255, 255, 255, 0.05); border-radius: 25px; height: 36px;
+}
+
+.fichaje-jugador { color: white; font-family: 'Righteous', sans-serif; font-size: 14px; font-weight: bold; }
+.fichaje-flecha { color: #10ccbb; font-size: 18px; font-weight: bold; }
+.fichaje-escudo { width: 24px; height: 24px; object-fit: contain; }
+.fichaje-equipo { color: #10ccbb; font-family: 'Righteous', sans-serif; font-size: 13px; font-weight: bold; }
+
+/* ==========================================
+   DISEÑO FINAL FOUR
+   ========================================== */
+.banner-final-four {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(135deg, #e63946 0%, #2D0C54 100%);
+    border-top: 2px solid #FFD700;
+    border-bottom: 2px solid #FFD700;
+    padding: 130px 15px 40px;
+    margin-top: 100px; 
+    color: white;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.ff-header { text-align: center; margin-bottom: 35px; }
+.ff-title {
+    color: #FFFFFF;
+    font-family: 'Righteous', sans-serif;
+    font-size: 2.5rem;
+    margin: 0;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+}
+.ff-subtitle {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.1rem;
+    color: #f0f0f0;
+    margin: 5px 0 0 0;
+    letter-spacing: 1px;
+}
+
+.bracket-container {
+    display: flex; align-items: center; justify-content: center; width: 100%; max-width: 1200px;
+}
+
+.bracket-column { display: flex; flex-direction: column; justify-content: center; z-index: 2; }
+.semis { gap: 30px; }
+
+.bracket-match {
+    background: rgba(0, 0, 0, 0.4); 
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    width: 350px; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+.bracket-match:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(255, 215, 0, 0.3);
+    border-color: #FFD700; 
+}
+
+.match-final {
+    border: 2px solid #FFD700;
+    background: rgba(45, 12, 84, 0.7); 
+    width: 370px; 
+}
+
+.final-badge {
+    background: #FFD700;
+    color: #2D0C54; 
+    font-family: 'Righteous', sans-serif;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 0.95rem;
+    border-radius: 8px 8px 0 0;
+}
+
+.match-teams { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; }
+.bracket-team { display: flex; align-items: center; gap: 8px; font-family: 'Righteous', sans-serif; font-size: 0.85rem; color: #FFFFFF; width: 42%; }
+.bracket-team.right { flex-direction: row-reverse; text-align: right; }
+.bracket-team img { width: 28px; height: 28px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4)); }
+.bracket-team.placeholder { color: #bbb; font-family: 'Oswald', sans-serif; font-style: italic; justify-content: center; }
+.bracket-vs { color: #FFD700; font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 0.9rem; }
+
+.match-info {
+    background: rgba(0, 0, 0, 0.5);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 6px; text-align: center; font-family: 'Oswald', sans-serif; font-size: 0.75rem; color: #ddd;
+    border-radius: 0 0 10px 10px; letter-spacing: 0.5px;
+}
+
+/* Conectores Bracket */
+.bracket-connector { display: flex; flex-direction: column; width: 30px; height: 125px; position: relative; margin: 0 30px 0 10px; }
+.connector-top, .connector-bottom { flex: 1; border-right: 2px solid rgba(255, 255, 255, 0.4); }
+.connector-top { border-top: 2px solid rgba(255, 255, 255, 0.4); border-top-right-radius: 6px; }
+.connector-bottom { border-bottom: 2px solid rgba(255, 255, 255, 0.4); border-bottom-right-radius: 6px; }
+.connector-center { position: absolute; top: 50%; right: -30px; width: 30px; height: 2px; background-color: rgba(255, 255, 255, 0.4); transform: translateY(-50%); }
+
+.champion-connector { height: 2px; margin: 0 20px 0 20px; width: 40px; }
+.connector-center-straight { width: 100%; height: 2px; background-color: #FFD700; }
+
+/* Tarjeta Campeones */
+.champion-card {
+    background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px); border: 2px solid #FFD700; border-radius: 10px;
+    width: 280px; box-shadow: 0 0 20px rgba(255, 215, 0, 0.4); overflow: hidden; display: flex; flex-direction: column;
+}
+.champion-header { background: linear-gradient(90deg, #FFD700, #FDB931); color: #2D0C54; font-family: 'Righteous', sans-serif; font-size: 1.2rem; padding: 10px 0; text-align: center; letter-spacing: 1px; }
+.champion-photo-wrapper { width: 100%; height: 180px; background: #111; border-bottom: 1px solid rgba(255, 215, 0, 0.3); }
+.champion-photo { width: 100%; height: 100%; object-fit: cover; }
+.champion-team-name { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px; font-family: 'Righteous', sans-serif; font-size: 1.2rem; color: #FFD700; }
+.champion-team-name img { width: 35px; height: 35px; object-fit: contain; }
+
+
+/* ==========================================
+   DISEÑO RESULTADOS V2 (#10ccbf)
+   ========================================== */
+:root {
+    --color-principal: #10ccbf;
+    --color-oscuro: #0da89d;
+    --color-fondo-card: #f9ffff;
+}
+
+.resultados-scroll-section { padding: 50px 0; background: #fff; overflow: hidden; }
+.titulo-resultados-v2 { text-align: center; font-family: 'Righteous', sans-serif; color: var(--color-oscuro); font-size: 1.8rem; margin-bottom: 30px; }
+.slider-wrapper { width: 100%; overflow: hidden; position: relative; padding: 10px 0; }
+.slider-track { display: flex; width: max-content; gap: 20px; animation: scrollInfinito 45s linear infinite; }
+.slider-track:hover { animation-play-state: paused; }
+
+@keyframes scrollInfinito {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+.card-jornada-v2 {
+    flex: 0 0 220px; background: var(--color-fondo-card); border: 2px solid var(--color-principal);
+    border-radius: 12px; display: flex; flex-direction: column; box-shadow: 0 4px 12px rgba(16, 204, 191, 0.15);
+}
+.header-jornada-v2 { background: var(--color-principal); color: white; padding: 6px; text-align: center; border-radius: 9px 9px 0 0; }
+.header-jornada-v2 span { font-family: 'Righteous', sans-serif; font-size: 0.9rem; }
+.body-jornada-v2 { padding: 10px; display: flex; flex-direction: column; gap: 10px; }
+
+.fila-partido-v2 {
+    display: flex; align-items: center; justify-content: space-between; padding: 8px 5px;
+    border-radius: 6px; cursor: pointer; transition: all 0.2s ease; border-bottom: 1px dashed rgba(16, 204, 191, 0.2);
+}
+.fila-partido-v2:hover { background: rgba(16, 204, 191, 0.1); transform: scale(1.02); }
+.fila-partido-v2:last-child { border-bottom: none; }
+
+.escudo-v2 { width: 32px; height: 32px; object-fit: contain; }
+.resultado-v2 { font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 1rem; color: #333; background: #fff; padding: 2px 6px; border-radius: 4px; border: 1px solid #ddd; min-width: 50px; text-align: center; }
+
+.slider-wrapper::before, .slider-wrapper::after { content: ""; position: absolute; top: 0; width: 80px; height: 100%; z-index: 2; pointer-events: none; }
+.slider-wrapper::before { left: 0; background: linear-gradient(to right, white, transparent); }
+.slider-wrapper::after { right: 0; background: linear-gradient(to left, white, transparent); }
+
+
+/* ==========================================
+   RESPONSIVE MÓVILES
+   ========================================== */
+@media (max-width: 1050px) {
+    .bracket-container { flex-direction: column; gap: 30px; }
+    .bracket-connector, .champion-connector { display: none; }
+    .bracket-match, .match-final, .champion-card { width: 100%; min-width: 300px; max-width: 400px; }
+    .semis, .final, .champions { width: 100%; align-items: center; }
+    .semis::after { content: "▼"; color: rgba(255, 255, 255, 0.6); text-align: center; font-size: 1.5rem; margin-top: 5px; margin-bottom: -10px; }
+    .final::after { content: "▼"; color: #FFD700; text-align: center; font-size: 1.5rem; margin-top: 15px; margin-bottom: -10px; }
+}
+
+@media (max-width: 768px) {
+    .ultimos-fichajes-banner { height: 45px; top: 115px; }
+    .fichajes-titulo { left: 10px; padding: 6px 15px; }
+    .fichajes-titulo span { font-size: 12px; }
+    .fichajes-scroll { padding-left: 200px; gap: 30px; }
+    .fichajes-scroll::before { width: 60px; }
+    .fichajes-scroll::after { width: 80px; }
+    .fichaje-item { gap: 8px; padding: 0 15px; height: 32px; }
+    .fichaje-jugador { font-size: 12px; }
+    .fichaje-flecha { font-size: 16px; }
+    .fichaje-escudo { width: 20px; height: 20px; }
+    .fichaje-equipo { font-size: 11px; }
+    .banner-jornada { margin-top: 90px; }
+}
+
+@media (max-width: 480px) {
+    .ultimos-fichajes-banner { height: 40px; }
+    .fichajes-titulo { padding: 5px 12px; }
+    .fichajes-titulo span { font-size: 11px; }
+    .fichajes-scroll { padding-left: 180px; gap: 25px; }
+    .fichajes-scroll::before { width: 50px; }
+    .fichajes-scroll::after { width: 60px; }
+    .fichaje-item { gap: 6px; padding: 0 12px; height: 28px; }
+    .fichaje-jugador { font-size: 11px; }
+    .fichaje-equipo { font-size: 10px; }
+    .fichaje-escudo { width: 18px; height: 18px; }
+}

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>LA LIGA DEL CECUME</title>
+        <link rel="stylesheet" href="styles/styles.css">
+        <link rel="stylesheet" href="styles/preloader.css">
+        <link rel="stylesheet" href="styles/stylesTeams.css">
+        <link rel="stylesheet" href="styles/estadisticas.css">
+        <link rel="icon" href="images/favicon/favicon-32x32.png" type="image/x-icon">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Righteous">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monomaniac+One">
+    </head>
+    <body>
+        <div style="background-color: #ef3340; height: 404px; border-top: 82px solid;">
+            <div class="hero">
+                <h1>INSCRIPCIONES ABIERTAS</h1>
+                <h2 style="font-family: Righteous;">TEMPORADA 2025/2026</h2>
+                <a href="https://forms.gle/AZAwZjxDBY2F9Ka5A" class="btn" target="_blank">INSCRIBE A TU EQUIPO</a>
+            </div>
+        </div>
+        <div class="estadisticas">
+            <h2 id="tituloEstadisticas">RESULTADOS TEMPORADA 2024/2025</h2>
+            <table id="tablaEstadisticas">
+                <thead>
+                    <tr>
+                        <th>POS</th>
+                        <th>EQUIPO</th>
+                        <th>PUNTOS</th>
+                        <th>PJ</th>
+                        <th>PG</th>
+                        <th>PE</th>
+                        <th>PP</th>
+                        <th>GF</th>
+                        <th>GC</th>
+                        <th>DG</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Los datos de Google Sheets se insertarán aquí -->
+                </tbody>
+            </table>
+        </div>
+        <h2 id="tituloPlayoffs">RESULTADOS DE LOS PLAYOFFS 24/25</h2>
+        <section id="playoffResults">
+            <div class="playoff-container">
+                <!-- Campeón -->
+                <div class="playoff-winner">
+                    <div class="team-logo">
+                        <img src="images/Escudos/I.E. SALA.png" alt="Logo Campeón">
+                    </div>
+                    <div class="team-info">
+                        <span class="title">CAMPEÓN</span>
+                        <span class="name">I.E. SALA</span>
+                    </div>
+                </div>
+                <!-- Cuadro de Finalista y Semifinalistas -->
+                <div class="playoff-box">
+                    <!-- Finalista -->
+                    <div class="playoff-entry">
+                        <div class="entry-logo">
+                            <img src="images/Escudos/FACHATINAIKOS.png" alt="Finalista">
+                        </div>
+                        <div class="entry-info">
+                            <span class="title">FINALISTA</span>
+                            <span class="name">FACHATINAIKOS</span>
+                        </div>
+                    </div>
+                    <!-- Semifinalista 1 -->
+                    <div class="playoff-entry">
+                        <div class="entry-logo">
+                            <img src="images/Escudos/UNIÓN DEPORTIVA PORRETA.png" alt="Semifinalista 1">
+                        </div>
+                        <div class="entry-info">
+                            <span class="title">SEMIFINALISTA</span>
+                            <span class="name">UNIÓN DEPORTIVA PORRETA</span>
+                        </div>
+                        <div class="match-result">vs. FACHATINAIKOS [9-8]</div>
+                    </div>
+                    <!-- Semifinalista 2 -->
+                    <div class="playoff-entry">
+                        <div class="entry-logo">
+                            <img src="images/Escudos/CUM UNITED.png" alt="Semifinalista 2">
+                        </div>
+                        <div class="entry-info">
+                            <span class="title">SEMIFINALISTA</span>
+                            <span class="name">CUM UNITED</span>
+                        </div>
+                        <div class="match-result">vs. I.E. SALA [3-6]</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <nav class="navbar">
+            <div class="logoLiga">
+                <a href="index.html">
+                    <img src="images/logoLigaRojo.png" alt="CECUME logo" class="img">
+                </a>
+                <h1></h1>
+            </div>
+            <div class="menu-toggle" id="menu-toggle">&#9776;</div>
+            <ul class="nav-links" id="nav-links" style="border-right: 40px solid;">
+                <!--<li>
+                    <a href="#main-content" style="color: #2c2c2c; font-family: Righteous;">JORNADAS</a>
+                </li>
+                <li>
+                    <a href="#jornadas-container" style="color: #2c2c2c; font-family: Righteous;">EQUIPOS</a>
+                </li>
+                <li>
+                    <a href="#tablaProximosPartidos" style="color: #2c2c2c; font-family: Righteous;">ESTADÍSTICAS</a>
+                </li>
+                <li>
+                    <a href="#goleadores" style="color: #2c2c2c; font-family: Righteous;">TEMPORADAS ANTERIORES</a>
+                </li>-->
+                <li>
+                    <a href="LALIGA Normas 2526 v1.0.pdf" target="_blank" style="color: #2c2c2c; font-family: Righteous;">BASES</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="container">
+            <div class="content-wrapper">
+                <div class="sidebar">
+                    <table id="goleadores">
+                        <thead>
+                            <tr>
+</tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div id="jornadas-container">
+</div>
+        <footer>
+            <div class="footer-logo">
+                <img src="images/logoLigaNuevo.png" alt="Logo Liga">
+            </div>
+            <hr class="footer-separator">
+            <h2 class="footer-title">COLABORADORES</h2>
+            <div class="footer-logos">
+                <div class="logo-container logo-cecume">
+                    <a href="https://www.cecume.org" target="_blank">
+                        <img src="images/cecume.png" alt="CECUME logo">
+                    </a>
+                </div>
+                <div class="logo-container logo-merida">
+                    <a href="https://merida.es" target="_blank">
+                        <img src="images/aytoMerida.png" alt="Ayto Mérida logo">
+                    </a>
+                </div>
+                <div class="logo-container logo-safyde">
+                    <a href="https://safyde.unex.es" target="_blank">
+                        <img src="images/safyde.png" alt="Safyde logo">
+                    </a>
+                </div>
+            </div>
+        </footer>
+        <script src="scripts/script.js"></script>
+    </body>
+</html>

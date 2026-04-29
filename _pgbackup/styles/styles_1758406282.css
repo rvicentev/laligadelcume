@@ -1,0 +1,576 @@
+/* General styles */
+body {
+    background: #ffffff;
+    color: #f4f4f4;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 90%;
+    max-width: 900px;
+    margin: 20px auto;
+    margin-top: 80px;
+}
+
+/* Navbar Base */
+.navbar {
+    position: fixed;
+    display: flex;
+    top: 0;
+    left: 0;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f6f6f6;
+    padding: 10px 20px;
+    z-index: 1000;
+}
+
+.team-image {
+    max-height: 300px;
+
+    /* Ajusta la imagen */
+    max-width: 100%;
+
+    /* Asegúrate de que no se desborde */
+    height: auto;
+
+    /* Mantiene la proporción */
+    object-fit: cover;
+
+    /* Cubre el área sin deformarse */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.logoLiga {
+    display: flex;
+    align-items: center;
+    color: #e63946;
+}
+
+.logoLiga img {
+    max-height: 60px;
+    width: auto;
+    margin-right: 10px;
+}
+
+.logoLiga h1 a {
+    color: #e63946;
+    font-size: 20px;
+    text-decoration: none;
+    font-family: "Oswald", sans-serif;
+    letter-spacing: 1px;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.logoLiga h1 a:hover {
+    color: #f0f0f0;
+}
+
+.menu-toggle {
+    font-size: 30px;
+    color: #f4f4f4;
+    cursor: pointer;
+    display: block;
+}
+
+/* Menu Links */
+.nav-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    background-color: #2c2c2c;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    transition: transform 0.3s ease-in-out;
+    transform: translateY(-100%);
+}
+
+.nav-links.active {
+    display: block;
+    transform: translateY(0);
+}
+
+.nav-links li {
+    margin: 10px 0;
+    text-align: center;
+}
+
+.nav-links li a {
+    color: #f0f0f0;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 10px;
+    transition: color 0.3s, background-color 0.3s;
+    border-radius: 1px;
+}
+
+.nav-links li a:hover {
+    color: #ffffff;
+    background-color: #ef3340;
+}
+
+/* Desktop View */
+@media (min-width: 1024) {
+    .menu-toggle {
+        display: none;
+    }
+
+    .hero {
+        height: auto; /* ajusta la altura al contenido */
+    }
+
+    .hero h1 {
+        font-size: 22px; /* más pequeño que escritorio */
+        text-align: center;
+    }
+
+    .hero h2 {
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .hero .btn {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+
+    /* Ajustar el contenedor externo si tiene border-top fijo */
+    div[style*="border-top: 82px solid"] {
+        border-top-width: 40px; /* reduce el espacio superior en móvil */
+    }
+
+    .nav-links {
+        display: flex;
+        flex-direction: row;
+        position: static;
+        background-color: transparent;
+        width: auto;
+        transform: none;
+        max-height: none;
+    }
+
+    .nav-links li {
+        margin: 0 15px;
+    }
+}
+
+/* Mobile Menu Toggle */
+.menu-toggle.active+.nav-links {
+    display: flex;
+    transform: translateY(0);
+}
+
+/* Tablas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #2c2c2c;
+    box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.5);
+    margin-bottom: 20px;
+    overflow-x: auto;
+}
+
+#goleadores,
+.main-content,
+#tablaProximosPartidos,
+#jornadas-container,
+#equipos {
+    scroll-margin-top: 100px;
+}
+
+thead {
+    background-color: #e63946;
+    color: white;
+}
+
+th,
+td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #444;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #333;
+}
+
+tbody tr: {
+    background-color: #444;
+}
+
+footer {
+    background-color: #2c2c2c;
+    padding: 20px;
+    text-align: center;
+}
+
+.colaboradores {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo {
+    max-height: 200px;
+    width: auto;
+}
+
+.logo:hover {
+    transform: scale(1.1);
+}
+
+.hero {
+    background-color: #ef3340;
+    height: 404px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+/* Estilos base (móvil primero) */
+.hero h1 {
+    font-family: 'Righteous', sans-serif;
+    font-size: 32px;
+    color: white;
+    margin: 0;
+}
+
+.hero h2 {
+    font-family: 'Monomaniac One', sans-serif;
+    font-size: 18px;
+    color: white;
+    margin-top: 4px;
+}
+
+/* Botón */
+.hero .btn {
+    margin-top: 16px; /* lo coloca justo debajo del h2 */
+    padding: 10px 24px;
+    background-color: white;
+    color: #ef3340;
+    font-family: 'Righteous', sans-serif;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none; /* quita el subrayado */
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.hero .btn:hover {
+    background-color: #d92c38;
+    color: white;
+}
+
+/* Portátil / Escritorio */
+@media (min-width: 1200px) {
+    .hero h1 {
+        font-size: 66px;
+    }
+
+    .hero h2 {
+        font-size: 28px;
+    }
+
+    .hero .btn {
+        font-size: 20px;
+        padding: 14px 32px;
+    }
+}
+
+footer {
+    background-color: #f5f5f5;
+    padding: 20px 40px;
+    text-align: left;
+    font-family: 'Righteous', sans-serif;
+    color: #2c2c2c;
+}
+
+footer h2 {
+    font-family: Righteous;
+    color: #ffffff;
+    text-align: left;
+}
+
+.colaboradores {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+.colaborador-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.colaborador-left .logo {
+    max-width: 120px;
+    margin-bottom: 10px;
+}
+
+.colaborador-left hr {
+    width: 100%;
+    border: 0;
+    border-top: 2px solid #ccc;
+}
+
+.colaborador-right {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.colaborador-right .logo {
+    max-width: 120px;
+}
+
+footer {
+    background-color: #2c2c2c; /* gris oscuro */
+    text-align: center;        /* centramos el logo */
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.footer-logo img {
+    max-width: 550px; /* ajusta el tamaño del logo */
+    height: auto;
+    display: block;
+    margin: 0 auto 20px auto; /* centrado y 20px debajo */
+}
+
+.footer-separator {
+    border: none;
+    border-top: 2px solid #ccc; /* color gris claro para contraste */
+    margin: 0 auto;
+    width: 80%; /* ancho del separador */
+}
+
+.footer-title {
+    color: white;                /* texto blanco sobre fondo oscuro */
+    font-family: 'Righteous', sans-serif;
+    font-weight: bold;
+    font-size: 30px;
+    text-align: left;            /* alineado a la izquierda */
+    margin: 40px 10% 0 10%;      /* espacio arriba y márgenes laterales */
+}
+
+.footer-logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    padding: 0px;
+    background-color: #2c2c2c;
+}
+
+.logo-container {
+    margin: 0 35px; /* separa cada logo horizontalmente */
+}
+
+.logo-container img {
+    width: 100%;    /* ocupa todo el ancho del contenedor */
+    height: auto;   /* mantiene proporción */
+    display: block;
+}
+
+/* Tamaño individual de cada logo */
+.logo-cecume {
+    max-width: 200px;
+}
+
+.logo-merida {
+    max-width: 150px;
+}
+
+.logo-safyde {
+    max-width: 120px;
+}
+
+/* ===========================
+   Estilos específicos solo para móviles
+   =========================== */
+@media (max-width: 1024) {
+    /* ===========================
+       Navbar
+       =========================== */
+    .logoLiga img {
+        max-height: 42px; /* 30% más pequeño */
+    }
+
+    /* ===========================
+       Jornadas y partidos
+       =========================== */
+    #jornadas-container {
+        width: 90%;
+        max-width: 350px; /* se ajusta al tamaño de la tabla */
+        margin: 10px auto;
+    }
+
+    .jornada {
+        padding: 6px;
+    }
+
+    .jornada-title {
+        font-size: 1em;
+        text-align: center;
+    }
+
+    .partido {
+        padding: 6px;
+        flex-direction: column;
+        align-items: center;
+        font-size: 12px;
+    }
+
+    .equipo img {
+        width: 36px;
+        height: 36px;
+    }
+
+    .resultado,
+    .estado {
+        font-size: 0.8em;
+        text-align: center;
+    }
+
+    /* ===========================
+       Estadísticas y tablas
+       =========================== */
+    table {
+        font-size: 12px;
+        display: block;
+        overflow-x: auto;
+        width: 100%;
+    }
+
+    th,
+    td {
+        padding: 4px 6px;
+        text-align: center;
+    }
+
+    td:nth-child(2),
+    thead th:nth-child(2) {
+        text-align: left;
+        padding-left: 6px;
+    }
+
+    td img {
+        max-width: 16px;
+        height: auto;
+    }
+
+    #tituloEstadisticas {
+        font-size: 19px;
+        padding-left: 12px;
+    }
+
+    /* ===========================
+       Playoff
+       =========================== */
+    .playoff-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .playoff-winner {
+        padding: 20px;
+        flex: 1 1 auto;
+        transform-origin: top left;
+    }
+
+    .playoff-winner .team-logo {
+        width: 50px;
+        height: 50px;
+        margin-right: 10px;
+    }
+
+    .playoff-winner .team-logo img {
+        max-width: 40px;
+        max-height: 40px;
+    }
+
+    .playoff-winner .team-info .title {
+        font-size: 12px;
+    }
+
+    .playoff-winner .team-info .name {
+        font-size: 14px;
+    }
+
+    .playoff-box {
+        padding: 10px;
+        gap: 6px;
+    }
+
+    .playoff-entry {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+        padding: 4px 0;
+    }
+
+    .playoff-entry .entry-logo {
+        width: 30px;
+        height: 30px;
+    }
+
+    .playoff-entry .entry-logo img {
+        max-width: 28px;
+        max-height: 28px;
+    }
+
+    .playoff-entry .entry-info .title {
+        font-size: 10px;
+    }
+
+    .playoff-entry .entry-info .name {
+        font-size: 12px;
+    }
+
+    .playoff-entry .match-result {
+        margin-left: 0;
+        font-size: 12px;
+    }
+
+    #tituloPlayoffs {
+        font-size: 22px;
+        padding-left: 12px;
+    }
+
+    /* ===========================
+       Footer
+       =========================== */
+    .footer-logo img {
+        max-width: 100px; /* 50% más pequeño */
+    }
+
+    .footer-title {
+        font-size: 21px; /* 30% más pequeño */
+    }
+
+    .footer-logos {
+        flex-direction: column;
+        gap: 20px;
+        align-items: flex-start;
+    }
+
+    .logo {
+        max-width: 100px;
+    }
+}

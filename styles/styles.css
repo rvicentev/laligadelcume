@@ -1,0 +1,356 @@
+/* ==========================================================================
+   ESTILOS GENERALES Y UTILIDADES
+   ========================================================================== */
+body {
+    background: #ffffff;
+    color: #f4f4f4;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 90%;
+    max-width: 900px;
+    margin: 20px auto;
+    margin-top: 80px;
+}
+
+.mobile-only {
+    display: none;
+}
+
+/* ==========================================================================
+   NAVBAR Y NAVEGACIÓN
+   ========================================================================== */
+.navbar {
+    position: fixed;
+    display: flex;
+    top: 0;
+    left: 0;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f6f6f6;
+    padding: 10px 20px;
+    z-index: 1000;
+}
+
+.logoLiga {
+    display: flex;
+    align-items: center;
+    color: #e63946;
+}
+
+.logoLiga img {
+    max-height: 60px;
+    width: auto;
+    margin-right: 10px;
+}
+
+.logoLiga h1 a {
+    color: #e63946;
+    font-size: 20px;
+    text-decoration: none;
+    font-family: "Oswald", sans-serif;
+    letter-spacing: 1px;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.logoLiga h1 a:hover {
+    color: #f0f0f0;
+}
+
+/* Botón Hamburguesa (Móvil) */
+.menu-toggle {
+    font-size: 30px;
+    color: #f4f4f4;
+    cursor: pointer;
+    display: block;
+}
+
+/* Enlaces del Menú (Por defecto en móvil ocultos/desplegables) */
+.nav-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    background-color: #2c2c2c;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    transition: transform 0.3s ease-in-out;
+    transform: translateY(-100%);
+}
+
+.nav-links.active {
+    display: block;
+    transform: translateY(0);
+}
+
+.nav-links li {
+    margin: 10px 0;
+    text-align: center;
+}
+
+.nav-links li a {
+    color: #f0f0f0;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 10px;
+    transition: color 0.3s, background-color 0.3s;
+    border-radius: 1px;
+}
+
+.nav-links li a:hover {
+    color: #ffffff;
+    background-color: #ef3340;
+}
+
+.menu-toggle.active + .nav-links {
+    display: flex;
+    transform: translateY(0);
+}
+
+/* ==========================================================================
+   SECCIÓN HERO (BANNER PRINCIPAL)
+   ========================================================================== */
+.hero {
+    background-color: #ef3340;
+    height: 404px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.hero h1 {
+    font-family: 'Righteous', sans-serif;
+    font-size: 29px;
+    color: white;
+    margin: 0;
+}
+
+.hero h2 {
+    font-family: 'Monomaniac One', sans-serif;
+    font-size: 18px;
+    color: white;
+    margin-top: 4px;
+}
+
+.hero .btn {
+    margin-top: 16px;
+    padding: 10px 24px;
+    background-color: white;
+    color: #ef3340;
+    font-family: 'Righteous', sans-serif;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.hero .btn:hover {
+    background-color: #d92c38;
+    color: white;
+}
+
+.bases-btn {
+    background-color: #ffffff;
+    color: #ef3340;
+    border: 2px solid #ef3340;
+    border-radius: 8px;
+    padding: 8px 20px;
+    font-family: 'Righteous', sans-serif;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+/* ==========================================================================
+   TABLAS Y CONTENEDORES DE DATOS
+   ========================================================================== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #2c2c2c;
+    box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.5);
+    margin-bottom: 20px;
+    overflow-x: auto;
+}
+
+/* Añade margen superior al navegar mediante anclas (links) */
+#goleadores,
+.main-content,
+#tablaProximosPartidos,
+#jornadas-container,
+#equipos {
+    scroll-margin-top: 100px;
+}
+
+thead {
+    background-color: #e63946;
+    color: white;
+}
+
+th,
+td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #444;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #333;
+}
+
+/* ==========================================================================
+   OTROS COMPONENTES
+   ========================================================================== */
+.team-image {
+    max-height: 300px;
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* ==========================================================================
+   FOOTER Y PATROCINADORES
+   ========================================================================== */
+footer {
+    background-color: #2c2c2c;
+    padding: 40px 0;
+    text-align: center;
+    width: 100%;
+}
+
+.footer-logo img {
+    max-width: 450px; 
+    width: 90%;
+    height: auto;
+    margin: 0 auto 30px auto;
+    display: block;
+}
+
+.footer-separator {
+    border: none;
+    border-top: 2px solid #444;
+    margin: 20px auto;
+    width: 80%;
+}
+
+.footer-title {
+    color: white;
+    font-family: 'Righteous', sans-serif;
+    font-weight: bold;
+    font-size: 30px;
+    text-align: center; 
+    margin: 30px 0;
+}
+
+.footer-logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px; 
+    flex-wrap: wrap; 
+    padding: 20px;
+}
+
+.logo-container {
+    transition: transform 0.3s ease;
+}
+
+.logo-container:hover {
+    transform: scale(1.1);
+}
+
+.logo-container img {
+    height: auto;
+    display: block;
+    width: 100%;
+}
+
+/* Clases genéricas para patrocinadores (Reemplazan a las originales cecume, merida, safyde) */
+.logo-sponsor-1 {
+    width: 200px; 
+}
+
+.logo-sponsor-2 {
+    width: 180px;
+}
+
+.logo-sponsor-3 {
+    width: 150px;
+}
+
+
+/* ==========================================================================
+   MEDIA QUERIES (ADAPTABILIDAD RESPONSIVE)
+   ========================================================================== */
+
+/* Móviles (Pantallas pequeñas) */
+@media (max-width: 768px) {
+    .logoLiga img {
+        max-height: 42px;
+    }
+
+    .footer-logo img {
+        max-width: 280px;
+    }
+
+    .footer-title {
+        font-size: 24px;
+    }
+
+    .footer-logos {
+        gap: 30px;
+    }
+
+    .logo-sponsor-1 { width: 150px; }
+    .logo-sponsor-2 { width: 130px; }
+    .logo-sponsor-3 { width: 110px; }
+
+    .mobile-only {
+        display: inline-block;
+        margin-left: 10px;
+    }
+}
+
+/* Tablets / Escritorio estándar */
+@media (min-width: 768px) {
+    .menu-toggle {
+        display: none;
+    }
+
+    .nav-links {
+        display: flex;
+        flex-direction: row;
+        position: static;
+        background-color: transparent;
+        width: auto;
+        transform: none;
+        max-height: none;
+    }
+
+    .nav-links li {
+        margin: 0 15px;
+    }
+}
+
+/* Pantallas grandes (Monitores anchos) */
+@media (min-width: 1200px) {
+    .hero h1 { font-size: 66px; }
+    .hero h2 { font-size: 28px; }
+    .hero .btn { font-size: 20px; padding: 14px 32px; }
+}

@@ -1,0 +1,162 @@
+/* ==========================================
+   NAVEGACIÓN / MENÚ MÓVIL
+   ========================================== */
+#menu-toggle.active + #nav-links {
+    display: flex;
+}
+
+/* ==========================================
+   SECCIÓN DE EQUIPOS
+   ========================================== */
+.team-section {
+    background-color: #2c2c2c;
+    padding: 20px;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: baseline; /* Hace que todos los elementos tengan la misma altura */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.team-section h2 {
+    color: #e63946;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+/* Ajuste del logo principal del equipo */
+.team-logo {
+    max-height: 300px;
+    max-width: 100%;
+    height: auto; 
+    object-fit: contain; 
+    margin-bottom: 15px; 
+}
+
+/* Contenedor de los detalles */
+.team-details {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+    padding-right: 10%;
+}
+
+.team-details img {
+    width: 70%;
+}
+
+/* Imágenes asociadas al equipo */
+.team-image {
+    height: auto; 
+    object-fit: cover; 
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.team-image img {
+    width: 40%;
+}
+
+/* ==========================================
+   BANNER DE CIERRE
+   ========================================== */
+.banner-cierre {
+    background-color: #10ccbf;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(255, 255, 255);
+    text-align: center;
+}
+
+/* ==========================================
+   FOOTER & COLABORADORES
+   ========================================== */
+footer {
+    background-color: #2c2c2c;
+    padding: 20px;
+    text-align: center;
+}
+
+.colaboradores {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; 
+    flex-wrap: wrap; 
+}
+
+.logo {
+    max-height: 200px;
+    width: auto;
+    transition: transform 0.3s ease; 
+}
+
+.logo:hover {
+    transform: scale(1.1); 
+}
+
+/* ==========================================
+   MEDIA QUERIES (RESPONSIVE)
+   ========================================== */
+
+/* Escritorio (min-width: 768px) */
+@media (min-width: 768px) {
+    .menu-toggle {
+        display: none;
+    }
+
+    .nav-links {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .nav-links li {
+        margin: 0 15px;
+    }
+
+    .team-details img {
+        width: 90%;
+    }
+}
+
+/* Tablets y pantallas intermedias (max-width: 1100px) */
+@media (max-width: 1100px) {
+    .team-details {
+        flex-direction: column; 
+        align-items: center; 
+    }
+
+    .team-details img {
+        width: 90%;
+    }
+
+    .team-logo {
+        margin-bottom: 15px; 
+        width: 80%; 
+    }
+
+    .team-section h2 {
+        font-size: 15px; 
+    }
+
+    .team-image {
+        max-width: 100%; 
+        height: auto; 
+    }
+
+    .colaboradores {
+        flex-direction: column; 
+    }
+
+    .logo {
+        max-width: 100px; 
+    }
+}
+
+/* Móviles (max-width: 768px) */
+@media (max-width: 768px) {
+    /* Aquí puedes añadir ajustes para el banner-cierre u otros elementos en móvil si es necesario */
+}

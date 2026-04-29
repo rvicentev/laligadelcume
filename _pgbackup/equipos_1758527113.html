@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equipos - La Liga del CUME</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="styles/equipos.css">
+    <style>
+        /* Contenedor principal */
+        .equipos-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            padding: 40px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        /* Tarjeta del equipo */
+        .equipo-card {
+            background: #f5f5f5;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .equipo-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .equipo-logo img {
+            max-width: 100px;
+            height: auto;
+            margin-bottom: 12px;
+        }
+
+        .equipo-nombre {
+            font-family: 'Righteous', sans-serif;
+            font-size: 18px;
+            color: #2c2c2c;
+            margin-bottom: 10px;
+        }
+
+        /* Contenido expandido */
+        .equipo-detalle {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        .equipo-card.expanded .equipo-detalle {
+            max-height: 500px;
+            /* suficiente para mostrar detalles */
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- NAVBAR (el mismo del index) -->
+    <nav class="navbar">
+        <div class="logoLiga">
+            <a href="index.html">
+                <img src="images/logoLigaRojo.png" alt="CECUME logo">
+            </a>
+        </div>
+        <div class="menu-toggle" id="menu-toggle">&#9776;</div>
+        <!--<ul class="nav-links" id="nav-links" style="border-right: 40px solid;">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="equipos.html">Equipos</a></li>
+            <li><a href="#estadisticas">Estadísticas</a></li>
+            <li><a href="#playoffs">Playoffs</a></li>
+            <li><a href="https://docs.google.com/document/d/17nN21wvRkc8qSKg0Tc7C8Ptf9VyXpkBZ1A3CakU-4Xk/edit?usp=sharing"
+                    target="_blank">Bases</a></li>
+        </ul>-->
+    </nav>
+
+    <!-- BARRA DE TÍTULO -->
+    <div class="equipos-header">
+        <h2>EQUIPOS</h2>
+    </div>
+
+
+    <!-- CONTENIDO EQUIPOS -->
+    <main>
+        <section class="equipos-container">
+            <!-- Ejemplo de equipo -->
+            <div class="equipo-card">
+                <div class="equipo-logo">
+                    <img src="images/Escudos/I.E. SALA.png" alt="Escudo equipo">
+                </div>
+                <div class="equipo-nombre">I.E. SALA</div>
+                <div class="equipo-detalle">
+                    <p><strong>Estadísticas:</strong> 10 Victorias, 2 Empates, 3 Derrotas.</p>
+                    <p><strong>Máximo goleador:</strong> Juan Pérez (12 goles).</p>
+                    <p><strong>Galería:</strong> Aquí podrían ir fotos del equipo.</p>
+                </div>
+            </div>
+
+            <!-- Más equipos se generarán aquí desde la hoja de cálculo -->
+        </section>
+    </main>
+
+    <!-- FOOTER (el mismo del index) -->
+    <footer>
+        <div class="footer-logo">
+            <img src="images/logoLigaNuevo.png" alt="Logo Liga">
+        </div>
+        <hr class="footer-separator">
+        <h2 class="footer-title">COLABORADORES</h2>
+        <div class="footer-logos">
+            <div class="logo-container logo-cecume">
+                <a href="https://www.cecume.org" target="_blank">
+                    <img src="images/cecume.png" alt="CECUME logo">
+                </a>
+            </div>
+            <div class="logo-container logo-merida">
+                <a href="https://merida.es" target="_blank">
+                    <img src="images/aytoMerida.png" alt="Ayto Mérida logo">
+                </a>
+            </div>
+            <div class="logo-container logo-safyde">
+                <a href="https://safyde.unex.es" target="_blank">
+                    <img src="images/safyde.png" alt="Safyde logo">
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Script para expandir/colapsar cada tarjeta
+        document.querySelectorAll('.equipo-card').forEach(card => {
+            card.addEventListener('click', () => {
+                card.classList.toggle('expanded');
+            });
+        });
+    </script>
+</body>
+
+</html>

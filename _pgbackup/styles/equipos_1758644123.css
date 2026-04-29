@@ -1,0 +1,246 @@
+/* Header de la sección */
+.equipos-header {
+  background-color: #ef3340;
+  height: 200px;
+  width: 100%;
+  display: flex;
+  align-items: center;       /* centra verticalmente */
+  padding-left: 15px;        /* separa el texto del borde */
+}
+
+.equipos-header h2 {
+  color: white;
+  font-family: 'Righteous', sans-serif;
+  font-size: 28px;
+  margin: 0;
+  line-height: 1;
+  /* Centramos verticalmente un poco más hacia abajo si se quiere */
+  transform: translateY(40px);
+}
+
+/* Contenedor de todos los equipos */
+.equipos-container {
+  display: flex;
+  flex-direction: column; /* apila verticalmente */
+  gap: 10px;              /* separación entre equipos */
+  width: 100%;            /* ocupa todo el ancho */
+}
+
+/* Cada tarjeta ocupa todo el ancho del contenedor */
+.equipo-card {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Cabecera: logo + nombre */
+.equipo-header {
+  display: flex;
+  align-items: center;       /* centrado vertical */
+  gap: 12px;                 /* separación entre logo y nombre */
+  width: 100%;
+  justify-content: flex-start; /* pegado a la izquierda */
+}
+
+/* Logo del equipo */
+.equipo-logo img {
+  max-width: 60px;
+  height: auto;
+  display: block;
+}
+
+/* Nombre del equipo */
+.equipo-nombre {
+  font-family: 'Righteous', sans-serif;
+  font-size: 18px;
+  color: #2c2c2c;
+  margin: 0;
+}
+
+/* Línea del equipo */
+.equipo-separador-cum {
+  height: 6px;
+  width: 100%;               /* ahora ocupa todo el ancho del card */
+  border-radius: 3px;
+  background-color: #e7ad1b;
+  margin: 12px 0;
+}
+
+.equipo-separador-rayo {
+  height: 6px;
+  width: 100%;               /* ahora ocupa todo el ancho del card */
+  border-radius: 3px;
+  background-color: #024a00;
+  margin: 12px 0;
+}
+
+/* Stats del equipo en 3 columnas */
+.equipo-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  text-align: center;
+  margin-top: 12px;
+}
+
+.stat-title {
+  display: block;
+  font-size: 12px;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+
+.stat-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2c2c2c;
+}
+
+/* Jugadores */
+.equipo-jugadores h3 {
+  text-align: left;
+  margin-bottom: 12px;
+  font-family: 'Righteous', sans-serif;
+  font-size: 16px;
+  color: #2c2c2c;
+}
+
+.jugadores-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 por fila */
+  gap: 16px;
+}
+
+.jugador-card {
+  display: flex;
+  flex-direction: column;  /* imagen arriba, nombre debajo */
+  align-items: center;     /* centrado horizontal */
+  text-align: center;
+}
+
+.jugador-card img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-bottom: 6px;      /* espacio entre imagen y nombre */
+  object-fit: cover;       /* mantiene proporción y recorta si es necesario */
+}
+
+.jugador-nombre {
+  font-size: 12px;
+  font-family: 'Righteous', sans-serif;
+  color:#2c2c2c;
+  display: block;
+  text-align: center;      /* siempre centrado debajo de la imagen */
+}
+
+.ultimo-resultado {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.ultimo-resultado h3 {
+  font-size: 14px;
+  font-family: 'Righteous', sans-serif;
+  color: #2c2c2c;
+  margin-bottom: 12px;
+}
+
+/* Contenedor del partido: ocupa todo el ancho del card */
+.resultado-partido {
+  display: flex;
+  justify-content: space-between; /* escudo local a la izquierda, visitante a la derecha, marcador centrado */
+  align-items: center;
+  width: 100%; /* importante para que ocupe todo el ancho del desplegable */
+  max-width: 100%; 
+}
+
+/* Equipo local / visitante */
+.equipo-local, .equipo-visitante {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 25%; /* ocupan 25% cada uno */
+}
+
+/* Marcador central */
+.resultado-central {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%; /* ocupa la mitad central */
+}
+
+.resultado-central .marcador {
+  font-size: 20px;
+  font-weight: bold;
+  color: #ef3340;
+}
+
+/* Escudos */
+.equipo-local img, .equipo-visitante img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  margin-bottom: 6px;
+}
+
+/* Nombre del equipo debajo del escudo */
+.nombre-equipo {
+  font-size: 12px;
+  font-family: 'Righteous', sans-serif;
+  text-align: center;
+}
+
+.equipo-foto {
+  margin-top: 20px;
+  width: 100%;
+  text-align: center;
+}
+
+.equipo-foto img {
+  width: 100%;        /* ocupa todo el ancho del desplegable */
+  height: auto;       /* mantiene proporción */
+  border-radius: 12px; /* opcional: redondea esquinas para coincidir con la tarjeta */
+  object-fit: cover;  /* ajusta bien la imagen */
+}
+
+.equipo-foto {
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+}
+
+.equipo-foto img {
+    width: 100%;        /* ocupa todo el ancho de la tarjeta */
+    height: auto;       /* mantiene proporción */
+    border-radius: 12px; /* opcional: esquinas redondeadas */
+    object-fit: cover;  /* ajusta bien la imagen */
+}
+
+.equipo-detalle {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.6s ease;
+}
+
+/* Cuando se expande, permite que crezca automáticamente */
+.equipo-card.expanded .equipo-detalle {
+    max-height: 1000vh; /* virtualmente infinito para contenido grande */
+}
+
+/* Foto del equipo dentro del desplegable */
+.equipo-foto {
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+}
+
+.equipo-foto img {
+    width: 100%;        /* ocupa todo el ancho del desplegable */
+    height: auto;       /* mantiene proporción */
+    border-radius: 12px; /* opcional: esquinas redondeadas */
+    object-fit: cover;  /* ajusta bien la imagen */
+}
+

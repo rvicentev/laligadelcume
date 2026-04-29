@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Intranet Árbitros</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="styles/actas.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Righteous">
+</head>
+
+<body>
+
+    <div id="login-screen">
+        <div class="login-box">
+            <img src="images/logo_placeholder.png" alt="Logo Liga" style="height: 60px; margin-bottom: 20px;">
+            <h2 style="color:var(--text-main); font-size:1.5rem;">PORTAL ÁRBITROS</h2>
+            <input type="password" id="login-password" class="form-control" placeholder="Contraseña"
+                autocomplete="current-password">
+            <button class="btn-primary" id="login-btn" onclick="signIn()">Acceder</button>
+            <p id="error-msg" style="color:var(--danger-color); display:none; margin-top:15px; font-weight:bold;"></p>
+        </div>
+    </div>
+
+    <nav class="navbar" style="display:none; background:var(--surface-color); box-shadow:var(--shadow-sm);" id="navbar">
+        <div class="logoLiga">
+            <a href="index.html"> <img src="images/logo_placeholder.png" alt="Logo" style="height:40px;"> </a>
+        </div>
+    </nav>
+
+    <div class="container" id="main-container" style="display:none;">
+
+        <div id="recovery-banner">
+            <p>⚠️ <strong>ATENCIÓN:</strong> Tienes un partido en curso guardado localmente.</p>
+            <div class="grid-2">
+                <button class="btn-success" onclick="Dashboard.loadState()"
+                    style="background:#fff; color:#d35400; border:none;">Continuar Partido</button>
+                <button class="btn-danger" onclick="Dashboard.clearState()"
+                    style="background:rgba(255,255,255,0.2); border:none;">Descartar</button>
+            </div>
+        </div>
+
+        <div id="view-setup">
+            <h1>Configurar Encuentro</h1>
+
+            <div class="form-group">
+                <label>Jornada</label>
+                <select id="selJornada">
+                <!-- poner aqui todas las jornadas para los partidos -->
+                    <option value="1">SEMIFINAL 1</option>
+                    <option value="2">SEMIFINAL 2</option>
+                    <option value="3">FINAL</option>
+                    <option value="4">JORNADA REGULAR</option>
+                </select>
+            </div>
+
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Equipo Local</label>
+                    <select id="selLocal">
+                        <option value="">Selecciona uno...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Equipo Visitante</label>
+                    <select id="selVisitante">
+                        <option value="">Selecciona uno...</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Árbitro Principal</label>
+                    <input type="text" id="inpArbitro" placeholder="Nombre completo">
+                </div>
+                <div class="form-group">
+                    <label>Pista / Lugar</label>
+                    <input type="text" id="inpLugar" placeholder="Ej. Pabellón Central">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Hora de Inicio</label>
+                <input type="time" id="inpHora">
+            </div>
+
+            <button class="btn-primary" onclick="Dashboard.initPartido()"
+                style="margin-top: 30px; padding: 20px; font-size: 1.2rem;">INICIAR PARTIDO</button>
+                
+            <div id="setup-loading"
+                style="display:none; text-align:center; margin-top:20px; font-weight:bold; color:var(--primary-color);">
+                Sincronizando plantillas con el servidor...
+            </div>
+        </div>
+
+        <div id="view-dashboard">
+
+            <div class="scoreboard">
+                <div class="team-score">
+                    <img id="sb-img-local" src="" alt="Local">
+                    <span class="team-name" id="sb-name-local">LOCAL</span>
+                </div>
+                <div class="score-center">
+                    <span class="score-number" id="sb-score-local">0</span>
+                    <span class="vs">-</span>
+                    <span class="score-number" id="sb-score-visit">0</span>
+                </div>
+                <div class="team-score">
+                    <img id="sb-img-visit" src="" alt="Visitante">
+                    <span class="team-name" id="sb-name-visit">VISITANTE</span>
+                </div>
+            </div>
+
+            <div class="cronometro-wrapper" id="cronometro-wrapper">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 14px;">
+                    <div class="match-phase-badge">
+                        <div class="phase-dot" id="phase-dot"></div>
+                        <span id="phase-label">Sin iniciar</span>
+                    </div>
+                    <div class="parte-info" style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
+                        <div class="parte-indicator">
+                            <div class="parte-dot" id="dot-parte1" title="1ª Parte"></div>
+                            <div class="parte-dot" id="dot-parte2" title="2ª Parte"></div>
+                        </div>
+                        <span class="parte-label">Partes</span>
+                    </div>
+                </div>
+
+                <div class="cronometro-display">
+                    <div style="flex:1;">
+                        <div class="tiempo-display" id="tiempo-display">25:00</div>
+                        <div style="font-size:12px; color:#7f8c8d; margin-top:4px; text-transform:uppercase; letter-spacing:0.5px;"
+                            id="crono-subtitulo">Duración: 25 min por parte</div>
+                    </div>
+                    <div class="partes-info">
+                        <div style="font-size: 2rem; font-weight:900; color: rgba(255,255,255,0.2);"
+                            id="parte-numero-display">—</div>
+                        <div style="font-size: 11px; color: #7f8c8d; text-transform:uppercase; letter-spacing:0.5px;">
+                            Parte</div>
+                    </div>
+                </div>
+
+                <div class="cronometro-btns" id="crono-btns">
+                    </div>
+
+                <div class="descanso-banner" id="descanso-banner">
+                    <div class="descanso-icon">☕</div>
+                    <div class="descanso-text">
+                        <strong>Descanso</strong>
+                        <span id="descanso-tiempo">5:00 restantes</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <button class="tab-btn active" onclick="Dashboard.switchTab('local')" id="tab-local">Local</button>
+                <button class="tab-btn" onclick="Dashboard.switchTab('visitante')" id="tab-visitante">Visitante</button>
+                <button class="tab-btn" onclick="Dashboard.switchTab('resumen')" id="tab-resumen"
+                    style="font-weight:bold;">Cerrar Acta</button>
+            </div>
+
+            <div id="tab-content-local" class="players-grid"></div>
+            <div id="tab-content-visitante" class="players-grid" style="display:none;"></div>
+
+            <div id="tab-content-resumen" style="display:none; text-align: center; padding: 40px 20px;">
+                <h2 style="color:var(--text-main); margin-bottom: 15px; font-size: 2rem;">Resumen del Encuentro</h2>
+                <p style="color:var(--text-muted); margin-bottom: 30px; font-family: sans-serif;">
+                    Revisa los datos antes de subirlos. Una vez confirmada, el acta será inmutable en el servidor.
+                </p>
+
+                <div class="resumen-marcador-box">
+                    <h3 style="margin-top:0; color:var(--text-muted); font-size:14px; text-transform:uppercase;">
+                        Resultado Definitivo</h3>
+                    <div style="font-size:2.5rem; font-weight:900; color:var(--primary-color); letter-spacing: 2px;"
+                        id="resumen-marcador">0 - 0</div>
+                </div>
+
+                <div class="grid-2">
+                    <button class="btn-outline" onclick="Dashboard.switchTab('local')">Volver atrás</button>
+                    <button class="btn-success" onclick="Dashboard.cerrarActa()" id="btnCerrarActa">PUBLICAR
+                        ACTA</button>
+                </div>
+                <p id="upload-status" style="margin-top:20px; font-weight:bold; color: var(--primary-color);"></p>
+            </div>
+
+        </div>
+
+        <div id="view-loading" style="text-align: center; padding: 60px 20px;">
+            <div style="font-size: 4rem; animation: spin 2s linear infinite; display:inline-block; margin-bottom: 20px;">⚽</div>
+            <h2 style="color:var(--text-main); margin-top:0; font-size:2rem;">Procesando acta...</h2>
+            <p style="color:var(--text-muted); font-family:sans-serif; font-size:1.1rem;">Sincronizando datos y contactando con el servidor...</p>
+            <p style="font-weight:bold; color:var(--primary-color); margin-top:20px;">No cierres ni recargues esta ventana.</p>
+            <style>
+                @keyframes spin { 100% { transform: rotate(360deg); } }
+            </style>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bcryptjs@2.4.3/dist/bcrypt.min.js"></script>
+
+    <script>
+        // Configuración de Supabase
+        const supabaseUrl = 'TU_SUPABASE_URL_AQUI';
+        const supabaseKey = 'TU_SUPABASE_ANON_KEY_AQUI';
+        const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+        
+        // Webhook para volcado de datos en Google Sheets
+        const GOOGLE_SCRIPT_URL = "TU_GOOGLE_SCRIPT_URL_AQUI";
+
+        // Mapeo de alias cortos para IDs de partidos
+        const ALIAS_EQUIPOS = { 
+            "EQUIPO ALPHA": "alpha", 
+            "EQUIPO BRAVO": "bravo", 
+            "EQUIPO CHARLIE": "charlie", 
+            "EQUIPO DELTA": "delta" 
+        };
+        
+        function obtenerAlias(n) { 
+            return ALIAS_EQUIPOS[n] || n.toLowerCase().replace(/\s+/g, '').substring(0, 10); 
+        }
+
+        // Diccionario de avatares. En producción, esto debería venir de una base de datos o CDN.
+        const FOTOS_JUGADORES = {
+            "EQUIPO ALPHA": {
+                "jugador uno": "images/jugadores/alpha/j1.png",
+                "jugador dos": "images/jugadores/alpha/j2.png",
+                "jugador tres": "images/jugadores/alpha/j3.jpg"
+            },
+            "EQUIPO BRAVO": {
+                "jugador uno": "images/jugadores/bravo/j1.jpg",
+                "jugador dos": "images/jugadores/bravo/j2.jpg",
+                "jugador tres": "images/jugadores/bravo/j3.jpg"
+            }
+            // Añadir el resto de equipos según sea necesario...
+        };
+
+        // Normalización de claves para evitar fallos por tildes o mayúsculas en el Excel
+        const NORMALIZED_FOTOS_TEAMS = {};
+        for (const teamName in FOTOS_JUGADORES) {
+            const normTeam = teamName.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+            NORMALIZED_FOTOS_TEAMS[normTeam] = FOTOS_JUGADORES[teamName];
+        }
+
+        // Lógica de autenticación
+        async function signIn() {
+            const password = document.getElementById("login-password").value;
+            const btn = document.getElementById("login-btn");
+            const errorMsg = document.getElementById("error-msg");
+
+            if (!password) { 
+                errorMsg.textContent = "Por favor, introduce la contraseña."; 
+                errorMsg.style.display = "block"; 
+                return; 
+            }
+
+            btn.textContent = "Comprobando...";
+            btn.disabled = true;
+            errorMsg.style.display = "none";
+
+            try {
+                // Recupera el hash de la contraseña desde la tabla de configuración
+                const { data, error } = await supabaseClient
+                    .from('config')
+                    .select('value')
+                    .eq('key', 'portal_password_hash')
+                    .single();
+
+                if (error || !data) throw new Error("Error obteniendo configuración del servidor.");
+
+                const match = await dcodeIO.bcrypt.compare(password, data.value);
+
+                if (match) {
+                    showApp();
+                } else {
+                    errorMsg.textContent = "Credenciales incorrectas.";
+                    errorMsg.style.display = "block";
+                    btn.textContent = "Acceder";
+                    btn.disabled = false;
+                }
+            } catch (e) {
+                errorMsg.textContent = "Error de red. Verifica tu conexión.";
+                errorMsg.style.display = "block";
+                btn.textContent = "Acceder";
+                btn.disabled = false;
+            }
+        }
+
+        function showApp() {
+            document.getElementById("login-screen").style.display = "none";
+            document.getElementById("navbar").style.display = "flex";
+            document.getElementById("main-container").style.display = "block";
+            AppInit();
+        }
+
+        // Soporte para login con tecla Enter
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById("login-password").addEventListener("keydown", e => { 
+                if (e.key === "Enter") signIn(); 
+            });
+            // Inicializa la vista en modo login
+            document.getElementById("login-screen").style.display = "flex";
+        });
+
+        // Algoritmo simple de coincidencia de strings para enlazar los nombres del Excel con el JSON de fotos
+        function buscarFotoInteligente(nombreJugadorExcel, fotosDelEquipo) {
+            if (!nombreJugadorExcel || !fotosDelEquipo) return '';
+            const nameNorm = nombreJugadorExcel.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+            
+            // Match exacto
+            if (fotosDelEquipo[nameNorm]) return fotosDelEquipo[nameNorm];
+            
+            // Match parcial basado en puntuación de palabras
+            let bestMatchUrl = '';
+            let maxScore = 0;
+            const excelWords = nameNorm.split(/[\s,]+/).filter(w => w.length > 2);
+            
+            for (const [keyName, url] of Object.entries(fotosDelEquipo)) {
+                const dictWords = keyName.split(/\s+/);
+                let score = 0;
+                for (const word of excelWords) { 
+                    if (dictWords.includes(word)) score += 1; 
+                }
+                // Ponderación extra si coinciden en el primer nombre/apellido
+                if (excelWords[0] === dictWords[0]) score += 1.5;
+                if (score === 0 && (keyName.includes(nameNorm) || nameNorm.includes(keyName))) score += 1;
+                
+                if (score > maxScore) { 
+                    maxScore = score; 
+                    bestMatchUrl = url; 
+                }
+            }
+            return maxScore >= 1 ? bestMatchUrl : '';
+        }
+
+        // ==========================================================================
+        // MÓDULO: Gestión del Cronómetro y Tiempos
+        // ==========================================================================
+        const Cronometro = {
+            DURACION_PARTE: 20 * 60,
+            DURACION_DESCANSO: 10 * 60,
+
+            estado: 'idle',
+            segundosRestantes: 20 * 60,
+            intervalId: null,
+
+            // Referencias temporales absolutas para evitar problemas de throttling en navegadores móviles
+            _startTimestamp: null,
+            _secondsAtStart: null,
+            _pausaTimestamp: null,
+
+            // Metadatos de auditoría para detectar anomalías o manipulaciones en el tiempo de juego
+            audit: {
+                parte1_pausas: 0,
+                parte1_seg_parado: 0,
+                parte1_fin_anticipado: false,
+                parte1_seg_restantes_al_fin: 0,
+                parte2_pausas: 0,
+                parte2_seg_parado: 0,
+                parte2_fin_anticipado: false,
+                parte2_seg_restantes_al_fin: 0,
+            },
+
+            init() {
+                this.estado = 'idle';
+                this.segundosRestantes = this.DURACION_PARTE;
+                this._pausaTimestamp = null;
+                this._startTimestamp = null;
+                this._secondsAtStart = null;
+                
+                this.audit = {
+                    parte1_pausas: 0, parte1_seg_parado: 0,
+                    parte1_fin_anticipado: false, parte1_seg_restantes_al_fin: 0,
+                    parte2_pausas: 0, parte2_seg_parado: 0,
+                    parte2_fin_anticipado: false, parte2_seg_restantes_al_fin: 0,
+                };
+
+                // Forzamos el recálculo cuando la pestaña vuelve a tener el foco
+                if (!this._visibilityBound) {
+                    document.addEventListener('visibilitychange', () => {
+                        if (document.visibilityState === 'visible') {
+                            this._recalcularTiempo();
+                        }
+                    });
+                    this._visibilityBound = true;
+                }
+                this.renderUI();
+            },
+
+            // Calcula el tiempo real transcurrido basado en Date.now() en lugar de confiar en setInterval
+            _recalcularTiempo() {
+                const estadosActivos = ['parte1_running', 'descanso_running', 'parte2_running'];
+                if (!estadosActivos.includes(this.estado) || this._startTimestamp === null) return;
+
+                const elapsed = Math.floor((Date.now() - this._startTimestamp) / 1000);
+                const restantes = this._secondsAtStart - elapsed;
+                this.segundosRestantes = Math.max(0, restantes);
+                this.renderDisplay();
+
+                if (this.segundosRestantes === 0) {
+                    this.autoFin();
+                }
+            },
+
+            formatTiempo(segundos) {
+                const m = Math.floor(segundos / 60);
+                const s = segundos % 60;
+                return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+            },
+
+            startTick() {
+                if (this.intervalId) clearInterval(this.intervalId);
+
+                this._startTimestamp = Date.now();
+                this._secondsAtStart = this.segundosRestantes;
+
+                // Loop a 500ms para asegurar actualización visual fluida
+                this.intervalId = setInterval(() => {
+                    this._recalcularTiempo();
+                }, 500); 
+
+                document.getElementById('cronometro-wrapper').classList.add('running');
+            },
+
+            stopTick() {
+                if (this.intervalId) clearInterval(this.intervalId);
+                this.intervalId = null;
+                this._startTimestamp = null;
+                this._secondsAtStart = null;
+                document.getElementById('cronometro-wrapper').classList.remove('running');
+            },
+
+            autoFin() {
+                this.stopTick();
+                if (this.estado === 'parte1_running') {
+                    this.estado = 'parte1_ended';
+                    this.playBeep();
+                    alert('⏱️ ¡FIN DE LA 1ª PARTE!');
+                } else if (this.estado === 'descanso_running') {
+                    this.estado = 'parte1_ended'; 
+                    this.segundosRestantes = 0;
+                    this.playBeep();
+                    alert('☕ ¡DESCANSO TERMINADO! Puedes iniciar la 2ª parte.');
+                } else if (this.estado === 'parte2_running') {
+                    this.estado = 'fin';
+                    this.playBeep();
+                    alert('🏁 ¡FIN DEL PARTIDO!');
+                }
+                this.renderUI();
+            },
+
+            playBeep() {
+                // Feedback háptico (si el dispositivo lo soporta) y sonoro
+                if (navigator.vibrate) navigator.vibrate([300, 100, 300, 100, 300]);
+                try {
+                    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                    [0, 0.3, 0.6].forEach(delay => {
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.connect(gain);
+                        gain.connect(ctx.destination);
+                        osc.frequency.value = 880;
+                        gain.gain.setValueAtTime(0.3, ctx.currentTime + delay);
+                        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + delay + 0.25);
+                        osc.start(ctx.currentTime + delay);
+                        osc.stop(ctx.currentTime + delay + 0.25);
+                    });
+                } catch (e) { console.warn("AudioContext no soportado en este entorno"); }
+            },
+
+            // --- Controladores de Estado ---
+
+            iniciarParte1() {
+                this.estado = 'parte1_running';
+                this.segundosRestantes = this.DURACION_PARTE;
+                this.startTick();
+                this.renderUI();
+            },
+
+            pausar() {
+                if (this.estado === 'parte1_running') {
+                    this.estado = 'parte1_paused';
+                    this.audit.parte1_pausas++;
+                    this._pausaTimestamp = Date.now();
+                } else if (this.estado === 'descanso_running') {
+                    this.estado = 'descanso_paused';
+                } else if (this.estado === 'parte2_running') {
+                    this.estado = 'parte2_paused';
+                    this.audit.parte2_pausas++;
+                    this._pausaTimestamp = Date.now();
+                }
+                this.stopTick();
+                this.renderUI();
+            },
+
+            reanudar() {
+                // Cálculo del tiempo en pausa para la auditoría
+                if (this._pausaTimestamp !== null) {
+                    const segParado = Math.round((Date.now() - this._pausaTimestamp) / 1000);
+                    if (this.estado === 'parte1_paused') {
+                        this.audit.parte1_seg_parado += segParado;
+                    } else if (this.estado === 'parte2_paused') {
+                        this.audit.parte2_seg_parado += segParado;
+                    }
+                    this._pausaTimestamp = null;
+                }
+                
+                if (this.estado === 'parte1_paused') this.estado = 'parte1_running';
+                else if (this.estado === 'descanso_paused') this.estado = 'descanso_running';
+                else if (this.estado === 'parte2_paused') this.estado = 'parte2_running';
+                
+                this.startTick();
+                this.renderUI();
+            },
+
+            finalizarParte1() {
+                if (!confirm('¿Finalizar la 1ª parte?')) return;
+                
+                if (this.segundosRestantes > 0) {
+                    this.audit.parte1_fin_anticipado = true;
+                    this.audit.parte1_seg_restantes_al_fin = this.segundosRestantes;
+                }
+                if (this._pausaTimestamp !== null) {
+                    this.audit.parte1_seg_parado += Math.round((Date.now() - this._pausaTimestamp) / 1000);
+                    this._pausaTimestamp = null;
+                }
+                
+                this.stopTick();
+                this.estado = 'parte1_ended';
+                this.segundosRestantes = 0;
+                this.renderUI();
+            },
+
+            iniciarDescanso() {
+                this.estado = 'descanso_running';
+                this.segundosRestantes = this.DURACION_DESCANSO;
+                this.startTick();
+                this.renderUI();
+            },
+
+            saltarDescanso() {
+                if (!confirm('¿Saltar el descanso e ir directo a la 2ª parte?')) return;
+                this.stopTick();
+                this.estado = 'parte1_ended';
+                this.segundosRestantes = 0;
+                this.renderUI();
+            },
+
+            iniciarParte2() {
+                this.estado = 'parte2_running';
+                this.segundosRestantes = this.DURACION_PARTE;
+                this.startTick();
+                this.renderUI();
+            },
+
+            finalizarParte2() {
+                if (!confirm('¿Finalizar la 2ª parte y terminar el partido?')) return;
+                
+                if (this.segundosRestantes > 0) {
+                    this.audit.parte2_fin_anticipado = true;
+                    this.audit.parte2_seg_restantes_al_fin = this.segundosRestantes;
+                }
+                if (this._pausaTimestamp !== null) {
+                    this.audit.parte2_seg_parado += Math.round((Date.now() - this._pausaTimestamp) / 1000);
+                    this._pausaTimestamp = null;
+                }
+                
+                this.stopTick();
+                this.estado = 'fin';
+                this.segundosRestantes = 0;
+                this.renderUI();
+            },
+
+            // --- Renderizado del Cronómetro ---
+
+            renderDisplay() {
+                const display = document.getElementById('tiempo-display');
+                const tiempoStr = this.formatTiempo(this.segundosRestantes);
+                display.textContent = tiempoStr;
+
+                // Alertas visuales según el tiempo restante
+                display.classList.remove('warning', 'danger');
+                if (this.segundosRestantes <= 60 && this.segundosRestantes > 30) {
+                    display.classList.add('warning');
+                } else if (this.segundosRestantes <= 30 && this.segundosRestantes > 0) {
+                    display.classList.add('danger');
+                }
+
+                if (this.estado === 'descanso_running' || this.estado === 'descanso_paused') {
+                    document.getElementById('descanso-tiempo').textContent = `${tiempoStr} restantes`;
+                }
+            },
+
+            renderUI() {
+                const st = this.estado;
+                const phaseDot = document.getElementById('phase-dot');
+                const phaseLabel = document.getElementById('phase-label');
+                const parteNumDisplay = document.getElementById('parte-numero-display');
+                const subtitulo = document.getElementById('crono-subtitulo');
+                const dot1 = document.getElementById('dot-parte1');
+                const dot2 = document.getElementById('dot-parte2');
+
+                phaseDot.className = 'phase-dot';
+                document.getElementById('descanso-banner').classList.remove('visible');
+                dot1.className = 'parte-dot';
+                dot2.className = 'parte-dot';
+
+                if (st === 'idle') {
+                    phaseLabel.textContent = 'Sin iniciar';
+                    parteNumDisplay.textContent = '—';
+                    subtitulo.textContent = 'Duración: 25 min por parte';
+                    document.getElementById('tiempo-display').textContent = '25:00';
+
+                } else if (st === 'parte1_running' || st === 'parte1_paused') {
+                    phaseLabel.textContent = st === 'parte1_running' ? '1ª Parte — En juego' : '1ª Parte — Pausado';
+                    phaseDot.className = st === 'parte1_running' ? 'phase-dot active' : 'phase-dot';
+                    parteNumDisplay.textContent = '1';
+                    subtitulo.textContent = 'Primera parte';
+                    dot1.className = 'parte-dot en-curso';
+
+                } else if (st === 'parte1_ended') {
+                    phaseLabel.textContent = 'Fin 1ª Parte — Descanso';
+                    phaseDot.className = 'phase-dot descanso';
+                    parteNumDisplay.textContent = '½';
+                    subtitulo.textContent = 'Prepara la 2ª parte';
+                    dot1.className = 'parte-dot jugada';
+                    document.getElementById('tiempo-display').textContent = '00:00';
+
+                } else if (st === 'descanso_running' || st === 'descanso_paused') {
+                    phaseLabel.textContent = st === 'descanso_running' ? 'Descanso — Contando' : 'Descanso — Pausado';
+                    phaseDot.className = 'phase-dot descanso';
+                    parteNumDisplay.textContent = '½';
+                    subtitulo.textContent = 'Descanso de 5 minutos';
+                    dot1.className = 'parte-dot jugada';
+                    document.getElementById('descanso-banner').classList.add('visible');
+
+                } else if (st === 'parte2_running' || st === 'parte2_paused') {
+                    phaseLabel.textContent = st === 'parte2_running' ? '2ª Parte — En juego' : '2ª Parte — Pausado';
+                    phaseDot.className = st === 'parte2_running' ? 'phase-dot active' : 'phase-dot';
+                    parteNumDisplay.textContent = '2';
+                    subtitulo.textContent = 'Segunda parte';
+                    dot1.className = 'parte-dot jugada';
+                    dot2.className = 'parte-dot en-curso';
+
+                } else if (st === 'fin') {
+                    phaseLabel.textContent = '🏁 Partido Finalizado';
+                    phaseDot.className = 'phase-dot fin';
+                    parteNumDisplay.textContent = '✓';
+                    subtitulo.textContent = 'El partido ha terminado';
+                    dot1.className = 'parte-dot jugada';
+                    dot2.className = 'parte-dot jugada';
+                    document.getElementById('tiempo-display').textContent = '00:00';
+                    document.getElementById('tab-resumen').classList.add('pulse-alert');
+                }
+
+                this.renderDisplay();
+                this.renderBotones();
+            },
+
+            renderBotones() {
+                const container = document.getElementById('crono-btns');
+                const st = this.estado;
+                let html = '';
+
+                if (st === 'idle') {
+                    html = `<button class="btn-crono btn-iniciar" onclick="Cronometro.iniciarParte1()">▶ Iniciar 1ª Parte</button>`;
+                } else if (st === 'parte1_running') {
+                    html = `
+                        <button class="btn-crono btn-pausar" onclick="Cronometro.pausar()">⏸ Pausar</button>
+                        <button class="btn-crono btn-fin-parte" onclick="Cronometro.finalizarParte1()">⏹ Fin 1ª Parte</button>
+                    `;
+                } else if (st === 'parte1_paused') {
+                    html = `
+                        <button class="btn-crono btn-reanudar" onclick="Cronometro.reanudar()">▶ Reanudar</button>
+                        <button class="btn-crono btn-fin-parte" onclick="Cronometro.finalizarParte1()">⏹ Fin 1ª Parte</button>
+                    `;
+                } else if (st === 'parte1_ended') {
+                    html = `
+                        <button class="btn-crono btn-iniciar-descanso" onclick="Cronometro.iniciarDescanso()">☕ Iniciar Descanso</button>
+                        <button class="btn-crono btn-iniciar" onclick="Cronometro.iniciarParte2()">▶ Iniciar 2ª Parte</button>
+                    `;
+                } else if (st === 'descanso_running') {
+                    html = `
+                        <button class="btn-crono btn-pausar" onclick="Cronometro.pausar()">⏸ Pausar</button>
+                        <button class="btn-crono btn-iniciar" onclick="Cronometro.saltarDescanso()">⏭ Saltar Descanso</button>
+                    `;
+                } else if (st === 'descanso_paused') {
+                    html = `
+                        <button class="btn-crono btn-reanudar" onclick="Cronometro.reanudar()">▶ Reanudar</button>
+                        <button class="btn-crono btn-iniciar" onclick="Cronometro.iniciarParte2()">▶ Iniciar 2ª Parte</button>
+                    `;
+                } else if (st === 'parte2_running') {
+                    html = `
+                        <button class="btn-crono btn-pausar" onclick="Cronometro.pausar()">⏸ Pausar</button>
+                        <button class="btn-crono btn-fin-parte" onclick="Cronometro.finalizarParte2()">🏁 Fin del Partido</button>
+                    `;
+                } else if (st === 'parte2_paused') {
+                    html = `
+                        <button class="btn-crono btn-reanudar" onclick="Cronometro.reanudar()">▶ Reanudar</button>
+                        <button class="btn-crono btn-fin-parte" onclick="Cronometro.finalizarParte2()">🏁 Fin del Partido</button>
+                    `;
+                } else if (st === 'fin') {
+                    html = `<button class="btn-crono" style="background:rgba(255,255,255,0.1); color:#bdc3c7; cursor:default;" disabled>Partido finalizado</button>`;
+                }
+
+                container.innerHTML = html;
+            }
+        };
+
+        // ==========================================================================
+        // MÓDULO: Dashboard del Partido (Estado global y Lógica de Negocio)
+        // ==========================================================================
+        let equiposBaseDatos = {};
+        let plantillaExcelBuffer = null;
+
+        const Dashboard = {
+            state: null,
+
+            showView(viewId) {
+                ['view-setup', 'view-dashboard', 'view-loading'].forEach(id => {
+                    document.getElementById(id).style.display = (id === viewId) ? 'block' : 'none';
+                });
+            },
+
+            initPartido() {
+                const local = document.getElementById("selLocal").value;
+                const visitante = document.getElementById("selVisitante").value;
+                const jornada = document.getElementById("selJornada").value;
+
+                if (!local || !visitante) return alert("Selecciona ambos equipos");
+                if (local === visitante) return alert("Los equipos deben ser diferentes");
+                if (!plantillaExcelBuffer) return alert("La plantilla base aún no se ha cargado. Espera un momento.");
+
+                // Función auxiliar para mapear el array bidimensional del Excel a objetos JSON manejables
+                const mapJugadores = (equipoName) => {
+                    const normTeamName = equipoName.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+                    const fotosEquipo = NORMALIZED_FOTOS_TEAMS[normTeamName] || {};
+
+                    return equiposBaseDatos[equipoName].slice(4, 16).filter(r => r[1]).map(r => {
+                        const nombreStr = r[1];
+                        const rutaFoto = buscarFotoInteligente(nombreStr, fotosEquipo) || r[0] || '';
+                        return { foto: rutaFoto, nombre: nombreStr, convocado: false, goles: 0, ta: 0, tr: 0 };
+                    });
+                };
+
+                this.state = {
+                    id: `j${jornada}_${obtenerAlias(local)}_${obtenerAlias(visitante)}`,
+                    jornada: jornada,
+                    arbitro: document.getElementById("inpArbitro").value,
+                    lugar: document.getElementById("inpLugar").value,
+                    hora: document.getElementById("inpHora").value,
+                    equipoLocal: local,
+                    equipoVisitante: visitante,
+                    golesLocal: 0,
+                    golesVisitante: 0,
+                    escudoLocal: equiposBaseDatos[local][0]?.[0] || '',
+                    escudoVisitante: equiposBaseDatos[visitante][0]?.[0] || '',
+                    jugadoresLocal: mapJugadores(local),
+                    jugadoresVisitante: mapJugadores(visitante)
+                };
+
+                this.saveState();
+                this.render();
+                Cronometro.init();
+            },
+
+            // Persistencia simple mediante localStorage para evitar pérdida de datos si se recarga la página por error
+            saveState() { localStorage.setItem('partidoActual', JSON.stringify(this.state)); },
+            loadState() {
+                const saved = localStorage.getItem('partidoActual');
+                if (saved) {
+                    this.state = JSON.parse(saved);
+                    document.getElementById('recovery-banner').style.display = 'none';
+                    this.render();
+                    Cronometro.init();
+                }
+            },
+            clearState() {
+                localStorage.removeItem('partidoActual');
+                document.getElementById('recovery-banner').style.display = 'none';
+                Cronometro.stopTick();
+                this.showView('view-setup');
+            },
+
+            render() {
+                this.showView('view-dashboard');
+
+                document.getElementById('sb-name-local').textContent = this.state.equipoLocal;
+                document.getElementById('sb-name-visit').textContent = this.state.equipoVisitante;
+                document.getElementById('sb-score-local').textContent = this.state.golesLocal;
+                document.getElementById('sb-score-visit').textContent = this.state.golesVisitante;
+                document.getElementById('resumen-marcador').textContent = `${this.state.equipoLocal} ${this.state.golesLocal} - ${this.state.golesVisitante} ${this.state.equipoVisitante}`;
+
+                document.getElementById('sb-img-local').src = `images/escudos_placeholder/${this.state.equipoLocal}.png`;
+                document.getElementById('sb-img-visit').src = `images/escudos_placeholder/${this.state.equipoVisitante}.png`;
+
+                document.getElementById('tab-local').textContent = this.state.equipoLocal;
+                document.getElementById('tab-visitante').textContent = this.state.equipoVisitante;
+
+                this.renderJugadores('local', 'tab-content-local');
+                this.renderJugadores('visitante', 'tab-content-visitante');
+            },
+
+            renderJugadores(bando, containerId) {
+                const arr = bando === 'local' ? this.state.jugadoresLocal : this.state.jugadoresVisitante;
+                const container = document.getElementById(containerId);
+
+                let htmlContent = `
+                    <div class="tab-header-actions">
+                        <h3>Plantilla</h3>
+                        <button class="btn-outline btn-small" onclick="Dashboard.toggleTodos('${bando}')">Marcar / Desmarcar Todos</button>
+                    </div>
+                `;
+
+                arr.forEach((jugador, index) => {
+                    const fallbackImg = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ccc'><path d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/></svg>";
+                    const imgUrl = jugador.foto || fallbackImg;
+                    const isConv = jugador.convocado;
+
+                    htmlContent += `
+                        <div class="player-card ${isConv ? '' : 'disabled'}">
+                            <div class="player-header">
+                                <img src="${imgUrl}" class="player-img" onerror="this.src='${fallbackImg}'">
+                                <label class="convocatoria-toggle">
+                                    <input type="checkbox" ${isConv ? 'checked' : ''} onchange="Dashboard.toggleConvocatoria('${bando}', ${index})">
+                                    ${jugador.nombre}
+                                </label>
+                            </div>
+
+                            <div class="controls" style="display: ${isConv ? 'flex' : 'none'};">
+                                <div class="goal-controls">
+                                    <button class="stat-btn btn-gol" onclick="Dashboard.modificarGol('${bando}', ${index}, -1)">-</button>
+                                    <span class="stat-display">${jugador.goles}</span>
+                                    <button class="stat-btn btn-gol" onclick="Dashboard.modificarGol('${bando}', ${index}, 1)">+</button>
+                                </div>
+                                <div class="card-toggles">
+                                    <button class="stat-btn btn-ta ${jugador.ta > 0 ? 'active' : ''}" onclick="Dashboard.toggleTarjeta('${bando}', ${index}, 'ta')">A</button>
+                                    <button class="stat-btn btn-tr ${jugador.tr > 0 ? 'active' : ''}" onclick="Dashboard.toggleTarjeta('${bando}', ${index}, 'tr')">R</button>
+                                </div>
+                            </div>
+
+                            <div class="disabled-msg" style="display: ${isConv ? 'none' : 'block'};">
+                                Jugador no convocado
+                            </div>
+                        </div>
+                    `;
+                });
+
+                container.innerHTML = htmlContent;
+            },
+
+            toggleConvocatoria(bando, index) {
+                const arr = bando === 'local' ? this.state.jugadoresLocal : this.state.jugadoresVisitante;
+                arr[index].convocado = !arr[index].convocado;
+                
+                // Reset de métricas si se desconvoca accidentalmente
+                if (!arr[index].convocado) { 
+                    arr[index].goles = 0; 
+                    arr[index].ta = 0; 
+                    arr[index].tr = 0; 
+                }
+                
+                this.recalcularMarcador();
+                this.saveState();
+                this.render();
+            },
+
+            toggleTodos(bando) {
+                const arr = bando === 'local' ? this.state.jugadoresLocal : this.state.jugadoresVisitante;
+                const allSelected = arr.every(j => j.convocado);
+                arr.forEach(j => {
+                    j.convocado = !allSelected;
+                    if (!j.convocado) { j.goles = 0; j.ta = 0; j.tr = 0; }
+                });
+                this.recalcularMarcador();
+                this.saveState();
+                this.render();
+            },
+
+            modificarGol(bando, index, delta) {
+                const arr = bando === 'local' ? this.state.jugadoresLocal : this.state.jugadoresVisitante;
+                if (!arr[index].convocado) return;
+                
+                let nuevosGoles = arr[index].goles + delta;
+                if (nuevosGoles < 0) nuevosGoles = 0;
+                
+                arr[index].goles = nuevosGoles;
+                this.recalcularMarcador();
+                this.saveState();
+                this.render();
+            },
+
+            toggleTarjeta(bando, index, tipo) {
+                const arr = bando === 'local' ? this.state.jugadoresLocal : this.state.jugadoresVisitante;
+                if (!arr[index].convocado) return;
+                arr[index][tipo] = arr[index][tipo] === 0 ? 1 : 0;
+                this.saveState();
+                this.render();
+            },
+
+            recalcularMarcador() {
+                this.state.golesLocal = this.state.jugadoresLocal.reduce((acc, j) => acc + j.goles, 0);
+                this.state.golesVisitante = this.state.jugadoresVisitante.reduce((acc, j) => acc + j.goles, 0);
+            },
+
+            switchTab(tabId) {
+                ['local', 'visitante', 'resumen'].forEach(id => {
+                    document.getElementById(`tab-content-${id}`).style.display = (id === tabId) ? (id === 'resumen' ? 'block' : 'grid') : 'none';
+                    const btn = document.getElementById(`tab-${id}`);
+                    if (id === tabId) btn.classList.add('active'); else btn.classList.remove('active');
+                });
+                if (tabId === 'resumen') {
+                    document.getElementById('tab-resumen').classList.remove('pulse-alert');
+                }
+            },
+
+            async cerrarActa() {
+                if (!confirm(`¿Confirmas el cierre del acta con resultado ${this.state.golesLocal} - ${this.state.golesVisitante}?`)) return;
+                this.showView('view-loading');
+                Cronometro.stopTick();
+
+                try {
+                    // Carga y manipulación en memoria del documento Excel
+                    const wbCopy = XLSX.read(plantillaExcelBuffer, { type: "array" });
+                    const originalMerges = wbCopy.Sheets["ACTA"]['!merges'];
+                    const actaSheet = XLSX.utils.sheet_to_json(wbCopy.Sheets["ACTA"], { header: 1, raw: false, defval: "" });
+                    
+                    // Aseguramos padding estructural de la hoja base
+                    while (actaSheet.length <= 25) actaSheet.push([]);
+
+                    actaSheet[1][2] = this.state.equipoLocal;
+                    actaSheet[2][2] = this.state.equipoVisitante;
+                    actaSheet[2][12] = this.state.arbitro;
+                    actaSheet[2][19] = this.state.hora;
+
+                    this.state.jugadoresLocal.forEach((j, idx) => {
+                        actaSheet[6 + idx][0] = j.convocado ? "X" : "";
+                        actaSheet[6 + idx][1] = j.nombre;
+                        actaSheet[6 + idx][2] = j.nombre;
+                        if (j.convocado) {
+                            if (j.goles > 0) actaSheet[6 + idx][3] = j.goles;
+                            if (j.ta > 0) actaSheet[6 + idx][5] = j.ta;
+                            if (j.tr > 0) actaSheet[6 + idx][6] = j.tr;
+                        }
+                    });
+
+                    this.state.jugadoresVisitante.forEach((j, idx) => {
+                        actaSheet[6 + idx][11] = j.convocado ? "X" : "";
+                        actaSheet[6 + idx][12] = j.nombre;
+                        actaSheet[6 + idx][13] = j.nombre;
+                        actaSheet[6 + idx][14] = j.nombre;
+                        actaSheet[6 + idx][15] = j.nombre;
+                        actaSheet[6 + idx][16] = j.nombre;
+                        if (j.convocado) {
+                            if (j.goles > 0) actaSheet[6 + idx][17] = j.goles;
+                            if (j.ta > 0) actaSheet[6 + idx][18] = j.ta;
+                            if (j.tr > 0) actaSheet[6 + idx][19] = j.tr;
+                        }
+                    });
+
+                    actaSheet[21][4] = this.state.escudoLocal;
+                    actaSheet[21][20] = this.state.escudoVisitante;
+                    actaSheet[22][12] = this.state.golesLocal;
+                    actaSheet[23][12] = this.state.golesVisitante;
+
+                    // Metadatos de auditoría del partido (se inyectan fuera del área visible de impresión del acta)
+                    while (actaSheet.length <= 35) actaSheet.push([]);
+                    const a = Cronometro.audit;
+                    const fmtSeg = s => { const m = Math.floor(s / 60); const ss = s % 60; return `${m}m ${ss}s`; };
+                    
+                    actaSheet[32][0] = `1P_PAUSAS:${a.parte1_pausas} | TIEMPO_PARADO:${fmtSeg(a.parte1_seg_parado)}`;
+                    actaSheet[33][0] = `1P_FIN_ANTICIPADO:${a.parte1_fin_anticipado ? 'SI (faltaban ' + fmtSeg(a.parte1_seg_restantes_al_fin) + ')' : 'NO'}`;
+                    actaSheet[34][0] = `2P_PAUSAS:${a.parte2_pausas} | TIEMPO_PARADO:${fmtSeg(a.parte2_seg_parado)}`;
+                    actaSheet[35][0] = `2P_FIN_ANTICIPADO:${a.parte2_fin_anticipado ? 'SI (faltaban ' + fmtSeg(a.parte2_seg_restantes_al_fin) + ')' : 'NO'}`;
+
+                    const newSheet = XLSX.utils.aoa_to_sheet(actaSheet);
+                    if (originalMerges) newSheet['!merges'] = originalMerges;
+
+                    const newWorkbook = XLSX.utils.book_new();
+                    XLSX.utils.book_append_sheet(newWorkbook, newSheet, "ACTA");
+                    const fileName = `${this.state.id}.xlsx`;
+
+                    const excelBufferOut = XLSX.write(newWorkbook, { bookType: 'xlsx', type: 'array' });
+                    const blob = new Blob([excelBufferOut], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+
+                    // Upload directo del blob a Supabase Storage
+                    const { error } = await supabaseClient.storage.from('actas').upload(fileName, blob, { cacheControl: '0', upsert: true });
+                    if (error) throw new Error("Fallo de subida en Supabase: " + error.message);
+
+                    const goleadoresAEnviar = [
+                        ...this.state.jugadoresLocal.filter(j => j.goles > 0 && j.convocado).map(j => ({ nombre: j.nombre, goles: j.goles, equipo: this.state.equipoLocal })),
+                        ...this.state.jugadoresVisitante.filter(j => j.goles > 0 && j.convocado).map(j => ({ nombre: j.nombre, goles: j.goles, equipo: this.state.equipoVisitante }))
+                    ];
+
+                    // Disparo al Webhook para actualización de estadísticas
+                    await fetch(GOOGLE_SCRIPT_URL, {
+                        method: "POST",
+                        mode: "no-cors",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            local: this.state.equipoLocal,
+                            visitante: this.state.equipoVisitante,
+                            golesLocal: this.state.golesLocal,
+                            golesVisitante: this.state.golesVisitante,
+                            goleadores: goleadoresAEnviar
+                        })
+                    });
+
+                    localStorage.removeItem('partidoActual');
+                    alert(`El acta se ha publicado exitosamente.`);
+                    window.location.reload();
+
+                } catch (err) {
+                    console.error("Excepción en cierre de acta:", err);
+                    alert("❌ Ocurrió un error en la subida: " + err.message);
+                    this.showView('view-dashboard');
+                }
+            }
+        };
+
+        // ==========================================================================
+        // INICIALIZACIÓN
+        // ==========================================================================
+        async function AppInit() {
+            try {
+                document.getElementById('setup-loading').style.display = 'block';
+
+                // Fetch y parseo de las bases de datos maestras (Equipos)
+                const respEq = await fetch("excels/equipos_actas.xlsx");
+                const bufEq = await respEq.arrayBuffer();
+                const wbEq = XLSX.read(bufEq, { type: "array" });
+                wbEq.SheetNames.forEach(n => {
+                    equiposBaseDatos[n] = XLSX.utils.sheet_to_json(wbEq.Sheets[n], { header: 1, raw: false, defval: "" });
+                });
+
+                // Poblado dinámico de los selectores de equipos
+                const selL = document.getElementById("selLocal");
+                const selV = document.getElementById("selVisitante");
+                Object.keys(equiposBaseDatos).forEach(t => {
+                    selL.add(new Option(t, t));
+                    selV.add(new Option(t, t));
+                });
+
+                // Precarga del template binario para el Acta final
+                const respPlant = await fetch("excels/plantilla_Acta.xlsx");
+                plantillaExcelBuffer = await respPlant.arrayBuffer();
+
+                document.getElementById('setup-loading').style.display = 'none';
+
+                if (localStorage.getItem('partidoActual')) {
+                    document.getElementById('recovery-banner').style.display = 'block';
+                }
+
+                Dashboard.showView('view-setup');
+
+            } catch (e) {
+                alert("Fallo crítico inicializando recursos locales. Comprueba la consola.");
+                console.error("AppInit Error:", e);
+            }
+        }
+    </script>
+</body>
+</html>

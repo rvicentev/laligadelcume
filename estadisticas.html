@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estadísticas - LALIGA DEL CUMe</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="styles/preloader.css">
+    <link rel="stylesheet" href="styles/stylesTeams.css">
+    <link rel="stylesheet" href="styles/estadisticas.css">
+    <link rel="icon" href="images/favicon/favicon-32x32.png" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@200..700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Righteous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monomaniac+One">
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-VZXFXDQZ1C');
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"> </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logoLiga"> <a href="index.html"> <img src="images/logoLigaRojo.png" alt="CECUME logo" class="img">
+            </a>
+        </div>
+        <div class="menu-toggle" id="menu-toggle" role="button" aria-label="Abrir menú" aria-expanded="false">&#9776;
+        </div>
+        <ul class="nav-links" id="nav-links" style="border-right: 40px solid;">
+            <li> <a href="calendario.html" target="_blank"
+                    style="color: #2c2c2c; font-family: Righteous;">CALENDARIO</a> </li>
+            <li> <a href="equipos.html" style="color: #2c2c2c; font-family: Righteous;">EQUIPOS</a> </li>
+            <li> <a href="LALIGA Normas 2526 v1.0.pdf" target="_blank"
+                    style="color: #2c2c2c; font-family: Righteous;">BASES</a> </li>
+            <li> <a href="actas.html" style="color: #2c2c2c; font-family: Righteous;">ÁRBITROS</a> </li>
+        </ul>
+    </nav>
+
+    <!-- Header -->
+    <div class="equipos-header">
+        <h2>ESTADÍSTICAS</h2>
+        <h3>ACTUALIZADAS A LA JORNADA 14</h3>
+    </div>
+
+    <!-- Bloque líderes -->
+    <div class="estadisticas-container bloque-lideres">
+        <!-- Mitad izquierda -->
+        <div class="bloque-izquierda">
+            <div class="bloque-top">
+                <div class="cuadro-numero">
+                    <span>1</span>
+                </div>
+                <h2 class="titulo-lideres">LÍDERES</h2>
+            </div>
+            <div class="bloque-imagen">
+                <img src="images/equipos/united2.JPG" style="width:45%; padding-bottom:0px; padding-top:0px;">
+                <h3 class="equipo-nombre">CUM UNITED - 18 PTS</h3>
+            </div>
+        </div>
+
+        <!-- Mitad derecha -->
+        <div class="bloque-derecha">
+            <div class="clasificacion-lideres">
+                <ul id="listaClasificacion"></ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección de Gráficos -->
+    <section class="graficos-container" aria-label="Gráficos estadísticos">
+        <h2 class="graficos-titulo">ESTADÍSTICAS GENERALES</h2>
+
+        <!-- Grid de gráficos -->
+        <div class="graficos-grid">
+            <!-- Gráfico 1: Evolución -->
+            <div class="grafico-card grafico-grande">
+                <canvas id="graficoEvolucion"></canvas>
+            </div>
+
+            <!-- Gráfico 2: Goles A Favor vs En Contra -->
+            <div class="grafico-card">
+                <canvas id="graficoGoles"></canvas>
+            </div>
+
+            <!-- Gráfico 4: Diferencia de Goles (Donut) -->
+            <div class="grafico-card grafico-pequeno">
+                <canvas id="graficoDiferencia"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <h2 class="graficos-titulo">ESTADÍSTICAS DE LOS EQUIPOS</h2>
+
+    <div class="estadisticas-container">
+        <!-- Columna izquierda -->
+        <div class="estadisticas">
+            <div class="tabla-box">
+                <h2>PICHICHIS</h2>
+                <table id="tablaGoleadores">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Equipo</th>
+                            <th>Jugador</th>
+                            <th>Goles</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Columna derecha -->
+        <div class="estadisticas">
+            <div class="tabla-box">
+                <h2>EQUIPOS MÁS GOLEADORES</h2>
+                <table id="tablaMasGoleadores">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th class="th-equipo">EQUIPO</th>
+                            <th>GOLES A FAVOR</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="estadisticas">
+                <div class="tabla-box">
+                    <h2>EQUIPOS MENOS GOLEADOS</h2>
+                    <table id="tablaMenosGoleados">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th class="th-equipo">EQUIPO</th>
+                                <th>GOLES EN CONTRA</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Agregar esto después de la sección de clasificación existente -->
+    </div>
+
+    <footer>
+        <div class="footer-logo">
+            <img src="images/logoLigaNuevo.png" alt="Logo Liga">
+        </div>
+        <hr class="footer-separator">
+        <h2 class="footer-title">COLABORADORES</h2>
+        <div class="footer-logos">
+            <div class="logo-container logo-cecume">
+                <a href="https://www.cecume.org" target="_blank"><img src="images/cecume.png" alt="CECUME logo"></a>
+            </div>
+            <div class="logo-container logo-merida">
+                <a href="https://merida.es" target="_blank"><img src="images/aytoMerida.png" alt="Ayto Mérida logo"></a>
+            </div>
+            <div class="logo-container logo-safyde">
+                <a href="https://safyde.unex.es" target="_blank"><img src="images/safyde.png" alt="Safyde logo"></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="scripts/estadisticas.js"></script>
+    <script src="scripts/graficos.js"></script>
+</body>
+
+</html>

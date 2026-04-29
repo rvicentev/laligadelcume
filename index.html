@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Liga 25/26</title>
+    <meta name="description"
+        content="Liga de fútbol sala: consulta partidos, resultados, clasificaciones y estadísticas de todos los equipos participantes en la temporada.">
+
+    <link rel="icon" href="images/favicon_placeholder.png" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon_placeholder.png">
+    <meta name="theme-color" content="#4a148c">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://docs.google.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Righteous&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anek+Devanagari:wght@100..800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles/preloader.css">
+    <link rel="stylesheet" href="styles/stylesTeams.css">
+    <link rel="stylesheet" href="styles/estadisticas.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/index.css">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+    </script>
+
+    <script>
+        /**
+         * Lógica para el Slider de Resultados
+         */
+        async function abrirActaResultado(idActa) {
+            if (typeof clienteSupabase === 'undefined') return;
+            try {
+                const { data: lista, error } = await clienteSupabase.storage.from('actas').list('', { search: idActa });
+                const existe = lista && lista.some(f => f.name.toLowerCase() === `${idActa}.xlsx`.toLowerCase());
+
+                if (existe) {
+                    window.generarActaDesdeArchivo(idActa);
+                } else {
+                    alert("⚠️ El acta de este partido todavía no está disponible.");
+                }
+            } catch (e) {
+                console.error(e);
+                alert("Error de conexión con el servidor de actas.");
+            }
+        }
+
+        function inicializarSliderResultados() {
+            const track = document.getElementById('track-infinito');
+            if (!track) return;
+            if (typeof jornadas === 'undefined') {
+                console.error("❌ Error: No se encuentra la variable 'jornadas'. Asegúrate de que index.js esté cargado antes.");
+                return;
+            }
+
+            let contenidoHTML = '';
+            for (let i = 1; i <= 14; i++) {
+                const j = jornadas[i];
+                if (!j) continue;
+
+                const partidosDeJornada = obtenerDatosCrudosPartidos(i);
+                let filasPartidos = '';
+                
+                partidosDeJornada.forEach(p => {
+                    const aliasL = obtenerAlias(p.l);
+                    const aliasV = obtenerAlias(p.v);
+                    const idActa = `j${i}_${aliasL}_${aliasV}`;
+                    const marcador = (p.r.toLowerCase() === 'vs') ? '-' : p.r;
+
+                    filasPartidos += `
+                        <div class="fila-partido-v2" onclick="abrirActaResultado('${idActa}')">
+                            <img src="images/escudos_placeholder/${p.l}.png" class="escudo-v2" onerror="this.src='images/logo_placeholder.png'">
+                            <span class="resultado-v2">${marcador}</span>
+                            <img src="images/escudos_placeholder/${p.v}.png" class="escudo-v2" onerror="this.src='images/logo_placeholder.png'">
+                        </div>
+                    `;
+                });
+
+                contenidoHTML += `
+                    <div class="card-jornada-v2">
+                        <div class="header-jornada-v2"><span>JORNADA ${i}</span></div>
+                        <div class="body-jornada-v2">${filasPartidos}</div>
+                    </div>
+                `;
+            }
+            track.innerHTML = contenidoHTML + contenidoHTML;
+        }
+
+        // Base de datos de partidos (Nombres anonimizados para Github)
+        function obtenerDatosCrudosPartidos(n) {
+            const db = {
+                1: [{l:"EQUIPO ALPHA", v:"EQUIPO BRAVO", r:"3 - 6"}, {l:"EQUIPO CHARLIE", v:"EQUIPO DELTA", r:"1 - 6"}, {l:"EQUIPO ECHO", v:"EQUIPO FOXTROT", r:"13 - 0"}],
+                2: [{l:"EQUIPO FOXTROT", v:"EQUIPO BRAVO", r:"3 - 5"}, {l:"EQUIPO DELTA", v:"EQUIPO ALPHA", r:"10 - 1"}, {l:"EQUIPO ECHO", v:"EQUIPO CHARLIE", r:"6 - 2"}],
+                // Añade o genera el resto dinámicamente en tu versión real...
+            };
+            return db[n] || [];
+        }
+
+        window.addEventListener('load', inicializarSliderResultados);
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SportsOrganization",
+      "name": "Liga de Fútbol",
+      "url": "https://tusitio.com/",
+      "sport": "Fútbol Sala",
+      "logo": "https://tusitio.com/images/logo_placeholder.png"
+    }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="scripts/index.js"></script>
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+
+    <nav class="navbar" role="navigation" aria-label="Navegación principal">
+        <div class="logoLiga">
+            <a href="index.html" aria-label="Ir a la página principal">
+                <img src="images/logo_principal_placeholder.png" alt="Logo Liga" class="img" width="150" height="auto">
+            </a>
+        </div>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menú de navegación" aria-expanded="false">
+            <span aria-hidden="true">&#9776;</span>
+        </button>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="calendario.html">CALENDARIO</a></li>
+            <li><a href="equipos.html">EQUIPOS</a></li>
+            <li><a href="estadisticas.html">ESTADÍSTICAS</a></li>
+            <li><a href="documentos/bases_torneo_placeholder.pdf" target="_blank" rel="noopener">BASES</a></li>
+            <li><a href="actas.html">ÁRBITROS</a></li>
+        </ul>
+    </nav>
+
+
+    <section class="banner-jornada" aria-labelledby="titulo-jornada">
+        <div class="banner-left">
+            <p class="fecha-jornada" id="fecha-jornada">16 - 26 NOVIEMBRE</p>
+            <h1 id="titulo-jornada">JORNADA 6</h1>
+            <label for="selector-jornada" class="sr-only">Seleccionar jornada</label>
+            <select id="selector-jornada" class="selector-jornada" aria-label="Selector de jornada">
+                <option value="1">J1</option>
+                <option value="2">J2</option>
+                <option value="3">J3</option>
+                <option value="4">J4</option>
+                <option value="5">J5</option>
+                <option value="6" selected>J6</option>
+                <option value="7">J7</option>
+            </select>
+        </div>
+        <div class="banner-right" id="banner-partidos">
+            </div>
+    </section>
+    <section class="estadisticas" aria-labelledby="tituloEstadisticas">
+        <h2 id="tituloEstadisticas">CLASIFICACIÓN</h2>
+        <div class="table-responsive">
+            <table id="tablaEstadisticas" aria-label="Tabla de clasificación de equipos">
+                <thead>
+                    <tr>
+                        <th scope="col" abbr="Posición">POS</th>
+                        <th scope="col" abbr="Equipo">EQUIPO</th>
+                        <th scope="col" abbr="Puntos">PUNTOS</th>
+                        <th scope="col" abbr="Partidos Jugados">PJ</th>
+                        <th scope="col" abbr="Partidos Ganados">PG</th>
+                        <th scope="col" abbr="Partidos Empatados">PE</th>
+                        <th scope="col" abbr="Partidos Perdidos">PP</th>
+                        <th scope="col" abbr="Goles a Favor">GF</th>
+                        <th scope="col" abbr="Goles en Contra">GC</th>
+                        <th scope="col" abbr="Diferencia de Goles">DG</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="resultados-scroll-section">
+        <h2 class="titulo-resultados-v2">RESULTADOS</h2>
+        <div class="slider-wrapper">
+            <div id="track-infinito" class="slider-track">
+                </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-logo">
+            <img src="images/logo_secundario_placeholder.png" alt="Logo Secundario" class="main-logo">
+        </div>
+        <hr class="footer-separator">
+        <h2 class="footer-title">COLABORADORES</h2>
+        <div class="footer-logos">
+            <div class="logo-container">
+                <a href="https://ejemplo.com/sponsor1" target="_blank" rel="noopener">
+                    <img src="images/sponsor_1_placeholder.png" alt="Sponsor 1">
+                </a>
+            </div>
+            <div class="logo-container">
+                <a href="https://ejemplo.com/sponsor2" target="_blank" rel="noopener">
+                    <img src="images/sponsor_2_placeholder.png" alt="Sponsor 2">
+                </a>
+            </div>
+            <div class="logo-container">
+                <a href="https://ejemplo.com/sponsor3" target="_blank" rel="noopener">
+                    <img src="images/sponsor_3_placeholder.png" alt="Sponsor 3">
+                </a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

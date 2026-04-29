@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LALIGA DEL CUMe 25/26</title>
+    <meta property="og:description" content="Toda la información de la Liga del CUMe: partidos, resultados y clasificaciones.">
+    <meta property="og:image" content="images/logoWeb.jpg">
+    <meta name="theme-color" content="#4a148c">
+    <link rel="stylesheet" href="styles/preloader.css">
+    <link rel="stylesheet" href="styles/stylesTeams.css">
+    <link rel="stylesheet" href="styles/estadisticas.css">
+    <link rel="icon" href="images/favicon/favicon-32x32.png" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@200..700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Righteous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monomaniac+One">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VZXFXDQZ1C"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-VZXFXDQZ1C');
+    </script>
+</head>
+
+<style>
+    /* --- ESTILOS GENERALES --- */
+    body {
+        background: #ffffff;
+        color: #f6f6f6;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        width: 90%;
+        max-width: 900px;
+        margin: 20px auto;
+        margin-top: 80px;
+    }
+
+    /* --- NAVBAR BASE --- */
+    .navbar {
+        position: fixed;
+        display: flex;
+        top: 0;
+        left: 0;
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #f6f6f6;
+        padding: 10px 20px;
+        z-index: 1000;
+    }
+
+    .logoLiga {
+        display: flex;
+        align-items: center;
+        color: #e63946;
+    }
+
+    .logoLiga img {
+        max-height: 60px;
+        width: auto;
+        margin-right: 10px;
+    }
+
+    .logoLiga h1 a {
+        color: #e63946;
+        font-size: 20px;
+        text-decoration: none;
+        font-family: "Oswald", sans-serif;
+        letter-spacing: 1px;
+        font-weight: 500;
+        transition: color 0.3s;
+    }
+
+    .logoLiga h1 a:hover {
+        color: #f0f0f0;
+    }
+
+    /* Menu Links - ESCRITORIO */
+    .nav-links {
+        list-style: none;
+        display: flex;
+        flex-direction: row;
+        background-color: transparent;
+    }
+
+    .nav-links li {
+        margin: 0 10px;
+    }
+
+    .nav-links li a {
+        color: #2c2c2c;
+        text-decoration: none;
+        font-size: 18px;
+        padding: 10px;
+        transition: color 0.3s, background-color 0.3s;
+        border-radius: 1px;
+        font-family: 'Righteous', sans-serif;
+    }
+
+    .nav-links li a:hover {
+        color: #ffffff;
+        background-color: #ef3340;
+    }
+
+    /* --- Menú hamburguesa (inicialmente oculto en escritorio) --- */
+    .menu-toggle {
+        display: none;
+    }
+
+    /* --- BANNER JORNADA --- */
+    .banner-jornada {
+        background-color: #3ebcb1;
+        border-top: 80px solid;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 40px;
+        color: white;
+        font-family: 'Righteous', sans-serif;
+        flex-wrap: wrap;
+        gap: 15px;
+        min-height: 250px;
+    }
+
+    .banner-left {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0px 20px;
+        position: relative;
+    }
+
+    .banner-left h1 {
+        font-size: 68px;
+        margin: 0;
+        text-align: left;
+    }
+
+    .fecha-jornada {
+        font-size: 22px;
+        margin: 0 0 5px 0;
+        font-family: 'Oswald', sans-serif;
+        color: #ffffffcc;
+    }
+
+    /* --- Tarjetas de partidos --- */
+    .partido-card {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        padding: 10px 15px;
+        min-height: 50px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        gap: 8px;
+    }
+
+    .partido-card img.escudo {
+        height: 24px;
+        width: 24px;
+    }
+
+    .partido-card .linea {
+        width: 3px;
+        height: 30px;
+        background-color: var(--linea-color, #fff);
+    }
+
+    .partido-card .nombre-equipo {
+        font-size: 16px;
+    }
+
+    .partido-card .vs {
+        font-weight: bold;
+        color: #fff;
+        opacity: 0.8;
+        margin: 0 8px;
+    }
+
+    /* --- Banner Right --- */
+    .banner-right {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    /* --- Resultados de partidos --- */
+    .resultado-partido-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+        margin: 30px 0;
+    }
+
+    .partido-card-resultado {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(62, 188, 177, 0.15);
+        padding: 15px 25px;
+        border-radius: 12px;
+        gap: 10px;
+        min-width: 200px;
+        max-width: 220px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        transition: transform 0.2s;
+    }
+
+    .partido-card-resultado:hover {
+        transform: scale(1.05);
+    }
+
+    .resultado-superior {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .partido-card-resultado img.escudo-equipo {
+        width: 40px;
+        height: 40px;
+        object-fit: contain;
+    }
+
+    .partido-card-resultado .resultado {
+        font-size: 22px;
+        font-weight: bold;
+        color: #ef3340;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        text-align: center
+    }
+
+    .partido-card-resultado p {
+        font-size: 13px;
+        color: #5c5b5b;
+        font-family: 'Righteous', sans-serif;
+        text-align: center;
+        margin: 0;
+    }
+
+    /* --- TABLAS --- */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #2c2c2c;
+        box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.5);
+        margin-bottom: 20px;
+        overflow-x: auto;
+    }
+
+    thead {
+        background-color: #e63946;
+        color: white;
+    }
+
+    th,
+    td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #444;
+        color: black;
+        /* Color de texto*/
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #333;
+    }
+
+    tbody tr:hover {
+        background-color: #444;
+    }
+
+    /* --- FOOTER --- */
+    footer {
+        background-color: #2c2c2c;
+        text-align: center;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    .footer-logo img {
+        max-width: 550px;
+        height: auto;
+        display: block;
+        margin: 0 auto 20px auto;
+    }
+
+    .footer-separator {
+        border: none;
+        border-top: 2px solid #ccc;
+        margin: 0 auto;
+        width: 80%;
+    }
+
+    .footer-title {
+        color: white;
+        font-family: 'Righteous', sans-serif;
+        font-weight: bold;
+        font-size: 30px;
+        text-align: left;
+        margin: 40px 10% 0 10%;
+    }
+
+    .footer-logos {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 40px;
+        padding: 0px;
+        background-color: #2c2c2c;
+    }
+
+    .logo-container {
+        margin: 0 35px;
+    }
+
+    .logo-container img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    .logo-cecume {
+        max-width: 200px;
+    }
+
+    .logo-merida {
+        max-width: 150px;
+    }
+
+    .logo-safyde {
+        max-width: 120px;
+    }
+
+    .disabled-link {
+        color: gray;
+        pointer-events: none;
+        cursor: default;
+        text-decoration: none;
+    }
+
+    .resultado-wrapper {
+        background-color: #c5efe9;
+        width: 100%;
+        padding: 10px 0;
+        box-sizing: border-box;
+    }
+
+    .selector-jornada {
+        position: absolute;
+        bottom: -60px;
+        left: 20px;
+        padding: 6px 10px;
+        border: 2px solid #dc2500;
+        border-radius: 8px;
+        background: transparent;
+        color: #dc2500;
+        font-family: 'Righteous', sans-serif;
+        cursor: pointer;
+        font-size: 1rem;
+    }
+
+    .selector-jornada option {
+        color: black;
+    }
+
+    /* --- RESPONSIVE PARA MÓVILES (max-width: 900px) --- */
+    @media (max-width: 900px) {
+        .banner-jornada {
+            flex-direction: column;
+            align-items: center;
+            min-height: auto;
+            padding: 15px 20px;
+        }
+
+        .banner-left h1 {
+            font-size: 52px;
+            text-align: center;
+        }
+
+        .fecha-jornada {
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .banner-right {
+            width: 100%;
+        }
+
+        .partido-card {
+            width: 94%;
+            justify-content: space-between;
+        }
+
+        .resultado-partido {
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            align-items: center;
+        }
+
+        .partido-card-resultado {
+            width: 90%;
+            min-width: auto;
+        }
+
+        .resultado-superior {
+            gap: 15px;
+        }
+
+        .partido-card-resultado img.escudo-equipo {
+            width: 40px;
+            height: 40px;
+        }
+
+        .partido-card-resultado .resultado {
+            font-size: 22px;
+            text-align: center
+        }
+
+        /* --- Navbar responsive --- */
+        .menu-toggle {
+            display: block;
+            font-size: 30px;
+            color: #2c2c2c;
+            cursor: pointer;
+            margin-right: 2px;
+            z-index: 9999;
+            position: fixed;
+            top: 12px;
+            right: 16px;
+            background: transparent;
+            padding: 6px;
+            line-height: 1;
+        }
+
+        .nav-links {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.98);
+            z-index: 2000;
+        }
+
+        .nav-links.show {
+            display: flex;
+        }
+
+        .nav-links li a {
+            font-size: 24px !important;
+            color: #2c2c2c !important;
+        }
+
+        body,
+        html {
+            overflow-x: hidden;
+            max-width: 100%;
+        }
+
+        /* Logo del navbar (30% más pequeño) */
+        .logoLiga img {
+            max-height: 42px;
+            padding-top: 2px;
+        }
+
+        /* Logo del footer (50% más pequeño) */
+        .footer-logo img {
+            max-width: 275px;
+        }
+
+        /* Texto "Colaboradores" (30% más pequeño) */
+        .footer-title {
+            font-size: 21px;
+        }
+
+        .footer-logos {
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .logo-container {
+            margin: 10px 0;
+        }
+
+        .selector-jornada {
+        position: absolute;
+        bottom: 63px;
+        left: -70px;
+        padding: 6px 10px;
+        border: 2px solid #dc2500;
+        border-radius: 8px;
+        background: transparent;
+        color: #dc2500;
+        font-family: 'Righteous', sans-serif;
+        cursor: pointer;
+        font-size: 1rem;
+    }
+    }
+
+    /* --- ESCRITORIO (min-width: 901px) --- */
+    @media (min-width: 901px) {
+        .menu-toggle {
+            display: none !important;
+        }
+
+        .nav-links {
+            display: flex !important;
+            position: static !important;
+            height: auto !important;
+            width: auto !important;
+            background: transparent !important;
+            flex-direction: row !important;
+        }
+
+        .nav-links.show {
+            display: flex !important;
+        }
+    }
+
+    /* --- RANGO ESPECÍFICO 769px - 900px --- */
+    @media (min-width: 769px) and (max-width: 900px) {
+        .menu-toggle {
+            display: block !important;
+        }
+
+        .nav-links:not(.show) {
+            display: none !important;
+        }
+
+        .nav-links.show {
+            display: flex !important;
+        }
+    }
+
+    .btn-acta {
+        margin-top: 10px;
+        padding: 8px 20px;
+        background: linear-gradient(135deg, #C8102E 0%, #A00D25 100%);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-weight: bold;
+        font-size: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(200, 16, 46, 0.3);
+    }
+
+    .btn-acta:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(200, 16, 46, 0.5);
+    }
+
+    .btn-acta:active {
+        transform: translateY(0);
+    }
+</style>
+
+<body>
+
+    <nav class="navbar">
+        <div class="logoLiga">
+            <a href="index.html">
+                <img src="images/logoLigaRojo.png" alt="CECUME logo" class="img">
+            </a>
+        </div>
+        <div class="menu-toggle" id="menu-toggle" role="button" aria-label="Abrir menú" aria-expanded="false">&#9776;
+        </div>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="calendario.html" style="color: #2c2c2c; font-family: Righteous;">CALENDARIO</a>
+            </li>
+            <li><a href="equipos.html" style="color: #2c2c2c; font-family: Righteous;">EQUIPOS</a></li>
+            <li><a href="estadisticas.html" style="color: #2c2c2c; font-family: Righteous;">ESTADÍSTICAS</a></li>
+            <li><a href="LALIGA Normas 2526 v1.0.pdf" target="_blank"
+                    style="color: #2c2c2c; font-family: Righteous;">BASES</a></li>
+            <li><a href="actas.html" style="color: #2c2c2c; font-family: Righteous;">ÁRBITROS</a></li>
+        </ul>
+    </nav>
+
+    <div class="banner-jornada">
+        <div class="banner-left">
+            <p class="fecha-jornada" id="fecha-jornada">14 - 24 OCTUBRE</p>
+            <h1 id="titulo-jornada">JORNADA 1</h1>
+
+            <!-- Desplegable de selección de jornada -->
+            <select id="selector-jornada" class="selector-jornada">
+                <option value="1" selected> J1</oJption>
+                <option value="2">J2</option>
+            </select>
+        </div>
+
+        <div class="banner-right" id="banner-partidos">
+            <!-- Partidos de jornada 1 (por defecto) -->
+            <div class="partido-card">
+                <img src="images/Escudos/RAYO MARIGUANO.png" class="escudo">
+                <div class="linea" style="--linea-color: #158000;"></div>
+                <span class="nombre-equipo">RAYO MARIGUANO</span>
+                <span class="vs">VS</span>
+                <span class="nombre-equipo">UNIÓN DEPORTIVA PORRETA</span>
+                <div class="linea" style="--linea-color: #244228;"></div>
+                <img src="images/Escudos/UNIÓN DEPORTIVA PORRETA.png" class="escudo">
+            </div>
+            <div class="partido-card">
+                <img src="images/Escudos/ATLÉTICO MORANTE.png" class="escudo">
+                <div class="linea" style="--linea-color: #931400;"></div>
+                <span class="nombre-equipo">ATLÉTICO MORANTE</span>
+                <span class="vs">VS</span>
+                <span class="nombre-equipo">CUM CITY</span>
+                <div class="linea" style="--linea-color: #ffffff;"></div>
+                <img src="images/Escudos/CUM CITY.png" class="escudo">
+            </div>
+            <div class="partido-card">
+                <img src="images/Escudos/ASTON BIRRA.png" class="escudo">
+                <div class="linea" style="--linea-color: #2c2c2c;"></div>
+                <span class="nombre-equipo">ASTON BIRRA</span>
+                <span class="vs">VS</span>
+                <span class="nombre-equipo">I.E SALA</span>
+                <div class="linea" style="--linea-color: #0058cb;"></div>
+                <img src="images/Escudos/I.E. SALA.png" class="escudo">
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección de resultados de partidos -->
+
+    <div class="resultado-wrapper" id="resultados">
+        <section class="resultado-partido-container">
+            <div class="partido-card-resultado">
+                <div class="resultado-superior">
+                    <img src="images/Escudos/RAYO MARIGUANO.png" class="escudo-equipo">
+                    <span class="resultado">3 - 6</span>
+                    <img src="images/Escudos/UNIÓN DEPORTIVA PORRETA.png" class="escudo-equipo">
+                </div>
+                <p class="fecha-hora">16 OCT | 19:30h</p>
+                <p class="lugar">CAMPO FUTSAL CUME</p>
+                <button class="btn-acta" onclick="generarActaDesdeArchivo('/actas/j1/rayo-udp.xlsx')">ACTA</button>
+            </div>
+            <div class="partido-card-resultado">
+                <div class="resultado-superior">
+                    <img src="images/Escudos/ASTON BIRRA.png" class="escudo-equipo">
+                    <span class="resultado">1 - 6</span>
+                    <img src="images/Escudos/I.E. SALA.png" class="escudo-equipo">
+                </div>
+                <p class="fecha-hora">20 OCT | 21:00h</p>
+                <p class="lugar">POLIDEPORTIVO DIÓCLES</p>
+                <button class="btn-acta" onclick="generarActaDesdeArchivo('/actas/j1/aston-iesala.xlsx')">ACTA</button>
+            </div>
+            <div class="partido-card-resultado">
+                <div class="resultado-superior">
+                    <img src="images/Escudos/ATLÉTICO MORANTE.png" class="escudo-equipo">
+                    <span class="resultado">13 - 0</span>
+                    <img src="images/Escudos/CUM CITY.png" class="escudo-equipo">
+                </div>
+                <p class="fecha-hora">21 OCT | 21:00h</p>
+                <p class="lugar">POLIDEPORTIVO DIÓCLES</p>
+                <button class="btn-acta" onclick="generarActaDesdeArchivo('/actas/j1/morante-city.xlsx')">ACTA</button>
+            </div>
+        </section>
+    </div>
+
+    <!-- Estadísticas -->
+    <div class="estadisticas">
+        <h2 id="tituloEstadisticas">CLASIFICACIÓN</h2>
+        <table id="tablaEstadisticas">
+            <thead>
+                <tr>
+                    <th>POS</th>
+                    <th>EQUIPO</th>
+                    <th>PUNTOS</th>
+                    <th>PJ</th>
+                    <th>PG</th>
+                    <th>PE</th>
+                    <th>PP</th>
+                    <th>GF</th>
+                    <th>GC</th>
+                    <th>DG</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <footer>
+        <div class="footer-logo"><img src="images/logoLigaNuevo.png" alt="Logo Liga"></div>
+        <hr class="footer-separator">
+        <h2 class="footer-title">COLABORADORES</h2>
+        <div class="footer-logos">
+            <div class="logo-container logo-cecume"><a href="https://www.cecume.org" target="_blank"><img
+                        src="images/cecume.png" alt="CECUME logo"></a></div>
+            <div class="logo-container logo-merida"><a href="https://merida.es" target="_blank"><img
+                        src="images/aytoMerida.png" alt="Ayto Mérida logo"></a></div>
+            <div class="logo-container logo-safyde"><a href="https://safyde.unex.es" target="_blank"><img
+                        src="images/safyde.png" alt="Safyde logo"></a></div>
+        </div>
+    </footer>
+</body>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSJpw5wkDDz9shxQhFgB-xafNUysY1QjgozLOrG9W_jlnhSSvXoGzl90BusJbqA31wf7MK0kPA2hHyQ/pub?gid=481132578&single=true&output=csv";
+        const tableBody = document.querySelector("#tablaEstadisticas tbody");
+
+        fetch(sheetUrl)
+            .then(response => response.text())
+            .then(data => {
+                const rows = data.split("\n").slice(1);
+                rows.forEach((row, index) => {
+                    const cols = row.split(",");
+                    if (cols.length >= 10) {
+                        const tr = document.createElement("tr");
+                        if (index < 4) tr.classList.add("playoff");
+
+                        const tdPos = document.createElement("td");
+                        tdPos.textContent = cols[0].trim();
+                        tr.appendChild(tdPos);
+
+                        const tdNombre = document.createElement("td");
+                        const logoImg = document.createElement("img");
+                        const teamName = cols[1].trim();
+                        logoImg.src = `images/Escudos/${teamName}.png`;
+                        logoImg.alt = `${teamName} logo`;
+                        logoImg.style.height = "20px";
+                        logoImg.style.marginRight = "8px";
+                        logoImg.style.verticalAlign = "middle";
+                        tdNombre.appendChild(logoImg);
+                        tdNombre.appendChild(document.createTextNode(teamName));
+                        tr.appendChild(tdNombre);
+
+                        for (let i = 2; i <= 9; i++) {
+                            const td = document.createElement("td");
+                            td.textContent = cols[i].trim();
+                            tr.appendChild(td);
+                        }
+
+                        tableBody.appendChild(tr);
+                    }
+                });
+            });
+
+        // --- Navbar responsive toggle ---
+        const menuToggle = document.getElementById("menu-toggle");
+        const navLinks = document.getElementById("nav-links");
+
+        // Helper to toggle aria-expanded
+        function setExpanded(isOpen) {
+            menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        }
+
+        // Toggle function
+        function toggleMenu(e) {
+            if (e) e.preventDefault();
+            navLinks.classList.toggle("show");
+            const isOpen = navLinks.classList.contains("show");
+            setExpanded(isOpen);
+        }
+
+        // Add both events
+        menuToggle.addEventListener("click", toggleMenu);
+        menuToggle.addEventListener("touchstart", toggleMenu);
+
+        // Close menu when clicking outside
+        document.addEventListener("click", function (event) {
+            const isClickInside = navLinks.contains(event.target) || menuToggle.contains(event.target);
+            if (!isClickInside && navLinks.classList.contains("show")) {
+                navLinks.classList.remove("show");
+                setExpanded(false);
+            }
+        }, { passive: true });
+
+        // Cerrar menú cuando se redimensiona la ventana a pantalla grande
+        window.addEventListener('resize', function () {
+            if (window.innerWidth > 900 && navLinks.classList.contains("show")) {
+                navLinks.classList.remove("show");
+                setExpanded(false);
+            }
+        });
+
+    });
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+    const { jsPDF } = window.jspdf;
+
+    async function generarActaDesdeArchivo(rutaArchivo) {
+        try {
+            // Cargar el archivo Excel
+            const response = await fetch(rutaArchivo);
+            if (!response.ok) {
+                alert('No se pudo cargar el archivo del acta');
+                return;
+            }
+
+            const data = await response.arrayBuffer();
+            const workbook = XLSX.read(data, { type: "array" });
+            const sheet = workbook.Sheets[workbook.SheetNames[0]];
+
+            const get = (cell) => (sheet[cell] ? sheet[cell].v : "");
+
+            const partidoData = {
+                equipoLocal: get("C2"),
+                equipoVisitante: get("C3"),
+                arbitro: get("M3"),
+                hora: get("T3"),
+                golesLocal: get("M23"),
+                golesVisitante: get("M24"),
+                jugadoresLocal: [],
+                jugadoresVisitante: []
+            };
+
+            // Jugadores locales
+            for (let i = 7; i <= 18; i++) {
+                const convocado = get(`A${i}`);
+                const nombre = get(`B${i}`);
+                const goles = get(`D${i}`);
+                const amarillas = get(`F${i}`);
+                const rojas = get(`G${i}`);
+                if (convocado && nombre) {
+                    partidoData.jugadoresLocal.push({ nombre, goles, amarillas, rojas });
+                }
+            }
+
+            // Jugadores visitantes
+            for (let i = 7; i <= 18; i++) {
+                const convocado = get(`L${i}`);
+                const nombre = get(`M${i}`);
+                const goles = get(`R${i}`);
+                const amarillas = get(`S${i}`);
+                const rojas = get(`T${i}`);
+                if (convocado && nombre) {
+                    partidoData.jugadoresVisitante.push({ nombre, goles, amarillas, rojas });
+                }
+            }
+
+            generarPDF(partidoData);
+        } catch (error) {
+            console.error('Error al generar el acta:', error);
+            alert('Error al generar el acta. Verifica que el archivo existe.');
+        }
+    }
+
+    async function generarPDF(partidoData) {
+        const doc = new jsPDF({ orientation: "landscape", unit: "pt", format: "a4" });
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const pageHeight = doc.internal.pageSize.getHeight();
+
+        // Colores corporativos
+        const colorPrimario = [239, 51, 64]; // Rojo
+        const colorSecundario = [33, 33, 33]; // Negro
+        const colorGris = [100, 100, 100];
+        const colorGrisClaro = [240, 240, 240];
+
+        // ===== FONDO DEGRADADO SUTIL =====
+        doc.setFillColor(250, 250, 252);
+        doc.rect(0, 0, pageWidth, pageHeight, 'F');
+
+        // Barra superior decorativa
+        doc.setFillColor(...colorPrimario);
+        doc.rect(0, 0, pageWidth, 8, 'F');
+
+        // ===== CABECERA =====
+        const logo = "/images/logoLigaRojo.png";
+        const logoMaxWidth = 240;
+        const logoMaxHeight = 170;
+
+        try {
+            const img = await loadImage(logo);
+            const ratio = Math.min(logoMaxWidth / img.width, logoMaxHeight / img.height);
+            const logoWidth = img.width * ratio;
+            const logoHeight = img.height * ratio;
+            const logoX = pageWidth / 2 - logoWidth / 2;
+            doc.addImage(logo, "PNG", logoX, 20, logoWidth, logoHeight);
+        } catch (e) {
+            console.log("Logo no disponible");
+        }
+
+        // Título principal
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(26);
+        doc.setTextColor(...colorPrimario);
+        doc.text("ACTA DEL PARTIDO", pageWidth / 2, 120, { align: "center" });
+
+        // Línea decorativa bajo el título
+        doc.setDrawColor(...colorPrimario);
+        doc.setLineWidth(2);
+        doc.line(pageWidth / 2 - 120, 127, pageWidth / 2 + 120, 127);
+
+        // Información del partido
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(11);
+        doc.setTextColor(...colorGris);
+        doc.text(`Árbitro: ${partidoData.arbitro}`, pageWidth / 2, 145, { align: "center" });
+        doc.text(`Hora de inicio: ${partidoData.hora}`, pageWidth / 2, 160, { align: "center" });
+
+        // ===== MARCADOR CON DISEÑO MODERNO =====
+        const yMarcador = 225;
+        const anchoMarcador = 600;
+        const altoMarcador = 80;
+        const xInicioMarcador = pageWidth / 2 - anchoMarcador / 2;
+
+        // Fondo del marcador
+        doc.setFillColor(...colorSecundario);
+        doc.roundedRect(xInicioMarcador, yMarcador - 40, anchoMarcador, altoMarcador, 8, 8, 'F');
+
+        // Escudos
+        const escudoLocal = `/images/Escudos/${partidoData.equipoLocal}.png`;
+        const escudoVisitante = `/images/Escudos/${partidoData.equipoVisitante}.png`;
+        const escudoSize = 55;
+
+        try {
+            doc.addImage(escudoLocal, "PNG", xInicioMarcador + 25, yMarcador - 27, escudoSize, escudoSize);
+        } catch (e) {
+            console.log("Escudo local no disponible");
+        }
+
+        try {
+            doc.addImage(escudoVisitante, "PNG", xInicioMarcador + anchoMarcador - 80, yMarcador - 27, escudoSize, escudoSize);
+        } catch (e) {
+            console.log("Escudo visitante no disponible");
+        }
+
+        // Calcular ancho disponible para nombres
+        const anchoNombreLocal = 170;
+        const anchoNombreVisitante = 170;
+        const posXMarcador = pageWidth / 2;
+
+        // Nombres de equipos con tamaño ajustable
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(255, 255, 255);
+
+        // Equipo local
+        let fontSize = 15;
+        doc.setFontSize(fontSize);
+        let textWidth = doc.getTextWidth(partidoData.equipoLocal);
+        while (textWidth > anchoNombreLocal && fontSize > 10) {
+            fontSize -= 0.5;
+            doc.setFontSize(fontSize);
+            textWidth = doc.getTextWidth(partidoData.equipoLocal);
+        }
+        doc.text(partidoData.equipoLocal, xInicioMarcador + 95, yMarcador - 8);
+
+        // Equipo visitante
+        fontSize = 15;
+        doc.setFontSize(fontSize);
+        textWidth = doc.getTextWidth(partidoData.equipoVisitante);
+        while (textWidth > anchoNombreVisitante && fontSize > 10) {
+            fontSize -= 0.5;
+            doc.setFontSize(fontSize);
+            textWidth = doc.getTextWidth(partidoData.equipoVisitante);
+        }
+        doc.text(partidoData.equipoVisitante, xInicioMarcador + anchoMarcador - 95, yMarcador - 8, { align: "right" });
+
+        // Marcador central con fondo destacado
+        doc.setFillColor(255, 255, 255);
+        doc.roundedRect(posXMarcador - 45, yMarcador + 2, 90, 30, 5, 5, 'F');
+
+        doc.setFontSize(28);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(...colorSecundario);
+        const marcadorTexto = `${partidoData.golesLocal}  -  ${partidoData.golesVisitante}`;
+        doc.text(marcadorTexto, posXMarcador, yMarcador + 24, { align: "center" });
+
+        // ===== TABLAS DE JUGADORES =====
+        let yTabla = yMarcador + 70;
+
+        // Función para dibujar tabla moderna
+        function dibujarTabla(titulo, jugadores, xInicio, yInicio) {
+            let y = yInicio;
+
+            // Título de la tabla
+            doc.setFillColor(...colorPrimario);
+            doc.roundedRect(xInicio, y, 360, 30, 5, 5, 'F');
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(14);
+            doc.setTextColor(255, 255, 255);
+            doc.text(titulo, xInicio + 180, y + 20, { align: "center" });
+
+            y += 35;
+
+            // Cabecera de columnas
+            doc.setFillColor(...colorGrisClaro);
+            doc.rect(xInicio, y, 360, 25, 'F');
+
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(10);
+            doc.setTextColor(...colorSecundario);
+            doc.text("JUGADOR", xInicio + 10, y + 17);
+            doc.text("GOLES", xInicio + 240, y + 17, { align: "center" });
+            doc.text("TA", xInicio + 290, y + 17, { align: "center" });
+            doc.text("TR", xInicio + 330, y + 17, { align: "center" });
+
+            y += 25;
+
+            // Líneas de jugadores
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(10);
+
+            jugadores.forEach((j, index) => {
+                // Fondo alternado
+                if (index % 2 === 0) {
+                    doc.setFillColor(248, 248, 250);
+                    doc.rect(xInicio, y, 360, 22, 'F');
+                }
+
+                doc.setTextColor(...colorSecundario);
+
+                // Truncar nombre si es muy largo
+                let nombreMostrar = j.nombre;
+                doc.setFontSize(10);
+                let nombreWidth = doc.getTextWidth(nombreMostrar);
+                const maxNombreWidth = 220;
+
+                if (nombreWidth > maxNombreWidth) {
+                    while (nombreWidth > maxNombreWidth - 10 && nombreMostrar.length > 0) {
+                        nombreMostrar = nombreMostrar.slice(0, -1);
+                        nombreWidth = doc.getTextWidth(nombreMostrar + "...");
+                    }
+                    nombreMostrar += "...";
+                }
+
+                doc.text(nombreMostrar, xInicio + 10, y + 15);
+
+                // Goles con badge si hay
+                if (j.goles && j.goles > 0) {
+                    doc.setFillColor(16, 204, 191);
+                    doc.circle(xInicio + 240, y + 10, 8, 'F');
+                    doc.setTextColor(255, 255, 255);
+                    doc.setFont("helvetica", "bold");
+                    doc.text(String(j.goles), xInicio + 240, y + 14, { align: "center" });
+                    doc.setFont("helvetica", "normal");
+                } else {
+                    doc.setTextColor(...colorGris);
+                    doc.text("-", xInicio + 240, y + 15, { align: "center" });
+                }
+
+                // Tarjetas amarillas
+                if (j.amarillas && j.amarillas > 0) {
+                    doc.setFillColor(255, 193, 7);
+                    doc.roundedRect(xInicio + 282, y + 4, 16, 12, 2, 2, 'F');
+                    doc.setTextColor(...colorSecundario);
+                    doc.setFont("helvetica", "bold");
+                    doc.text(String(j.amarillas), xInicio + 290, y + 14, { align: "center" });
+                    doc.setFont("helvetica", "normal");
+                } else {
+                    doc.setTextColor(...colorGris);
+                    doc.text("-", xInicio + 290, y + 15, { align: "center" });
+                }
+
+                // Tarjetas rojas
+                if (j.rojas && j.rojas > 0) {
+                    doc.setFillColor(244, 67, 54);
+                    doc.roundedRect(xInicio + 322, y + 4, 16, 12, 2, 2, 'F');
+                    doc.setTextColor(255, 255, 255);
+                    doc.setFont("helvetica", "bold");
+                    doc.text(String(j.rojas), xInicio + 330, y + 14, { align: "center" });
+                    doc.setFont("helvetica", "normal");
+                } else {
+                    doc.setTextColor(...colorGris);
+                    doc.text("-", xInicio + 330, y + 15, { align: "center" });
+                }
+
+                y += 22;
+            });
+
+            // Borde de la tabla
+            doc.setDrawColor(...colorGrisClaro);
+            doc.setLineWidth(1);
+            doc.roundedRect(xInicio, yInicio + 35, 360, y - yInicio - 35, 5, 5, 'S');
+        }
+
+        // Dibujar ambas tablas
+        dibujarTabla("EQUIPO LOCAL", partidoData.jugadoresLocal, 40, yTabla);
+        dibujarTabla("EQUIPO VISITANTE", partidoData.jugadoresVisitante, pageWidth - 400, yTabla);
+
+        // ===== PIE DE PÁGINA =====
+        const yFooter = pageHeight - 30;
+        doc.setFontSize(8);
+        doc.setTextColor(...colorGris);
+        doc.setFont("helvetica", "italic");
+        const fecha = new Date().toLocaleDateString('es-ES', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+        doc.text(`Documento generado el ${fecha}\nFirmado: ${partidoData.arbitro}, Árbitro.`, pageWidth / 2, yFooter, { align: "center" });
+
+        // Barra inferior decorativa
+        doc.setFillColor(...colorPrimario);
+        doc.rect(0, pageHeight - 8, pageWidth, 8, 'F');
+
+        // Abrir en nueva ventana en lugar de descargar
+        const pdfBlob = doc.output('blob');
+        const pdfUrl = URL.createObjectURL(pdfBlob);
+        window.open(pdfUrl, '_blank');
+    }
+
+    function loadImage(src) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => resolve(img);
+            img.onerror = reject;
+            img.src = src;
+        });
+    }
+</script>
+
+<!-- SCRIPT DE LAS JORNADAS -->
+<script>
+    const jornadas = {
+        1: {
+            fecha: "14 - 24 OCTUBRE",
+            titulo: "JORNADA 1",
+            banner: `
+                <div class="partido-card">
+                    <img src="images/Escudos/RAYO MARIGUANO.png" class="escudo">
+                    <div class="linea" style="--linea-color: #158000;"></div>
+                    <span class="nombre-equipo">RAYO MARIGUANO</span>
+                    <span class="vs">VS</span>
+                    <span class="nombre-equipo">UNIÓN DEPORTIVA PORRETA</span>
+                    <div class="linea" style="--linea-color: #244228;"></div>
+                    <img src="images/Escudos/UNIÓN DEPORTIVA PORRETA.png" class="escudo">
+                </div>
+                <div class="partido-card">
+                    <img src="images/Escudos/ATLÉTICO MORANTE.png" class="escudo">
+                    <div class="linea" style="--linea-color: #931400;"></div>
+                    <span class="nombre-equipo">ATLÉTICO MORANTE</span>
+                    <span class="vs">VS</span>
+                    <span class="nombre-equipo">CUM CITY</span>
+                    <div class="linea" style="--linea-color: #ffffff;"></div>
+                    <img src="images/Escudos/CUM CITY.png" class="escudo">
+                </div>
+                <div class="partido-card">
+                    <img src="images/Escudos/ASTON BIRRA.png" class="escudo">
+                    <div class="linea" style="--linea-color: #2c2c2c;"></div>
+                    <span class="nombre-equipo">ASTON BIRRA</span>
+                    <span class="vs">VS</span>
+                    <span class="nombre-equipo">I.E SALA</span>
+                    <div class="linea" style="--linea-color: #0058cb;"></div>
+                    <img src="images/Escudos/I.E. SALA.png" class="escudo">
+                </div>`,
+            resultados: `
+                <section class="resultado-partido-container">
+                    <div class="partido-card-resultado">
+                        <div class="resultado-superior">
+                            <img src="images/Escudos/RAYO MARIGUANO.png" class="escudo-equipo">
+                            <span class="resultado">3 - 6</span>
+                            <img src="images/Escudos/UNIÓN DEPORTIVA PORRETA.png" class="escudo-equipo">
+                        </div>
+                        <p class="fecha-hora">16 OCT | 19:30h</p>
+                        <p class="lugar">CAMPO FUTSAL CUME</p>
+                        <button class="btn-acta" onclick="generarActaDesdeArchivo('/actas/j1/rayo-udp.xlsx')">ACTA</button>
+                    </div>
+                    <div class="partido-card-resultado">
+                        <div class="resultado-superior">
+                            <img src="images/Escudos/ASTON BIRRA.png" class="escudo-equipo">
+                            <span class="resultado">1 - 6</span>
+                            <img src="images/Escudos/I.E. SALA.png" class="escudo-equipo">
+                        </div>
+                        <p class="fecha-hora">20 OCT | 21:00h</p>
+                        <p class="lugar">POLIDEPORTIVO DIÓCLES</p>
+                        <button class="btn-acta" onclick="generarActaDesdeArchivo('/actas/j1/aston-iesala.xlsx')">ACTA</button>
+                    </div>
+                    <div class="partido-card-resultado">
+                        <div class="resultado-superior">
+                            <img src="images/Escudos/ATLÉTICO MORANTE.png" class="escudo-equipo">
+                            <span class="resultado">13 - 0</span>
+                            <img src="images/Escudos/CUM CITY.png" class="escudo-equipo">
+                        </div>
+                        <p class="fecha-hora">21 OCT | 21:00h</p>
+                        <p class="lugar">POLIDEPORTIVO DIÓCLES</p>
+                        <button class="btn-acta" onclick="generarActaDesdeArchivo('/actas/j1/morante-city.xlsx')">ACTA</button>
+                    </div>
+                </section>`
+        },
+        2: {
+            fecha: "25 OCTUBRE - 04 NOVIEMBRE",
+            titulo: "JORNADA 2",
+            banner: `
+                <div class="partido-card">
+                    <img src="images/Escudos/CUM UNITED.png" class="escudo">
+                    <div class="linea" style="--linea-color: #e7ad1b;"></div>
+                    <span class="nombre-equipo">CUM UNITED</span>
+                    <span class="vs">VS</span>
+                    <span class="nombre-equipo">UNIÓN DEPORTIVA PORRETA</span>
+                    <div class="linea" style="--linea-color: #000000;"></div>
+                    <img src="images/Escudos/UNIÓN DEPORTIVA PORRETA.png" class="escudo">
+                </div>
+                <div class="partido-card">
+                    <img src="images/Escudos/I.E. SALA.png" class="escudo">
+                    <div class="linea" style="--linea-color: #0058cb;"></div>
+                    <span class="nombre-equipo">I.E SALA</span>
+                    <span class="vs">VS</span>
+                    <span class="nombre-equipo">RAYO MARIGUANO</span>
+                    <div class="linea" style="--linea-color: #036700;"></div>
+                    <img src="images/Escudos/RAYO MARIGUANO.png" class="escudo">
+                </div>
+                <div class="partido-card">
+                    <img src="images/Escudos/ATLÉTICO MORANTE.png" class="escudo">
+                    <div class="linea" style="--linea-color: #c50000;"></div>
+                    <span class="nombre-equipo">ATLÉTICO MORANTE</span>
+                    <span class="vs">VS</span>
+                    <span class="nombre-equipo">ASTON BIRRA</span>
+                    <div class="linea" style="--linea-color: #000000;"></div>
+                    <img src="images/Escudos/ASTON BIRRA.png" class="escudo">
+                </div>`,
+            resultados: `
+                <section class="resultado-partido-container">
+                    <div class="partido-card-resultado">
+                        <div class="resultado-superior">
+                            <img src="images/Escudos/CUM UNITED.png" class="escudo-equipo">
+                            <span class="resultado">vs</span>
+                            <img src="images/Escudos/UNIÓN DEPORTIVA PORRETA.png" class="escudo-equipo">
+                        </div>
+                        <p class="fecha-hora">POR DEFINIR</p>
+                        <p class="lugar"></p>
+                        <!--<button class="btn-acta" onclick="generarActaDesdeArchivo('/actas/j2/cum-rayo.xlsx')">ACTA</button>-->
+                    </div>
+                    <div class="partido-card-resultado">
+                        <div class="resultado-superior">
+                            <img src="images/Escudos/I.E. SALA.png" class="escudo-equipo">
+                            <span class="resultado">vs</span>
+                            <img src="images/Escudos/RAYO MARIGUANO.png" class="escudo-equipo">
+                        </div>
+                        <p class="fecha-hora">POR DEFINIR</p>
+                        <p class="lugar"></p>
+                    </div>
+                    <div class="partido-card-resultado">
+                        <div class="resultado-superior">
+                            <img src="images/Escudos/ATLÉTICO MORANTE.png" class="escudo-equipo">
+                            <span class="resultado">vs</span>
+                            <img src="images/Escudos/ASTON BIRRA.png" class="escudo-equipo">
+                        </div>
+                        <p class="fecha-hora">POR DEFINIR</p>
+                        <p class="lugar"></p>
+                    </div>
+                </section>`
+        }
+    };
+
+    const selector = document.getElementById("selector-jornada");
+    const fecha = document.getElementById("fecha-jornada");
+    const titulo = document.getElementById("titulo-jornada");
+    const banner = document.getElementById("banner-partidos");
+    const resultados = document.getElementById("resultados");
+
+    selector.addEventListener("change", (e) => {
+        const jornada = jornadas[e.target.value];
+        fecha.textContent = jornada.fecha;
+        titulo.textContent = jornada.titulo;
+        banner.innerHTML = jornada.banner;
+        resultados.innerHTML = jornada.resultados;
+    });
+</script>
+
+</html>

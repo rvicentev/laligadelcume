@@ -1,0 +1,320 @@
+#jornadas-container {
+    width: 80%;
+    max-width: 700px;
+    margin: 20px auto; /* Centra el contenedor en la página */
+}
+
+.jornada {
+    display: flex; /* Cambiado a flex para alinear contenido */
+    flex-direction: column; /* Coloca elementos uno debajo del otro */
+    align-items: center; /* Centra el contenido dentro de la jornada */
+    background-color: #444;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.jornada-title {
+    font-size: 1.2em; /* Tamaño base del título */
+    margin-bottom: 10px;
+    font-weight: bold;
+    text-align: center; /* Centra el título */
+}
+
+.partido {
+    display: flex;
+    justify-content: space-between; /* Alinea los elementos a los extremos */
+    align-items: center; /* Centra verticalmente los elementos */
+    padding: 10px;
+    border-top: 1px solid #555;
+    width: 100%; /* Asegura que el partido ocupe todo el ancho */
+    box-sizing: border-box; /* Incluye padding y border en el ancho total */
+}
+
+.partido:first-child {
+    border-top: none;
+}
+
+.equipo {
+    display: flex;
+    flex-direction: column; /* Cambiado para mostrar escudo encima del nombre */
+    align-items: center; /* Centra horizontalmente el escudo y el nombre */
+    flex: 1; /* Permite que el equipo ocupe el espacio restante */
+    min-width: 0; /* Permite que el texto se ajuste correctamente */
+}
+
+.equipo img {
+    width: 48px; /* Aumenta el tamaño de los logos */
+    height: 48px; /* Mantiene la proporción */
+    margin-bottom: 4px; /* Espacio entre el escudo y el nombre */
+}
+
+.resultado {
+    font-size: 1em; /* Tamaño base del resultado */
+    font-weight: bold;
+    text-align: right; /* Alinea el texto a la derecha */
+    white-space: nowrap; /* Evita que el texto se rompa en múltiples líneas */
+    min-width: 50px; /* Establece un ancho mínimo para el resultado */
+}
+
+.estado {
+    font-size: 0.9em; /* Tamaño del estado */
+    color: #32CD32;
+}
+
+/* Estilo responsivo para pantallas pequeñas */
+@media (max-width: 600px) {
+    .equipo img {
+        width: 36px; /* Reduce el tamaño de los logos en pantallas pequeñas */
+        height: 36px; /* Mantiene la proporción */
+    }
+
+    .jornada-title {
+        font-size: 1em; /* Reduce el tamaño de la fuente en pantallas pequeñas */
+    }
+
+    .partido {
+        padding: 8px; /* Reduce el padding de los partidos */
+    }
+
+    .resultado {
+        font-size: 0.8em; /* Reduce el tamaño del resultado en pantallas pequeñas */
+    }
+
+    .estado {
+        font-size: 0.8em; /* Reduce el tamaño del estado en pantallas pequeñas */
+    }
+
+    .jornada {
+        padding: 8px; /* Reduce el padding de la jornada para que se vea más compacto */
+    }
+}
+
+/* Contenedor de la tabla */
+.estadisticas {
+    width: 100%;
+    margin: 40px 0;
+    text-align: center;
+    font-family: 'Righteous', sans-serif;
+    color: #2c2c2c; /* texto negro por defecto */
+}
+
+#tituloEstadisticas {
+    text-align: left;       /* alineado a la izquierda */
+    margin: 20px 0;         /* espacio arriba y abajo */
+    font-size: 28px;        /* tamaño del título */
+    font-family: 'Righteous', sans-serif;
+    color: #2c2c2c;         /* color negro */
+    padding-left: 48px;
+}
+
+/* Encabezado */
+#tablaEstadisticas thead th {
+    background-color: #d32f2f; /* rojo oscuro */
+    color: #ffffff;             /* blanco para contraste */
+    padding: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    text-align: center; /* por defecto centrado */
+}
+
+/* Encabezado columna EQUIPOS alineado a la izquierda */
+#tablaEstadisticas thead th:nth-child(2) {
+    text-align: left;
+    padding-left: 12px;
+}
+
+/* Filas alternas */
+#tablaEstadisticas tbody tr:nth-child(odd) {
+    background-color: #f5f5f5; /* gris muy claro */
+    color: #2c2c2c;            /* texto negro */
+}
+
+#tablaEstadisticas tbody tr:nth-child(even) {
+    background-color: #fffafa; /* blanco suave */
+    color: #2c2c2c;            /* texto negro */
+}
+
+/* Hover */
+#tablaEstadisticas tbody tr:hover {
+    background-color: #ffe5e8; /* rosado suave */
+    color: #2c2c2c;            /* texto negro */
+    transition: 0.3s;
+}
+
+/* Playoff: fondo dorado suave */
+#tablaEstadisticas tbody tr.playoff {
+    background-color: #fff4d1; /* dorado suave */
+    color: #2c2c2c;            /* texto negro */
+}
+
+/* Logos */
+#tablaEstadisticas td img {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 8px;
+    height: 20px;
+}
+
+/* Columna EQUIPOS alineada a la izquierda */
+#tablaEstadisticas td:nth-child(2) {
+    text-align: left;
+    padding-left: 12px; /* espacio desde el borde */
+}
+
+/* Todas las demás columnas centradas */
+#tablaEstadisticas td:not(:nth-child(2)) {
+    text-align: center;
+}
+
+/* Contenedor del playoff */
+#playoffResults {
+    width: 100%;
+    margin: 40px 0;
+    font-family: 'Oswald', sans-serif;
+    color: #2c2c2c;
+}
+
+.playoff-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Campeón */
+.playoff-winner {
+    display: flex;
+    align-items: center;
+    background-color: #fff4d1; /* dorado suave */
+    padding: 20px;
+    border-radius: 12px;
+    flex: 1 1 300px;
+    font-family: 'Oswald', sans-serif;
+    color: #2c2c2c;
+}
+
+.playoff-winner .team-logo {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 16px;
+}
+
+.playoff-winner .team-logo img {
+    max-width: 70px;
+    max-height: 70px;
+}
+
+.playoff-winner .team-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.playoff-winner .team-info .title {
+    font-weight: bold;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: uppercase; /* MAYÚSCULAS */
+    color: #484948;
+    color: inherit;
+}
+
+.playoff-winner .team-info .name {
+    font-size: 18px;
+    font-weight: 700;
+    font-family: "Righteous";
+}
+
+/* Cuadro de Finalista y Semifinalistas */
+.playoff-box {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1 1 300px;
+    background-color: #f5f5f5;
+    border-radius: 12px;
+    padding: 16px;
+    font-family: 'Oswald', sans-serif;
+    color: #2c2c2c;
+}
+
+/* Cada entrada de playoff */
+.playoff-entry {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 0;
+    color: inherit;
+    font-family: inherit;
+}
+
+.playoff-entry .entry-logo {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.playoff-entry .entry-logo img {
+    max-width: 35px;
+    max-height: 35px;
+}
+
+.playoff-entry .entry-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.playoff-entry .entry-info .title {
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 1.2;
+    text-transform: uppercase; /* MAYÚSCULAS */
+    color: #484948;
+}
+
+.playoff-entry .entry-info .name {
+    font-size: 14px;
+    font-weight: 500;
+    font-family: "Righteous";
+    color: inherit;
+}
+
+.playoff-entry .match-result {
+    margin-left: auto;
+    font-weight: bold;
+    font-size: 14px;
+    color: #2c2c2c;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .playoff-container {
+        flex-direction: column;
+    }
+
+    .playoff-entry {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+
+    .playoff-entry .match-result {
+        margin-left: 0;
+    }
+}
+
+#tituloPlayoffs {
+    text-align: left;       /* alineado a la izquierda */
+    margin: 30px 0 15px 0;  /* espacio arriba y abajo */
+    font-size: 32px;        /* tamaño */
+    font-weight: bold;      /* negrita */
+    font-family: 'Righteous', sans-serif;
+    color: #2c2c2c;         /* negro */
+    padding-left: 49px;
+}

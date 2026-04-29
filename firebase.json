@@ -1,0 +1,14 @@
+{
+  "hosting": {
+    "public": "./",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "cleanUrls": true,
+    "rewrites": [
+      { "source": "/inicio", "destination": "/index.html" },
+      { "source": "/equipos", "destination": "/equipos.html" },
+      { "source": "/estadisticas", "destination": "/estadisticas.html" },
+      { "source": "/arbitros", "destination": "/actas.html" },
+      { "source": "**", "destination": "/index.html" }
+    ]
+  }
+}

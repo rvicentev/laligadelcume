@@ -1,0 +1,379 @@
+        /* --- ESTILOS GENERALES --- */
+        :root {
+            --primary-color: #ef3340;
+            --primary-dark: #d12a36;
+            --bg-color: #f4f7f6;
+            --surface-color: #ffffff;
+            --text-main: #2c3e50;
+            --text-muted: #7f8c8d;
+            --border-color: #e2e8f0;
+            --success-color: #2ecc71;
+            --danger-color: #e74c3c;
+            --warning-color: #f1c40f;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+            --radius-md: 12px;
+            --radius-lg: 20px;
+        }
+
+        body { 
+            font-family: 'Righteous', sans-serif; 
+            margin-top: 80px; 
+            padding: 20px 10px; 
+            background: var(--bg-color); 
+            color: var(--text-main); 
+        }
+
+        .container { 
+            max-width: 900px; 
+            margin: 0 auto; 
+            background: var(--surface-color); 
+            border-radius: var(--radius-lg); 
+            padding: 40px 30px; 
+            box-shadow: var(--shadow-lg); 
+        }
+
+        h1 { 
+            text-align: center; 
+            color: var(--primary-color); 
+            margin-bottom: 30px; 
+            font-size: 2.4rem; 
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* --- FORMULARIOS --- */
+        .form-group { margin-bottom: 20px; }
+        label { 
+            display: block; margin-bottom: 8px; font-size: 14px; 
+            font-weight: bold; color: var(--text-muted); 
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        
+        select, input[type="text"], input[type="time"] { 
+            width: 100%; padding: 14px 16px; border-radius: var(--radius-md); 
+            border: 2px solid var(--border-color); font-size: 16px; 
+            font-family: inherit; background-color: #f8fafc;
+            transition: all 0.3s ease; color: var(--text-main);
+            box-sizing: border-box;
+        }
+        
+        select:focus, input:focus { 
+            border-color: var(--primary-color); background-color: var(--surface-color);
+            outline: none; box-shadow: 0 0 0 3px rgba(239, 51, 64, 0.1);
+        }
+        
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+
+        /* --- BOTONES --- */
+        button { 
+            padding: 16px 20px; font-size: 16px; font-weight: bold; border: none; 
+            border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s ease; 
+            font-family: inherit; text-transform: uppercase; letter-spacing: 1px;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+        button:active { transform: translateY(2px); }
+        
+        .btn-primary { background: var(--primary-color); color: white; width: 100%; box-shadow: 0 4px 6px rgba(239, 51, 64, 0.2); }
+        .btn-primary:hover { background: var(--primary-dark); box-shadow: 0 6px 8px rgba(239, 51, 64, 0.3); }
+        .btn-success { background: var(--success-color); color: white; width: 100%; box-shadow: 0 4px 6px rgba(46, 204, 113, 0.2); }
+        .btn-success:hover { background: #27ae60; box-shadow: 0 6px 8px rgba(46, 204, 113, 0.3); }
+        .btn-danger { background: var(--danger-color); color: white; width: 100%; }
+        .btn-outline { background: transparent; border: 2px solid var(--border-color); color: var(--text-muted); width: 100%; }
+        .btn-outline:hover { background: #f8fafc; border-color: #cbd5e1; color: var(--text-main); }
+        .btn-small { padding: 10px 16px; font-size: 13px; border-radius: 8px; width: auto; box-shadow: var(--shadow-sm); }
+
+        /* --- LOGIN --- */
+        #login-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(239, 51, 64, 0.95); backdrop-filter: blur(5px); z-index: 9999;
+        }
+        .login-box {
+            background: #fff; padding: 50px 40px; border-radius: 20px;
+            text-align: center; width: 90%; max-width: 400px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); animation: fadeInUps 0.5s ease-out;
+        }
+        .login-box h2 { color: #2c2c2c; margin-bottom: 30px; font-size: 1.8rem; letter-spacing: 1px; text-transform: uppercase;}
+        .login-box input { margin-bottom: 20px; text-align: center; width: 100%; padding: 15px; border: 2px solid #eee; border-radius: 10px; font-size: 16px; box-sizing: border-box; }
+        .login-box input:focus { border-color: #ef3340; outline: none; }
+        .login-box button { background: #ef3340; color: white; padding: 15px; font-size: 16px; border-radius: 10px; width: 100%; cursor: pointer; box-shadow: 0 5px 15px rgba(239, 51, 64, 0.3); transition: transform 0.2s, background 0.2s; }
+        #error-msg { color: #ef3340; margin-top: 20px; display: none; background: #ffe6e6; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 14px;}
+
+        /* --- MARCADOR EN VIVO --- */
+        .scoreboard { 
+            display: flex; justify-content: space-between; align-items: center; 
+            background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%); 
+            color: white; padding: 30px 20px; border-radius: var(--radius-lg); 
+            margin-bottom: 20px; box-shadow: var(--shadow-lg); position: relative; overflow: hidden;
+        }
+        .scoreboard::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 60%); pointer-events: none;
+        }
+        .team-score { display: flex; flex-direction: column; align-items: center; width: 35%; text-align: center; z-index: 1; }
+        .team-score img { width: 70px; height: 70px; margin-bottom: 12px; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); }
+        .team-name { font-size: 15px; color: #bdc3c7; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px; }
+        .score-center { display: flex; align-items: center; justify-content: center; gap: 15px; z-index: 1; background: rgba(0,0,0,0.2); padding: 10px 25px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); }
+        .score-number { font-size: 4rem; font-weight: bold; color: #fff; line-height: 1; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .vs { font-size: 1.2rem; color: var(--primary-color); font-weight: 900; margin: 0 10px; }
+
+        /* ============================================================
+           CRONÓMETRO
+           ============================================================ */
+        .cronometro-wrapper {
+            background: linear-gradient(135deg, #1a252f 0%, #0d1b24 100%);
+            border-radius: var(--radius-lg);
+            padding: 22px 20px 18px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255,255,255,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        .cronometro-wrapper::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: var(--primary-color);
+            transition: width 0.5s ease;
+        }
+        .cronometro-wrapper.running::before {
+            animation: progressPulse 1s ease-in-out infinite alternate;
+        }
+        @keyframes progressPulse {
+            from { opacity: 0.6; }
+            to { opacity: 1; }
+        }
+
+        /* Estado del partido */
+        .match-phase-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 30px;
+            padding: 6px 16px;
+            font-size: 13px;
+            color: #ecf0f1;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+        .phase-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: #95a5a6;
+            transition: background 0.3s;
+        }
+        .phase-dot.active { background: #2ecc71; animation: blink 1s ease-in-out infinite; }
+        .phase-dot.descanso { background: var(--warning-color); }
+        .phase-dot.fin { background: var(--primary-color); }
+        @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+        /* Display del tiempo */
+        .cronometro-display {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .tiempo-display {
+            font-size: 3.8rem;
+            font-weight: 900;
+            color: #fff;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(239,51,64,0.3);
+            line-height: 1;
+            min-width: 170px;
+            text-align: center;
+            transition: color 0.3s;
+        }
+        .tiempo-display.warning { color: #f39c12; text-shadow: 0 0 20px rgba(243,156,18,0.5); }
+        .tiempo-display.danger { color: #e74c3c; text-shadow: 0 0 20px rgba(231,76,60,0.6); animation: timerDanger 0.5s ease-in-out infinite alternate; }
+        @keyframes timerDanger { from { opacity: 1; } to { opacity: 0.6; } }
+
+        .partes-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+        .parte-indicator {
+            display: flex;
+            gap: 8px;
+        }
+        .parte-dot {
+            width: 12px; height: 12px; border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            border: 2px solid rgba(255,255,255,0.2);
+            transition: all 0.3s;
+        }
+        .parte-dot.jugada { background: var(--success-color); border-color: var(--success-color); }
+        .parte-dot.en-curso { background: var(--primary-color); border-color: var(--primary-color); animation: blink 1s ease-in-out infinite; }
+        .parte-label {
+            font-size: 11px;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Botones del cronómetro */
+        .cronometro-btns {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+        .btn-crono {
+            flex: 1;
+            min-width: 120px;
+            padding: 14px 16px;
+            font-size: 14px;
+            border-radius: 10px;
+            font-family: inherit;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-crono:active { transform: translateY(2px); }
+        .btn-crono:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
+
+        .btn-iniciar { background: var(--success-color); color: white; box-shadow: 0 4px 12px rgba(46,204,113,0.3); }
+        .btn-iniciar:hover:not(:disabled) { background: #27ae60; }
+        .btn-pausar { background: var(--warning-color); color: #1a252f; box-shadow: 0 4px 12px rgba(241,196,15,0.3); }
+        .btn-pausar:hover:not(:disabled) { background: #f39c12; }
+        .btn-reanudar { background: #3498db; color: white; box-shadow: 0 4px 12px rgba(52,152,219,0.3); }
+        .btn-reanudar:hover:not(:disabled) { background: #2980b9; }
+        .btn-fin-parte { background: var(--primary-color); color: white; box-shadow: 0 4px 12px rgba(239,51,64,0.3); }
+        .btn-fin-parte:hover:not(:disabled) { background: var(--primary-dark); }
+        .btn-iniciar-descanso { background: #9b59b6; color: white; box-shadow: 0 4px 12px rgba(155,89,182,0.3); }
+        .btn-iniciar-descanso:hover:not(:disabled) { background: #8e44ad; }
+
+        /* Banner de descanso */
+        .descanso-banner {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-top: 14px;
+            display: none;
+            align-items: center;
+            gap: 12px;
+            font-size: 15px;
+        }
+        .descanso-banner.visible { display: flex; }
+        .descanso-icon { font-size: 1.8rem; }
+        .descanso-text { flex: 1; }
+        .descanso-text strong { display: block; font-size: 1.1rem; }
+        .descanso-text span { font-size: 13px; opacity: 0.85; }
+
+        /* --- PESTAÑAS --- */
+        .tabs { display: flex; background: #f1f5f9; padding: 6px; border-radius: var(--radius-md); margin-bottom: 25px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
+        .tab-btn { flex: 1; padding: 14px; background: transparent; color: var(--text-muted); border-radius: 8px; font-size: 15px; white-space: nowrap; }
+        .tab-btn:hover:not(.active) { background: rgba(255,255,255,0.5); color: var(--text-main); }
+        .tab-btn.active { background: var(--surface-color); color: var(--primary-color); box-shadow: var(--shadow-md); }
+        #tab-resumen.active { background: var(--success-color); color: white; }
+        #tab-resumen.pulse-alert {
+            animation: tabPulse 1s ease-in-out infinite;
+            background: var(--success-color);
+            color: white;
+            box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7);
+        }
+        @keyframes tabPulse {
+            0%   { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); background: var(--success-color); }
+            50%  { box-shadow: 0 0 0 8px rgba(46, 204, 113, 0); background: #27ae60; }
+            100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); background: var(--success-color); }
+        }
+
+        /* --- LISTA DE JUGADORES --- */
+        .tab-header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 0 10px; grid-column: 1 / -1; border-bottom: 2px solid var(--border-color); padding-bottom: 15px; }
+        .tab-header-actions h3 { color: var(--text-main); font-size: 1.3rem; margin: 0; }
+        
+        .players-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
+        
+        .player-card { 
+            display: flex; flex-direction: column; background: var(--surface-color); 
+            border: 1px solid var(--border-color); padding: 16px; border-radius: var(--radius-md); 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: var(--shadow-sm);
+        }
+        .player-card.disabled { opacity: 0.6; background: #f8fafc; border-style: dashed; box-shadow: none; } 
+        
+        .player-header { display: flex; align-items: center; margin-bottom: 12px; width: 100%; }
+        .player-img { width: 55px; height: 55px; border-radius: 50%; object-fit: cover; margin-right: 15px; background: #e2e8f0; border: 2px solid #fff; box-shadow: var(--shadow-sm); }
+        
+        .convocatoria-toggle { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: bold; color: var(--text-main); cursor: pointer; flex: 1; }
+        .convocatoria-toggle input { width: 20px; height: 20px; cursor: pointer; accent-color: var(--primary-color); }
+
+        .controls { display: flex; align-items: center; justify-content: space-between; background: #f8fafc; padding: 10px 15px; border-radius: 10px; border: 1px solid #e2e8f0; }
+        .goal-controls { display: flex; align-items: center; gap: 12px; }
+        .stat-btn { width: 32px; height: 32px; border-radius: 8px; font-size: 18px; font-weight: bold; display: flex; align-items: center; justify-content: center; padding: 0; }
+        .btn-gol { background: #fff; color: #3498db; border: 2px solid #3498db; }
+        .btn-gol:active { background: #3498db; color: white; }
+        .stat-display { font-size: 18px; font-weight: 900; width: 24px; text-align: center; color: #2c3e50; }
+        
+        .card-toggles { display: flex; gap: 8px; }
+        .btn-ta { background: #fff; border: 2px solid var(--warning-color); color: #d4ac0d; width: 36px; height: 36px; border-radius: 8px; font-weight: 900; }
+        .btn-ta.active { background: var(--warning-color); color: #fff; border-color: var(--warning-color); }
+        .btn-tr { background: #fff; border: 2px solid var(--danger-color); color: var(--danger-color); width: 36px; height: 36px; border-radius: 8px; font-weight: 900; }
+        .btn-tr.active { background: var(--danger-color); color: white; }
+
+        .disabled-msg { font-size: 13px; color: var(--text-muted); font-style: italic; text-align: center; padding: 10px 0; }
+
+        /* Vistas y Utilidades */
+        #view-setup, #view-dashboard, #view-loading { display: none; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUps { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        #recovery-banner { background: linear-gradient(to right, var(--warning-color), #f39c12); color: #fff; padding: 20px; border-radius: var(--radius-md); margin-bottom: 25px; text-align: center; display: none; box-shadow: var(--shadow-md); }
+        
+        #tab-content-resumen { background: var(--surface-color); border-radius: var(--radius-md); border: 1px solid var(--border-color); }
+        .resumen-marcador-box { background: #f8fafc; padding: 30px; border-radius: var(--radius-md); margin-bottom: 30px; border: 1px dashed #cbd5e1; }
+        
+        footer { background: #1a252f; color: white; padding: 40px 0; text-align: center; margin-top: 60px; }
+        .footer-logo img { max-width: 160px; margin-bottom: 20px; opacity: 0.9; }
+
+        /* ==========================================================================
+           RESPONSIVO MÓVILES
+           ========================================================================== */
+        @media (max-width: 600px) {
+            body { margin-top: 60px; padding: 10px 5px; }
+            .container { padding: 20px 15px; border-radius: 15px; }
+            h1 { font-size: 1.8rem; margin-bottom: 20px; }
+            
+            .scoreboard { padding: 20px 10px; margin-bottom: 15px; }
+            .score-number { font-size: 2.5rem; }
+            .team-score img { width: 45px; height: 45px; }
+            .team-name { font-size: 11px; white-space: normal; line-height: 1.2; text-overflow: clip; }
+            .score-center { padding: 8px 12px; gap: 8px; }
+            .vs { font-size: 1rem; margin: 0 5px; }
+
+            .cronometro-wrapper { padding: 16px 14px 14px; }
+            .tiempo-display { font-size: 2.8rem; min-width: 130px; }
+            .btn-crono { min-width: 100px; padding: 12px 10px; font-size: 12px; }
+
+            .tab-btn { padding: 10px 5px; font-size: 13px; }
+
+            .players-grid { grid-template-columns: 1fr; gap: 12px; }
+            .player-card { padding: 12px; }
+            .player-img { width: 45px; height: 45px; margin-right: 10px; }
+            
+            .controls { padding: 8px; gap: 5px; }
+            .goal-controls { gap: 8px; }
+            .stat-btn { width: 34px; height: 34px; font-size: 16px; }
+            .stat-display { font-size: 16px; width: 20px; }
+            .btn-ta, .btn-tr { width: 34px; height: 34px; font-size: 14px; }
+
+            .tab-header-actions h3 { font-size: 1.1rem; }
+            .btn-small { padding: 8px 12px; font-size: 11px; }
+            button { font-size: 14px; padding: 14px 16px; }
+            
+            .login-box { padding: 40px 20px; }
+        }

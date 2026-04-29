@@ -1,0 +1,598 @@
+/* --- ESTILOS GENERALES --- */
+body {
+    background: #ffffff;
+    color: #f6f6f6;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 90%;
+    max-width: 900px;
+    margin: 20px auto;
+    margin-top: 80px;
+}
+
+/* --- NAVBAR BASE --- */
+.navbar {
+    position: fixed;
+    display: flex;
+    top: 0;
+    left: 0;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f6f6f6;
+    padding: 10px 20px;
+    z-index: 1000;
+}
+
+.logoLiga {
+    display: flex;
+    align-items: center;
+    color: #e63946;
+}
+
+.logoLiga img {
+    max-height: 60px;
+    width: auto;
+    margin-right: 10px;
+}
+
+.logoLiga h1 a {
+    color: #e63946;
+    font-size: 20px;
+    text-decoration: none;
+    font-family: "Oswald", sans-serif;
+    letter-spacing: 1px;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.logoLiga h1 a:hover {
+    color: #f0f0f0;
+}
+
+/* Menu Links - ESCRITORIO */
+.nav-links {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    background-color: transparent;
+}
+
+.nav-links li {
+    margin: 0 10px;
+}
+
+.nav-links li a {
+    color: #2c2c2c;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 10px;
+    transition: color 0.3s, background-color 0.3s;
+    border-radius: 1px;
+    font-family: 'Righteous', sans-serif;
+}
+
+.nav-links li a:hover {
+    color: #ffffff;
+    background-color: #ef3340;
+}
+
+/* --- Menú hamburguesa (inicialmente oculto en escritorio) --- */
+.menu-toggle {
+    display: none;
+}
+
+.disabled-link {
+    color: gray;
+    pointer-events: none;
+    cursor: default;
+    text-decoration: none;
+}
+
+/* --- HEADER DE LA SECCIÓN EQUIPOS --- */
+.equipos-header {
+    background-color: #ef3340;
+    height: 200px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+}
+
+.equipos-header h2 {
+    color: white;
+    font-family: 'Righteous', sans-serif;
+    font-size: 28px;
+    margin: 16px;
+    line-height: 1;
+    transform: translateY(40px);
+    padding-right: 0px;
+}
+
+.equipos-header-pequeno {
+    height: 200px;
+}
+
+.equipos-header-pequeno h2 {
+    font-size: 40px;
+}
+
+/* --- CONTENEDOR PRINCIPAL DE EQUIPOS --- */
+.equipos-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    padding: 40px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* --- TARJETA DEL EQUIPO --- */
+.equipo-card {
+    background: #f5f5f5;
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.equipo-card:hover {
+    transform: translateY(-4px);
+}
+
+/* --- CABECERA: LOGO + NOMBRE --- */
+.equipo-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    justify-content: flex-start;
+}
+
+.equipo-logo img {
+    max-width: 60px;
+    height: auto;
+    display: block;
+}
+
+.equipo-nombre {
+    font-family: 'Righteous', sans-serif;
+    font-size: 18px;
+    color: #2c2c2c;
+    margin: 0;
+}
+
+/* --- ICONO DE INSTAGRAM --- */
+.equipo-instagram {
+    position: absolute;
+    top: 60px;
+    right: 42px;
+    width: 38px;
+    height: 38px;
+    transition: transform 0.3s ease;
+}
+
+.equipo-instagram img {
+    width: 100%;
+    height: auto;
+    filter: grayscale(30%);
+    transition: filter 0.3s ease;
+    margin-top: -6px;
+}
+
+.equipo-instagram:hover img {
+    filter: grayscale(0%);
+    transform: scale(1.1);
+}
+
+/* --- CONTENIDO EXPANDIDO --- */
+.equipo-detalle {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.6s ease;
+}
+
+.equipo-card.expanded .equipo-detalle {
+    max-height: 1000vh;
+    margin-top: 15px;
+}
+
+/* --- SEPARADORES DE EQUIPOS --- */
+.equipo-separador-cum,
+.equipo-separador-rayo,
+.equipo-separador-morante,
+.equipo-separador-cerveza,
+.equipo-separador-sala,
+.equipo-separador-city,
+.equipo-separador-udp {
+    height: 6px;
+    width: 100%;
+    border-radius: 3px;
+    margin: 12px 0;
+}
+
+.equipo-separador-cum { background-color: #EECEAF; }
+.equipo-separador-rayo { background-color: #036700; }
+.equipo-separador-morante { background-color: #BB284F; }
+.equipo-separador-cerveza { background-color: #3B9DB8; }
+.equipo-separador-sala { background-color: #3C4868; }
+.equipo-separador-city { background-color: #c2ddf2; }
+.equipo-separador-udp { background-color: #000000; }
+
+/* --- STATS DEL EQUIPO --- */
+.equipo-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    text-align: center;
+    margin-top: 12px;
+}
+
+.stat-title {
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+}
+
+.stat-value {
+    font-size: 20px;
+    font-weight: 700;
+    color: #2c2c2c;
+}
+
+/* --- JUGADORES --- */
+.equipo-jugadores h3 {
+    text-align: left;
+    margin-bottom: 12px;
+    font-family: 'Righteous', sans-serif;
+    font-size: 16px;
+    color: #2c2c2c;
+}
+
+.jugadores-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+.jugador-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.jugador-card img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-bottom: 6px;
+    object-fit: cover;
+}
+
+.jugador-nombre {
+    font-size: 12px;
+    font-family: 'Righteous', sans-serif;
+    color: #2c2c2c;
+    display: block;
+    text-align: center;
+}
+
+.jugador-capitan {
+    font-size: 12px;
+    font-family: 'Righteous', sans-serif;
+    color: #c76000;
+    display: block;
+    text-align: center;
+}
+
+/* --- ÚLTIMO RESULTADO --- */
+.ultimo-resultado {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.ultimo-resultado h3 {
+    font-size: 14px;
+    font-family: 'Righteous', sans-serif;
+    color: #2c2c2c;
+    margin-bottom: 12px;
+}
+
+.resultado-partido {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+}
+
+.equipo-local,
+.equipo-visitante {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 25%;
+}
+
+.resultado-central {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+}
+
+.resultado-central .marcador {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ef3340;
+}
+
+.equipo-local img,
+.equipo-visitante img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin-bottom: 6px;
+}
+
+.nombre-equipo {
+    font-size: 12px;
+    font-family: 'Righteous', sans-serif;
+    text-align: center;
+}
+
+/* --- FOTO DEL EQUIPO --- */
+.equipo-foto {
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+}
+
+.equipo-foto img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+/* --- TABLAS --- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #2c2c2c;
+    box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.5);
+    margin-bottom: 20px;
+    overflow-x: auto;
+}
+
+thead {
+    background-color: #e63946;
+    color: white;
+}
+
+th,
+td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #444;
+    color: black;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #333;
+}
+
+tbody tr:hover {
+    background-color: #444;
+}
+
+/* --- FOOTER --- */
+footer {
+    background-color: #2c2c2c;
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.footer-logo img {
+    max-width: 550px;
+    height: auto;
+    display: block;
+    margin: 0 auto 20px auto;
+}
+
+.footer-separator {
+    border: none;
+    border-top: 2px solid #ccc;
+    margin: 0 auto;
+    width: 80%;
+}
+
+.footer-title {
+    color: white;
+    font-family: 'Righteous', sans-serif;
+    font-weight: bold;
+    font-size: 30px;
+    text-align: left;
+    margin: 40px 10% 0 10%;
+}
+
+.footer-logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    padding: 0px;
+    background-color: #2c2c2c;
+}
+
+.logo-container {
+    margin: 0 35px;
+}
+
+.logo-container img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.logo-cecume {
+    max-width: 200px;
+}
+
+.logo-merida {
+    max-width: 150px;
+}
+
+.logo-safyde {
+    max-width: 120px;
+}
+
+/* --- RESPONSIVE PARA MÓVILES (max-width: 900px) --- */
+@media (max-width: 900px) {
+    body,
+    html {
+        overflow-x: hidden;
+        max-width: 100%;
+    }
+
+    /* --- Navbar responsive --- */
+    .menu-toggle {
+        display: block;
+        font-size: 30px;
+        color: #2c2c2c;
+        cursor: pointer;
+        margin-right: 2px;
+        z-index: 9999;
+        position: fixed;
+        top: 12px;
+        right: 16px;
+        background: transparent;
+        padding: 6px;
+        line-height: 1;
+    }
+
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 30px;
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 100vh;
+        background: rgba(255, 255, 255, 0.98);
+        z-index: 2000;
+    }
+
+    .nav-links.show {
+        display: flex;
+    }
+
+    .nav-links li a {
+        font-size: 24px !important;
+        color: #2c2c2c !important;
+    }
+
+    /* Logo del navbar (30% más pequeño) */
+    .logoLiga img {
+        max-height: 42px;
+        padding-top: 2px;
+    }
+
+    /* Logo del footer (50% más pequeño) */
+    .footer-logo img {
+        max-width: 275px;
+    }
+
+    /* Texto "Colaboradores" (30% más pequeño) */
+    .footer-title {
+        font-size: 21px;
+    }
+
+    .footer-logos {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .logo-container {
+        margin: 10px 0;
+    }
+
+    /* Equipos container */
+    .equipos-container {
+        padding: 20px;
+    }
+
+    .equipo-card {
+        width: 92%;
+    }
+
+    /* Ajustes para jugadores en móvil */
+    .jugadores-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+    }
+
+    .jugador-card img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .jugador-nombre,
+    .jugador-capitan {
+        font-size: 11px;
+    }
+}
+
+/* --- ESCRITORIO (min-width: 901px) --- */
+@media (min-width: 901px) {
+    .menu-toggle {
+        display: none !important;
+    }
+
+    .nav-links {
+        display: flex !important;
+        position: static !important;
+        height: auto !important;
+        width: auto !important;
+        background: transparent !important;
+        flex-direction: row !important;
+    }
+
+    .nav-links.show {
+        display: flex !important;
+    }
+}
+
+/* --- RANGO ESPECÍFICO 769px - 900px --- */
+@media (min-width: 769px) and (max-width: 900px) {
+    .menu-toggle {
+        display: block !important;
+    }
+
+    .nav-links:not(.show) {
+        display: none !important;
+    }
+
+    .nav-links.show {
+        display: flex !important;
+    }
+}
