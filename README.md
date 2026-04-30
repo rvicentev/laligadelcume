@@ -33,7 +33,7 @@ Como el proyecto es estático, no necesitas levantar un servidor local complejo 
 
 1. Clona el repositorio:
    ```bash
-   git clone [https://github.com/TU_USUARIO/tu-repositorio.git](https://github.com/TU_USUARIO/tu-repositorio.git)
+   git clone [https://github.com/rvicentev/laligadelcume](https://github.com/rvicentev/laligadelcume)
    ```
 2. Abre el archivo `index.html` en tu navegador.
 3. **Aviso importante:** Para que las funciones de estadísticas, calendario y el portal de árbitros funcionen completamente, tendrás que sustituir los *placeholders* en los archivos `.js` por tus propias URLs de Google Sheets y tus credenciales de Supabase.
